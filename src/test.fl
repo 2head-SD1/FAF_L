@@ -1,0 +1,3 @@
+setq (x -> Int) plus(1, 2);
+setq (y -> Int) minus(2, 5);
+plus(y, minus(x, 3), 2);

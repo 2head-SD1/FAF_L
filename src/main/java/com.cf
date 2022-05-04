@@ -1,0 +1,20 @@
+comment "//" ;
+comment "/*" "*/" ;
+
+Program             . ProgramExprs ::= [Expr];
+separator Expr ";";
+Plus                . Expr ::= "plus" "(" [Params] ")";
+Minus               . Expr ::= "minus" "(" [Params] ")";
+
+ParametersInteger   . Params ::= Integer;
+ParametersFunctions . Params ::= Expr;
+ParametersIdents    . Params ::= Ident;
+separator Params ",";
+separator Integer ",";
+
+Assign              . Expr ::= "setq" "(" Ident "->" Type ")" Expr;
+
+BoolType            . Type ::= "Bool";
+IntType             . Type ::= "Int";
+StringType          . Type ::= "String";
+

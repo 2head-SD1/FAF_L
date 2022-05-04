@@ -1,0 +1,16 @@
+plugins {
+    id 'java'
+    id 'idea'
+}
+
+group 'src'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation group: 'com.github.vbmacher', name: 'java-cup-runtime', version: '11b'
+    implementation group: 'com.github.vbmacher', name: 'java-cup', version: '11b'
+}
