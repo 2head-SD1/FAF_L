@@ -1,0 +1,1169 @@
+package fafl;
+import fafl.Absyn.*;
+
+public class PrettyPrinter
+{
+  //For certain applications increasing the initial size of the buffer may improve performance.
+  private static final int INITIAL_BUFFER_SIZE = 128;
+  private static final int INDENT_WIDTH = 2;
+  //You may wish to change the parentheses used in precedence.
+  private static final String _L_PAREN = new String("(");
+  private static final String _R_PAREN = new String(")");
+  //You may wish to change render
+  private static void render(String s)
+  {
+    if (s.equals("{"))
+    {
+       buf_.append("\n");
+       indent();
+       buf_.append(s);
+       _n_ = _n_ + INDENT_WIDTH;
+       buf_.append("\n");
+       indent();
+    }
+    else if (s.equals("(") || s.equals("["))
+       buf_.append(s);
+    else if (s.equals(")") || s.equals("]"))
+    {
+       backup();
+       buf_.append(s);
+       buf_.append(" ");
+    }
+    else if (s.equals("}"))
+    {
+       int t;
+       _n_ = _n_ - INDENT_WIDTH;
+       for(t=0; t<INDENT_WIDTH; t++) {
+         backup();
+       }
+       buf_.append(s);
+       buf_.append("\n");
+       indent();
+    }
+    else if (s.equals(","))
+    {
+       backup();
+       buf_.append(s);
+       buf_.append(" ");
+    }
+    else if (s.equals(";"))
+    {
+       backup();
+       buf_.append(s);
+       buf_.append("\n");
+       indent();
+    }
+    else if (s.equals("")) return;
+    else
+    {
+       buf_.append(s);
+       buf_.append(" ");
+    }
+  }
+
+
+  //  print and show methods are defined for each category.
+  public static String print(fafl.Absyn.ProgramExprs foo)
+  {
+    pp(foo, 0);
+    trim();
+    String temp = buf_.toString();
+    buf_.delete(0,buf_.length());
+    return temp;
+  }
+  public static String show(fafl.Absyn.ProgramExprs foo)
+  {
+    sh(foo);
+    String temp = buf_.toString();
+    buf_.delete(0,buf_.length());
+    return temp;
+  }
+  public static String print(fafl.Absyn.ListExpr foo)
+  {
+    pp(foo, 0);
+    trim();
+    String temp = buf_.toString();
+    buf_.delete(0,buf_.length());
+    return temp;
+  }
+  public static String show(fafl.Absyn.ListExpr foo)
+  {
+    sh(foo);
+    String temp = buf_.toString();
+    buf_.delete(0,buf_.length());
+    return temp;
+  }
+  public static String print(fafl.Absyn.Expr foo)
+  {
+    pp(foo, 0);
+    trim();
+    String temp = buf_.toString();
+    buf_.delete(0,buf_.length());
+    return temp;
+  }
+  public static String show(fafl.Absyn.Expr foo)
+  {
+    sh(foo);
+    String temp = buf_.toString();
+    buf_.delete(0,buf_.length());
+    return temp;
+  }
+  public static String print(fafl.Absyn.Bool foo)
+  {
+    pp(foo, 0);
+    trim();
+    String temp = buf_.toString();
+    buf_.delete(0,buf_.length());
+    return temp;
+  }
+  public static String show(fafl.Absyn.Bool foo)
+  {
+    sh(foo);
+    String temp = buf_.toString();
+    buf_.delete(0,buf_.length());
+    return temp;
+  }
+  public static String print(fafl.Absyn.ListATypedArg foo)
+  {
+    pp(foo, 0);
+    trim();
+    String temp = buf_.toString();
+    buf_.delete(0,buf_.length());
+    return temp;
+  }
+  public static String show(fafl.Absyn.ListATypedArg foo)
+  {
+    sh(foo);
+    String temp = buf_.toString();
+    buf_.delete(0,buf_.length());
+    return temp;
+  }
+  public static String print(fafl.Absyn.AFuncReturnType foo)
+  {
+    pp(foo, 0);
+    trim();
+    String temp = buf_.toString();
+    buf_.delete(0,buf_.length());
+    return temp;
+  }
+  public static String show(fafl.Absyn.AFuncReturnType foo)
+  {
+    sh(foo);
+    String temp = buf_.toString();
+    buf_.delete(0,buf_.length());
+    return temp;
+  }
+  public static String print(fafl.Absyn.Raise foo)
+  {
+    pp(foo, 0);
+    trim();
+    String temp = buf_.toString();
+    buf_.delete(0,buf_.length());
+    return temp;
+  }
+  public static String show(fafl.Absyn.Raise foo)
+  {
+    sh(foo);
+    String temp = buf_.toString();
+    buf_.delete(0,buf_.length());
+    return temp;
+  }
+  public static String print(fafl.Absyn.ATryCatch foo)
+  {
+    pp(foo, 0);
+    trim();
+    String temp = buf_.toString();
+    buf_.delete(0,buf_.length());
+    return temp;
+  }
+  public static String show(fafl.Absyn.ATryCatch foo)
+  {
+    sh(foo);
+    String temp = buf_.toString();
+    buf_.delete(0,buf_.length());
+    return temp;
+  }
+  public static String print(fafl.Absyn.ATypedArg foo)
+  {
+    pp(foo, 0);
+    trim();
+    String temp = buf_.toString();
+    buf_.delete(0,buf_.length());
+    return temp;
+  }
+  public static String show(fafl.Absyn.ATypedArg foo)
+  {
+    sh(foo);
+    String temp = buf_.toString();
+    buf_.delete(0,buf_.length());
+    return temp;
+  }
+  public static String print(fafl.Absyn.Args foo)
+  {
+    pp(foo, 0);
+    trim();
+    String temp = buf_.toString();
+    buf_.delete(0,buf_.length());
+    return temp;
+  }
+  public static String show(fafl.Absyn.Args foo)
+  {
+    sh(foo);
+    String temp = buf_.toString();
+    buf_.delete(0,buf_.length());
+    return temp;
+  }
+  public static String print(fafl.Absyn.ListArg foo)
+  {
+    pp(foo, 0);
+    trim();
+    String temp = buf_.toString();
+    buf_.delete(0,buf_.length());
+    return temp;
+  }
+  public static String show(fafl.Absyn.ListArg foo)
+  {
+    sh(foo);
+    String temp = buf_.toString();
+    buf_.delete(0,buf_.length());
+    return temp;
+  }
+  public static String print(fafl.Absyn.Arg foo)
+  {
+    pp(foo, 0);
+    trim();
+    String temp = buf_.toString();
+    buf_.delete(0,buf_.length());
+    return temp;
+  }
+  public static String show(fafl.Absyn.Arg foo)
+  {
+    sh(foo);
+    String temp = buf_.toString();
+    buf_.delete(0,buf_.length());
+    return temp;
+  }
+  public static String print(fafl.Absyn.Type foo)
+  {
+    pp(foo, 0);
+    trim();
+    String temp = buf_.toString();
+    buf_.delete(0,buf_.length());
+    return temp;
+  }
+  public static String show(fafl.Absyn.Type foo)
+  {
+    sh(foo);
+    String temp = buf_.toString();
+    buf_.delete(0,buf_.length());
+    return temp;
+  }
+  /***   You shouldn't need to change anything beyond this point.   ***/
+
+  private static void pp(fafl.Absyn.ProgramExprs foo, int _i_)
+  {
+    if (foo instanceof fafl.Absyn.Program)
+    {
+       fafl.Absyn.Program _program = (fafl.Absyn.Program) foo;
+       if (_i_ > 0) render(_L_PAREN);
+       pp(_program.listexpr_, 0);
+       if (_i_ > 0) render(_R_PAREN);
+    }
+  }
+
+  private static void pp(fafl.Absyn.ListExpr foo, int _i_)
+  {
+     for (java.util.Iterator<Expr> it = foo.iterator(); it.hasNext();)
+     {
+       pp(it.next(), _i_);
+       if (it.hasNext()) {
+         render(";");
+       } else {
+         render("");
+       }
+     }  }
+
+  private static void pp(fafl.Absyn.Expr foo, int _i_)
+  {
+    if (foo instanceof fafl.Absyn.SetqSimple)
+    {
+       fafl.Absyn.SetqSimple _setqsimple = (fafl.Absyn.SetqSimple) foo;
+       if (_i_ > 0) render(_L_PAREN);
+       render("setq");
+       pp(_setqsimple.ident_, 0);
+       render(":");
+       pp(_setqsimple.type_, 0);
+       pp(_setqsimple.expr_, 0);
+       if (_i_ > 0) render(_R_PAREN);
+    }
+    else     if (foo instanceof fafl.Absyn.SetqStruct)
+    {
+       fafl.Absyn.SetqStruct _setqstruct = (fafl.Absyn.SetqStruct) foo;
+       if (_i_ > 0) render(_L_PAREN);
+       render("setq");
+       pp(_setqstruct.ident_1, 0);
+       render(":");
+       pp(_setqstruct.ident_2, 0);
+       pp(_setqstruct.args_, 0);
+       if (_i_ > 0) render(_R_PAREN);
+    }
+    else     if (foo instanceof fafl.Absyn.IntConst)
+    {
+       fafl.Absyn.IntConst _intconst = (fafl.Absyn.IntConst) foo;
+       if (_i_ > 0) render(_L_PAREN);
+       pp(_intconst.integer_, 0);
+       if (_i_ > 0) render(_R_PAREN);
+    }
+    else     if (foo instanceof fafl.Absyn.DoubleConst)
+    {
+       fafl.Absyn.DoubleConst _doubleconst = (fafl.Absyn.DoubleConst) foo;
+       if (_i_ > 0) render(_L_PAREN);
+       pp(_doubleconst.double_, 0);
+       if (_i_ > 0) render(_R_PAREN);
+    }
+    else     if (foo instanceof fafl.Absyn.BoolConst)
+    {
+       fafl.Absyn.BoolConst _boolconst = (fafl.Absyn.BoolConst) foo;
+       if (_i_ > 0) render(_L_PAREN);
+       pp(_boolconst.bool_, 0);
+       if (_i_ > 0) render(_R_PAREN);
+    }
+    else     if (foo instanceof fafl.Absyn.StringConst)
+    {
+       fafl.Absyn.StringConst _stringconst = (fafl.Absyn.StringConst) foo;
+       if (_i_ > 0) render(_L_PAREN);
+       pp(_stringconst.string_, 0);
+       if (_i_ > 0) render(_R_PAREN);
+    }
+    else     if (foo instanceof fafl.Absyn.Id)
+    {
+       fafl.Absyn.Id _id = (fafl.Absyn.Id) foo;
+       if (_i_ > 0) render(_L_PAREN);
+       pp(_id.ident_, 0);
+       if (_i_ > 0) render(_R_PAREN);
+    }
+    else     if (foo instanceof fafl.Absyn.Define)
+    {
+       fafl.Absyn.Define _define = (fafl.Absyn.Define) foo;
+       if (_i_ > 0) render(_L_PAREN);
+       render("define");
+       pp(_define.ident_, 0);
+       render("(");
+       pp(_define.listatypedarg_, 0);
+       render(")");
+       render("->");
+       pp(_define.afuncreturntype_, 0);
+       render("{");
+       pp(_define.expr_, 0);
+       render("}");
+       if (_i_ > 0) render(_R_PAREN);
+    }
+    else     if (foo instanceof fafl.Absyn.StructInit)
+    {
+       fafl.Absyn.StructInit _structinit = (fafl.Absyn.StructInit) foo;
+       if (_i_ > 0) render(_L_PAREN);
+       render("struct");
+       pp(_structinit.ident_, 0);
+       render("(");
+       pp(_structinit.listatypedarg_, 0);
+       render(")");
+       if (_i_ > 0) render(_R_PAREN);
+    }
+    else     if (foo instanceof fafl.Absyn.StructConstructor)
+    {
+       fafl.Absyn.StructConstructor _structconstructor = (fafl.Absyn.StructConstructor) foo;
+       if (_i_ > 0) render(_L_PAREN);
+       pp(_structconstructor.ident_, 0);
+       render("(");
+       pp(_structconstructor.args_, 0);
+       render(")");
+       if (_i_ > 0) render(_R_PAREN);
+    }
+    else     if (foo instanceof fafl.Absyn.StructField)
+    {
+       fafl.Absyn.StructField _structfield = (fafl.Absyn.StructField) foo;
+       if (_i_ > 0) render(_L_PAREN);
+       pp(_structfield.ident_1, 0);
+       render(".");
+       pp(_structfield.ident_2, 0);
+       if (_i_ > 0) render(_R_PAREN);
+    }
+    else     if (foo instanceof fafl.Absyn.If)
+    {
+       fafl.Absyn.If _if = (fafl.Absyn.If) foo;
+       if (_i_ > 0) render(_L_PAREN);
+       render("if");
+       pp(_if.expr_1, 0);
+       render("then");
+       pp(_if.expr_2, 0);
+       render("else");
+       pp(_if.expr_3, 0);
+       if (_i_ > 0) render(_R_PAREN);
+    }
+    else     if (foo instanceof fafl.Absyn.Lambda)
+    {
+       fafl.Absyn.Lambda _lambda = (fafl.Absyn.Lambda) foo;
+       if (_i_ > 0) render(_L_PAREN);
+       render("lambda");
+       render("(");
+       pp(_lambda.listatypedarg_, 0);
+       render(")");
+       render("->");
+       pp(_lambda.afuncreturntype_, 0);
+       render("{");
+       pp(_lambda.expr_, 0);
+       render("}");
+       if (_i_ > 0) render(_R_PAREN);
+    }
+    else     if (foo instanceof fafl.Absyn.Plus)
+    {
+       fafl.Absyn.Plus _plus = (fafl.Absyn.Plus) foo;
+       if (_i_ > 0) render(_L_PAREN);
+       render("plus");
+       render("(");
+       pp(_plus.listexpr_, 0);
+       render(")");
+       if (_i_ > 0) render(_R_PAREN);
+    }
+    else     if (foo instanceof fafl.Absyn.Minus)
+    {
+       fafl.Absyn.Minus _minus = (fafl.Absyn.Minus) foo;
+       if (_i_ > 0) render(_L_PAREN);
+       render("minus");
+       render("(");
+       pp(_minus.listexpr_, 0);
+       render(")");
+       if (_i_ > 0) render(_R_PAREN);
+    }
+    else     if (foo instanceof fafl.Absyn.Mul)
+    {
+       fafl.Absyn.Mul _mul = (fafl.Absyn.Mul) foo;
+       if (_i_ > 0) render(_L_PAREN);
+       render("mul");
+       render("(");
+       pp(_mul.listexpr_, 0);
+       render(")");
+       if (_i_ > 0) render(_R_PAREN);
+    }
+    else     if (foo instanceof fafl.Absyn.Div)
+    {
+       fafl.Absyn.Div _div = (fafl.Absyn.Div) foo;
+       if (_i_ > 0) render(_L_PAREN);
+       render("div");
+       render("(");
+       pp(_div.listexpr_, 0);
+       render(")");
+       if (_i_ > 0) render(_R_PAREN);
+    }
+    else     if (foo instanceof fafl.Absyn.IsLess)
+    {
+       fafl.Absyn.IsLess _isless = (fafl.Absyn.IsLess) foo;
+       if (_i_ > 0) render(_L_PAREN);
+       render("isless");
+       render("(");
+       pp(_isless.expr_1, 0);
+       render(",");
+       pp(_isless.expr_2, 0);
+       render(")");
+       if (_i_ > 0) render(_R_PAREN);
+    }
+    else     if (foo instanceof fafl.Absyn.IsGreater)
+    {
+       fafl.Absyn.IsGreater _isgreater = (fafl.Absyn.IsGreater) foo;
+       if (_i_ > 0) render(_L_PAREN);
+       render("isgreater");
+       render("(");
+       pp(_isgreater.expr_1, 0);
+       render(",");
+       pp(_isgreater.expr_2, 0);
+       render(")");
+       if (_i_ > 0) render(_R_PAREN);
+    }
+    else     if (foo instanceof fafl.Absyn.And)
+    {
+       fafl.Absyn.And _and = (fafl.Absyn.And) foo;
+       if (_i_ > 0) render(_L_PAREN);
+       render("and");
+       render("(");
+       pp(_and.expr_1, 0);
+       render(",");
+       pp(_and.expr_2, 0);
+       render(")");
+       if (_i_ > 0) render(_R_PAREN);
+    }
+    else     if (foo instanceof fafl.Absyn.Or)
+    {
+       fafl.Absyn.Or _or = (fafl.Absyn.Or) foo;
+       if (_i_ > 0) render(_L_PAREN);
+       render("or");
+       render("(");
+       pp(_or.expr_1, 0);
+       render(",");
+       pp(_or.expr_2, 0);
+       render(")");
+       if (_i_ > 0) render(_R_PAREN);
+    }
+    else     if (foo instanceof fafl.Absyn.ReadLine)
+    {
+       fafl.Absyn.ReadLine _readline = (fafl.Absyn.ReadLine) foo;
+       if (_i_ > 0) render(_L_PAREN);
+       render("readline");
+       if (_i_ > 0) render(_R_PAREN);
+    }
+    else     if (foo instanceof fafl.Absyn.PrintLine)
+    {
+       fafl.Absyn.PrintLine _printline = (fafl.Absyn.PrintLine) foo;
+       if (_i_ > 0) render(_L_PAREN);
+       render("printline");
+       pp(_printline.string_, 0);
+       if (_i_ > 0) render(_R_PAREN);
+    }
+  }
+
+  private static void pp(fafl.Absyn.Bool foo, int _i_)
+  {
+    if (foo instanceof fafl.Absyn.BoolTrue)
+    {
+       fafl.Absyn.BoolTrue _booltrue = (fafl.Absyn.BoolTrue) foo;
+       if (_i_ > 0) render(_L_PAREN);
+       render("true");
+       if (_i_ > 0) render(_R_PAREN);
+    }
+    else     if (foo instanceof fafl.Absyn.BoolFalse)
+    {
+       fafl.Absyn.BoolFalse _boolfalse = (fafl.Absyn.BoolFalse) foo;
+       if (_i_ > 0) render(_L_PAREN);
+       render("false");
+       if (_i_ > 0) render(_R_PAREN);
+    }
+  }
+
+  private static void pp(fafl.Absyn.ListATypedArg foo, int _i_)
+  {
+     for (java.util.Iterator<ATypedArg> it = foo.iterator(); it.hasNext();)
+     {
+       pp(it.next(), _i_);
+       if (it.hasNext()) {
+         render(",");
+       } else {
+         render("");
+       }
+     }  }
+
+  private static void pp(fafl.Absyn.AFuncReturnType foo, int _i_)
+  {
+    if (foo instanceof fafl.Absyn.FuncReturnType)
+    {
+       fafl.Absyn.FuncReturnType _funcreturntype = (fafl.Absyn.FuncReturnType) foo;
+       if (_i_ > 0) render(_L_PAREN);
+       pp(_funcreturntype.type_, 0);
+       if (_i_ > 0) render(_R_PAREN);
+    }
+  }
+
+  private static void pp(fafl.Absyn.Raise foo, int _i_)
+  {
+    if (foo instanceof fafl.Absyn.RaiseEx)
+    {
+       fafl.Absyn.RaiseEx _raiseex = (fafl.Absyn.RaiseEx) foo;
+       if (_i_ > 0) render(_L_PAREN);
+       render("raise");
+       render("Exception");
+       render("(");
+       pp(_raiseex.string_, 0);
+       render(")");
+       if (_i_ > 0) render(_R_PAREN);
+    }
+  }
+
+  private static void pp(fafl.Absyn.ATryCatch foo, int _i_)
+  {
+    if (foo instanceof fafl.Absyn.TryCatch)
+    {
+       fafl.Absyn.TryCatch _trycatch = (fafl.Absyn.TryCatch) foo;
+       if (_i_ > 0) render(_L_PAREN);
+       render("try");
+       pp(_trycatch.expr_1, 0);
+       render("catch");
+       render("(");
+       pp(_trycatch.expr_2, 0);
+       render(")");
+       if (_i_ > 0) render(_R_PAREN);
+    }
+  }
+
+  private static void pp(fafl.Absyn.ATypedArg foo, int _i_)
+  {
+    if (foo instanceof fafl.Absyn.TypedArg)
+    {
+       fafl.Absyn.TypedArg _typedarg = (fafl.Absyn.TypedArg) foo;
+       if (_i_ > 0) render(_L_PAREN);
+       pp(_typedarg.ident_, 0);
+       render(":");
+       pp(_typedarg.type_, 0);
+       if (_i_ > 0) render(_R_PAREN);
+    }
+  }
+
+  private static void pp(fafl.Absyn.Args foo, int _i_)
+  {
+    if (foo instanceof fafl.Absyn.Arguments)
+    {
+       fafl.Absyn.Arguments _arguments = (fafl.Absyn.Arguments) foo;
+       if (_i_ > 0) render(_L_PAREN);
+       pp(_arguments.listarg_, 0);
+       if (_i_ > 0) render(_R_PAREN);
+    }
+  }
+
+  private static void pp(fafl.Absyn.ListArg foo, int _i_)
+  {
+     for (java.util.Iterator<Arg> it = foo.iterator(); it.hasNext();)
+     {
+       pp(it.next(), _i_);
+       if (it.hasNext()) {
+         render(",");
+       } else {
+         render("");
+       }
+     }  }
+
+  private static void pp(fafl.Absyn.Arg foo, int _i_)
+  {
+    if (foo instanceof fafl.Absyn.NameArg)
+    {
+       fafl.Absyn.NameArg _namearg = (fafl.Absyn.NameArg) foo;
+       if (_i_ > 0) render(_L_PAREN);
+       pp(_namearg.ident_, 0);
+       if (_i_ > 0) render(_R_PAREN);
+    }
+    else     if (foo instanceof fafl.Absyn.ExprArg)
+    {
+       fafl.Absyn.ExprArg _exprarg = (fafl.Absyn.ExprArg) foo;
+       if (_i_ > 0) render(_L_PAREN);
+       pp(_exprarg.expr_, 0);
+       if (_i_ > 0) render(_R_PAREN);
+    }
+  }
+
+  private static void pp(fafl.Absyn.Type foo, int _i_)
+  {
+    if (foo instanceof fafl.Absyn.BoolType)
+    {
+       fafl.Absyn.BoolType _booltype = (fafl.Absyn.BoolType) foo;
+       if (_i_ > 0) render(_L_PAREN);
+       render("Bool");
+       if (_i_ > 0) render(_R_PAREN);
+    }
+    else     if (foo instanceof fafl.Absyn.IntType)
+    {
+       fafl.Absyn.IntType _inttype = (fafl.Absyn.IntType) foo;
+       if (_i_ > 0) render(_L_PAREN);
+       render("Int");
+       if (_i_ > 0) render(_R_PAREN);
+    }
+    else     if (foo instanceof fafl.Absyn.DoubleType)
+    {
+       fafl.Absyn.DoubleType _doubletype = (fafl.Absyn.DoubleType) foo;
+       if (_i_ > 0) render(_L_PAREN);
+       render("Double");
+       if (_i_ > 0) render(_R_PAREN);
+    }
+    else     if (foo instanceof fafl.Absyn.StringType)
+    {
+       fafl.Absyn.StringType _stringtype = (fafl.Absyn.StringType) foo;
+       if (_i_ > 0) render(_L_PAREN);
+       render("String");
+       if (_i_ > 0) render(_R_PAREN);
+    }
+    else     if (foo instanceof fafl.Absyn.ArrayType)
+    {
+       fafl.Absyn.ArrayType _arraytype = (fafl.Absyn.ArrayType) foo;
+       if (_i_ > 0) render(_L_PAREN);
+       render("[");
+       pp(_arraytype.type_, 0);
+       render("]");
+       if (_i_ > 0) render(_R_PAREN);
+    }
+    else     if (foo instanceof fafl.Absyn.StructType)
+    {
+       fafl.Absyn.StructType _structtype = (fafl.Absyn.StructType) foo;
+       if (_i_ > 0) render(_L_PAREN);
+       render("<");
+       pp(_structtype.ident_, 0);
+       render(">");
+       if (_i_ > 0) render(_R_PAREN);
+    }
+    else     if (foo instanceof fafl.Absyn.StructFieldType)
+    {
+       fafl.Absyn.StructFieldType _structfieldtype = (fafl.Absyn.StructFieldType) foo;
+       if (_i_ > 0) render(_L_PAREN);
+       render("{");
+       pp(_structfieldtype.type_, 0);
+       render("}");
+       if (_i_ > 0) render(_R_PAREN);
+    }
+    else     if (foo instanceof fafl.Absyn.FuncType)
+    {
+       fafl.Absyn.FuncType _functype = (fafl.Absyn.FuncType) foo;
+       if (_i_ > 0) render(_L_PAREN);
+       pp(_functype.type_1, 0);
+       render("->");
+       pp(_functype.type_2, 0);
+       if (_i_ > 0) render(_R_PAREN);
+    }
+  }
+
+
+  private static void sh(fafl.Absyn.ProgramExprs foo)
+  {
+    if (foo instanceof fafl.Absyn.Program)
+    {
+       fafl.Absyn.Program _program = (fafl.Absyn.Program) foo;
+       render("(");
+       render("Program");
+       render("[");
+       sh(_program.listexpr_);
+       render("]");
+       render(")");
+    }
+  }
+
+  private static void sh(fafl.Absyn.ListExpr foo)
+  {
+     for (java.util.Iterator<Expr> it = foo.iterator(); it.hasNext();)
+     {
+       sh(it.next());
+       if (it.hasNext())
+         render(",");
+     }
+  }
+
+  private static void sh(fafl.Absyn.Expr foo)
+  {
+    if (foo instanceof fafl.Absyn.SetqSimple)
+    {
+       fafl.Absyn.SetqSimple _setqsimple = (fafl.Absyn.SetqSimple) foo;
+       render("(");
+       render("SetqSimple");
+       sh(_setqsimple.ident_);
+       sh(_setqsimple.type_);
+       sh(_setqsimple.expr_);
+       render(")");
+    }
+    if (foo instanceof fafl.Absyn.SetqStruct)
+    {
+       fafl.Absyn.SetqStruct _setqstruct = (fafl.Absyn.SetqStruct) foo;
+       render("(");
+       render("SetqStruct");
+       sh(_setqstruct.ident_1);
+       sh(_setqstruct.ident_2);
+       sh(_setqstruct.args_);
+       render(")");
+    }
+    if (foo instanceof fafl.Absyn.IntConst)
+    {
+       fafl.Absyn.IntConst _intconst = (fafl.Absyn.IntConst) foo;
+       render("(");
+       render("IntConst");
+       sh(_intconst.integer_);
+       render(")");
+    }
+    if (foo instanceof fafl.Absyn.DoubleConst)
+    {
+       fafl.Absyn.DoubleConst _doubleconst = (fafl.Absyn.DoubleConst) foo;
+       render("(");
+       render("DoubleConst");
+       sh(_doubleconst.double_);
+       render(")");
+    }
+    if (foo instanceof fafl.Absyn.BoolConst)
+    {
+       fafl.Absyn.BoolConst _boolconst = (fafl.Absyn.BoolConst) foo;
+       render("(");
+       render("BoolConst");
+       sh(_boolconst.bool_);
+       render(")");
+    }
+    if (foo instanceof fafl.Absyn.StringConst)
+    {
+       fafl.Absyn.StringConst _stringconst = (fafl.Absyn.StringConst) foo;
+       render("(");
+       render("StringConst");
+       sh(_stringconst.string_);
+       render(")");
+    }
+    if (foo instanceof fafl.Absyn.Id)
+    {
+       fafl.Absyn.Id _id = (fafl.Absyn.Id) foo;
+       render("(");
+       render("Id");
+       sh(_id.ident_);
+       render(")");
+    }
+    if (foo instanceof fafl.Absyn.Define)
+    {
+       fafl.Absyn.Define _define = (fafl.Absyn.Define) foo;
+       render("(");
+       render("Define");
+       sh(_define.ident_);
+       render("[");
+       sh(_define.listatypedarg_);
+       render("]");
+       sh(_define.afuncreturntype_);
+       sh(_define.expr_);
+       render(")");
+    }
+    if (foo instanceof fafl.Absyn.StructInit)
+    {
+       fafl.Absyn.StructInit _structinit = (fafl.Absyn.StructInit) foo;
+       render("(");
+       render("StructInit");
+       sh(_structinit.ident_);
+       render("[");
+       sh(_structinit.listatypedarg_);
+       render("]");
+       render(")");
+    }
+    if (foo instanceof fafl.Absyn.StructConstructor)
+    {
+       fafl.Absyn.StructConstructor _structconstructor = (fafl.Absyn.StructConstructor) foo;
+       render("(");
+       render("StructConstructor");
+       sh(_structconstructor.ident_);
+       sh(_structconstructor.args_);
+       render(")");
+    }
+    if (foo instanceof fafl.Absyn.StructField)
+    {
+       fafl.Absyn.StructField _structfield = (fafl.Absyn.StructField) foo;
+       render("(");
+       render("StructField");
+       sh(_structfield.ident_1);
+       sh(_structfield.ident_2);
+       render(")");
+    }
+    if (foo instanceof fafl.Absyn.If)
+    {
+       fafl.Absyn.If _if = (fafl.Absyn.If) foo;
+       render("(");
+       render("If");
+       sh(_if.expr_1);
+       sh(_if.expr_2);
+       sh(_if.expr_3);
+       render(")");
+    }
+    if (foo instanceof fafl.Absyn.Lambda)
+    {
+       fafl.Absyn.Lambda _lambda = (fafl.Absyn.Lambda) foo;
+       render("(");
+       render("Lambda");
+       render("[");
+       sh(_lambda.listatypedarg_);
+       render("]");
+       sh(_lambda.afuncreturntype_);
+       sh(_lambda.expr_);
+       render(")");
+    }
+    if (foo instanceof fafl.Absyn.Plus)
+    {
+       fafl.Absyn.Plus _plus = (fafl.Absyn.Plus) foo;
+       render("(");
+       render("Plus");
+       render("[");
+       sh(_plus.listexpr_);
+       render("]");
+       render(")");
+    }
+    if (foo instanceof fafl.Absyn.Minus)
+    {
+       fafl.Absyn.Minus _minus = (fafl.Absyn.Minus) foo;
+       render("(");
+       render("Minus");
+       render("[");
+       sh(_minus.listexpr_);
+       render("]");
+       render(")");
+    }
+    if (foo instanceof fafl.Absyn.Mul)
+    {
+       fafl.Absyn.Mul _mul = (fafl.Absyn.Mul) foo;
+       render("(");
+       render("Mul");
+       render("[");
+       sh(_mul.listexpr_);
+       render("]");
+       render(")");
+    }
+    if (foo instanceof fafl.Absyn.Div)
+    {
+       fafl.Absyn.Div _div = (fafl.Absyn.Div) foo;
+       render("(");
+       render("Div");
+       render("[");
+       sh(_div.listexpr_);
+       render("]");
+       render(")");
+    }
+    if (foo instanceof fafl.Absyn.IsLess)
+    {
+       fafl.Absyn.IsLess _isless = (fafl.Absyn.IsLess) foo;
+       render("(");
+       render("IsLess");
+       sh(_isless.expr_1);
+       sh(_isless.expr_2);
+       render(")");
+    }
+    if (foo instanceof fafl.Absyn.IsGreater)
+    {
+       fafl.Absyn.IsGreater _isgreater = (fafl.Absyn.IsGreater) foo;
+       render("(");
+       render("IsGreater");
+       sh(_isgreater.expr_1);
+       sh(_isgreater.expr_2);
+       render(")");
+    }
+    if (foo instanceof fafl.Absyn.And)
+    {
+       fafl.Absyn.And _and = (fafl.Absyn.And) foo;
+       render("(");
+       render("And");
+       sh(_and.expr_1);
+       sh(_and.expr_2);
+       render(")");
+    }
+    if (foo instanceof fafl.Absyn.Or)
+    {
+       fafl.Absyn.Or _or = (fafl.Absyn.Or) foo;
+       render("(");
+       render("Or");
+       sh(_or.expr_1);
+       sh(_or.expr_2);
+       render(")");
+    }
+    if (foo instanceof fafl.Absyn.ReadLine)
+    {
+       fafl.Absyn.ReadLine _readline = (fafl.Absyn.ReadLine) foo;
+       render("ReadLine");
+    }
+    if (foo instanceof fafl.Absyn.PrintLine)
+    {
+       fafl.Absyn.PrintLine _printline = (fafl.Absyn.PrintLine) foo;
+       render("(");
+       render("PrintLine");
+       sh(_printline.string_);
+       render(")");
+    }
+  }
+
+  private static void sh(fafl.Absyn.Bool foo)
+  {
+    if (foo instanceof fafl.Absyn.BoolTrue)
+    {
+       fafl.Absyn.BoolTrue _booltrue = (fafl.Absyn.BoolTrue) foo;
+       render("BoolTrue");
+    }
+    if (foo instanceof fafl.Absyn.BoolFalse)
+    {
+       fafl.Absyn.BoolFalse _boolfalse = (fafl.Absyn.BoolFalse) foo;
+       render("BoolFalse");
+    }
+  }
+
+  private static void sh(fafl.Absyn.ListATypedArg foo)
+  {
+     for (java.util.Iterator<ATypedArg> it = foo.iterator(); it.hasNext();)
+     {
+       sh(it.next());
+       if (it.hasNext())
+         render(",");
+     }
+  }
+
+  private static void sh(fafl.Absyn.AFuncReturnType foo)
+  {
+    if (foo instanceof fafl.Absyn.FuncReturnType)
+    {
+       fafl.Absyn.FuncReturnType _funcreturntype = (fafl.Absyn.FuncReturnType) foo;
+       render("(");
+       render("FuncReturnType");
+       sh(_funcreturntype.type_);
+       render(")");
+    }
+  }
+
+  private static void sh(fafl.Absyn.Raise foo)
+  {
+    if (foo instanceof fafl.Absyn.RaiseEx)
+    {
+       fafl.Absyn.RaiseEx _raiseex = (fafl.Absyn.RaiseEx) foo;
+       render("(");
+       render("RaiseEx");
+       sh(_raiseex.string_);
+       render(")");
+    }
+  }
+
+  private static void sh(fafl.Absyn.ATryCatch foo)
+  {
+    if (foo instanceof fafl.Absyn.TryCatch)
+    {
+       fafl.Absyn.TryCatch _trycatch = (fafl.Absyn.TryCatch) foo;
+       render("(");
+       render("TryCatch");
+       sh(_trycatch.expr_1);
+       sh(_trycatch.expr_2);
+       render(")");
+    }
+  }
+
+  private static void sh(fafl.Absyn.ATypedArg foo)
+  {
+    if (foo instanceof fafl.Absyn.TypedArg)
+    {
+       fafl.Absyn.TypedArg _typedarg = (fafl.Absyn.TypedArg) foo;
+       render("(");
+       render("TypedArg");
+       sh(_typedarg.ident_);
+       sh(_typedarg.type_);
+       render(")");
+    }
+  }
+
+  private static void sh(fafl.Absyn.Args foo)
+  {
+    if (foo instanceof fafl.Absyn.Arguments)
+    {
+       fafl.Absyn.Arguments _arguments = (fafl.Absyn.Arguments) foo;
+       render("(");
+       render("Arguments");
+       render("[");
+       sh(_arguments.listarg_);
+       render("]");
+       render(")");
+    }
+  }
+
+  private static void sh(fafl.Absyn.ListArg foo)
+  {
+     for (java.util.Iterator<Arg> it = foo.iterator(); it.hasNext();)
+     {
+       sh(it.next());
+       if (it.hasNext())
+         render(",");
+     }
+  }
+
+  private static void sh(fafl.Absyn.Arg foo)
+  {
+    if (foo instanceof fafl.Absyn.NameArg)
+    {
+       fafl.Absyn.NameArg _namearg = (fafl.Absyn.NameArg) foo;
+       render("(");
+       render("NameArg");
+       sh(_namearg.ident_);
+       render(")");
+    }
+    if (foo instanceof fafl.Absyn.ExprArg)
+    {
+       fafl.Absyn.ExprArg _exprarg = (fafl.Absyn.ExprArg) foo;
+       render("(");
+       render("ExprArg");
+       sh(_exprarg.expr_);
+       render(")");
+    }
+  }
+
+  private static void sh(fafl.Absyn.Type foo)
+  {
+    if (foo instanceof fafl.Absyn.BoolType)
+    {
+       fafl.Absyn.BoolType _booltype = (fafl.Absyn.BoolType) foo;
+       render("BoolType");
+    }
+    if (foo instanceof fafl.Absyn.IntType)
+    {
+       fafl.Absyn.IntType _inttype = (fafl.Absyn.IntType) foo;
+       render("IntType");
+    }
+    if (foo instanceof fafl.Absyn.DoubleType)
+    {
+       fafl.Absyn.DoubleType _doubletype = (fafl.Absyn.DoubleType) foo;
+       render("DoubleType");
+    }
+    if (foo instanceof fafl.Absyn.StringType)
+    {
+       fafl.Absyn.StringType _stringtype = (fafl.Absyn.StringType) foo;
+       render("StringType");
+    }
+    if (foo instanceof fafl.Absyn.ArrayType)
+    {
+       fafl.Absyn.ArrayType _arraytype = (fafl.Absyn.ArrayType) foo;
+       render("(");
+       render("ArrayType");
+       sh(_arraytype.type_);
+       render(")");
+    }
+    if (foo instanceof fafl.Absyn.StructType)
+    {
+       fafl.Absyn.StructType _structtype = (fafl.Absyn.StructType) foo;
+       render("(");
+       render("StructType");
+       sh(_structtype.ident_);
+       render(")");
+    }
+    if (foo instanceof fafl.Absyn.StructFieldType)
+    {
+       fafl.Absyn.StructFieldType _structfieldtype = (fafl.Absyn.StructFieldType) foo;
+       render("(");
+       render("StructFieldType");
+       sh(_structfieldtype.type_);
+       render(")");
+    }
+    if (foo instanceof fafl.Absyn.FuncType)
+    {
+       fafl.Absyn.FuncType _functype = (fafl.Absyn.FuncType) foo;
+       render("(");
+       render("FuncType");
+       sh(_functype.type_1);
+       sh(_functype.type_2);
+       render(")");
+    }
+  }
+
+
+  private static void pp(Integer n, int _i_) { buf_.append(n); buf_.append(" "); }
+  private static void pp(Double d, int _i_) { buf_.append(d); buf_.append(" "); }
+  private static void pp(String s, int _i_) { buf_.append(s); buf_.append(" "); }
+  private static void pp(Character c, int _i_) { buf_.append("'" + c.toString() + "'"); buf_.append(" "); }
+  private static void sh(Integer n) { render(n.toString()); }
+  private static void sh(Double d) { render(d.toString()); }
+  private static void sh(Character c) { render(c.toString()); }
+  private static void sh(String s) { printQuoted(s); }
+  private static void printQuoted(String s) { render("\"" + s + "\""); }
+  private static void indent()
+  {
+    int n = _n_;
+    while (n > 0)
+    {
+      buf_.append(" ");
+      n--;
+    }
+  }
+  private static void backup()
+  {
+     if (buf_.charAt(buf_.length() - 1) == ' ') {
+      buf_.setLength(buf_.length() - 1);
+    }
+  }
+  private static void trim()
+  {
+     while (buf_.length() > 0 && buf_.charAt(0) == ' ')
+        buf_.deleteCharAt(0); 
+    while (buf_.length() > 0 && buf_.charAt(buf_.length()-1) == ' ')
+        buf_.deleteCharAt(buf_.length()-1);
+  }
+  private static int _n_ = 0;
+  private static StringBuilder buf_ = new StringBuilder(INITIAL_BUFFER_SIZE);
+}
+

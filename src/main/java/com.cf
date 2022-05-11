@@ -1,20 +1,21 @@
 comment "//" ;
 comment "/*" "*/" ;
 
-Program             . ProgramExprs ::= [Expr];
+ProgramExprs. Program ::= [Expr];
 separator Expr ";";
-Plus                . Expr ::= "plus" "(" [Params] ")";
-Minus               . Expr ::= "minus" "(" [Params] ")";
+ConstTrue.      Expr ::= "true";
+ConstFalse.     Expr ::= "false";
+If.             Expr ::= "if" Expr "then" Expr "else" Expr;
+ConstZero.      Expr ::= "0";
+Succ.           Expr ::= "succ" Expr;
+Pred.           Expr ::= "pred" Expr;
+IsZero.         Expr ::= "iszero" Expr;
 
-ParametersInteger   . Params ::= Integer;
-ParametersFunctions . Params ::= Expr;
-ParametersIdents    . Params ::= Ident;
-separator Params ",";
-separator Integer ",";
+Var.            Expr ::= Ident;
+Abstraction.    Expr ::= "fun" "(" Ident ":" Type ")" "{" "return" Expr "}";
+Application.    Expr ::= Expr Expr;
+_.              Expr ::= "(" Expr ")";
 
-Assign              . Expr ::= "setq" "(" Ident "->" Type ")" Expr;
-
-BoolType            . Type ::= "Bool";
-IntType             . Type ::= "Int";
-StringType          . Type ::= "String";
-
+BoolType. Type ::= "Bool";
+NatType. Type ::= "Nat";
+FunType. Type ::= Type "->" Type;

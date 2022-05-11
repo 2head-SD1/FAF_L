@@ -1,0 +1,84 @@
+comment "//";
+comment "/*" "*/";
+
+Program. ProgramExprs ::= [Expr];
+separator Expr ";";
+
+--Setq Rules
+SetqSimple.         Expr ::= "setq" Ident ":" Type Expr;
+SetqStruct.         Expr ::= "setq" Ident ":" Ident Args;
+IntConst.           Expr ::= Integer;
+DoubleConst.        Expr ::= Double;
+BoolConst.          Expr ::= Bool;
+BoolTrue.           Bool ::= "true";
+BoolFalse.          Bool ::= "false";
+StringConst.        Expr ::= String;
+Id.                 Expr ::= Ident;
+
+--Func rules
+Define.             Expr ::= "define" Ident "("[ATypedArg]")" "->" AFuncReturnType "{" Expr "}";
+separator           ATypedArg ",";
+separator           Expr ",";
+FuncReturnType.     AFuncReturnType ::= Type;
+_.                  Expr ::= "(" Expr ")";
+
+--Struct rules
+StructInit.         Expr ::= "struct" Ident "("[ATypedArg]")";
+StructConstructor.  Expr ::= Ident "("Args")";
+separator           ATypedArg ",";
+StructField.        Expr ::= Ident "." Ident;
+
+--If rules
+If.                 Expr ::= "if" Expr "then" Expr "else" Expr;
+
+--Lambda rules
+Lambda.             Expr ::= "lambda" "("[ATypedArg]")" "->" AFuncReturnType "{" Expr "}";
+
+--Dict rules
+
+--Array rules
+ArrayConstructor.   Expr ::= Type "["Expr"]" "{"[Expr]"}"
+First.              Expr ::= "first" "(" Ident ")";
+Get.                Expr ::= "get" "(" Ident "," Expr ")";
+Length.             Expr ::= "length" "(" Ident ")";
+
+--Exception rules
+RaiseEx.            Expr ::= "raise" "Exception" "("String")";
+TryCatch.           Expr ::= "try" Expr "catch" "("Expr")";
+
+--Base rules
+----Arithmetic rules
+Plus.               Expr ::= "plus" "("[Expr]")";
+Minus.              Expr ::= "minus" "("[Expr]")";
+Mul.                Expr ::= "mul" "("[Expr]")";
+Div.                Expr ::= "div" "("[Expr]")";
+
+----Bool predicates rules
+Equals.             Expr ::= "equals" "(" Expr "," Expr ")";
+IsLess.             Expr ::= "isless" "("Expr "," Expr")";
+IsGreater.          Expr ::= "isgreater" "("Expr "," Expr")";
+And.                Expr ::= "and" "("Expr "," Expr")";
+Or.                 Expr ::= "or" "("Expr "," Expr")";
+
+----IO rules
+ReadLine.           Expr ::= "readline";
+PrintLine.          Expr ::= "printline" String;
+
+--Arguments rules
+TypedArg.           ATypedArg ::= Ident ":" Type;
+Arguments.          Args ::= [Arg];
+separator           Arg ",";
+NameArg.            Arg ::= Ident;
+ExprArg.            Arg ::= Expr;
+
+--Type rules
+BoolType.           Type1 ::= "Bool";
+IntType.            Type1 ::= "Int";
+DoubleType.         Type1 ::= "Double";
+StringType.         Type1 ::= "String";
+ArrayType.          Type1 ::= "["Type"]";
+StructType.         Type1 ::= "<"Ident">";
+StructFieldType.    Type ::= "{"Type"}";
+FuncType.           Type ::= Type1 "->" Type;
+_.                  Type ::= Type1;
+_.                  Type1 ::= "(" Type ")";
