@@ -3,13 +3,9 @@ package com.SymbolTable;
 import java.util.HashMap;
 
 public class SymbolTable {
-    private static HashMap<String, Object> table;
-    public SymbolTable()
-    {
-        table = new HashMap<>();
-    }
+    private static HashMap<String, SymbolNode> table = new HashMap<>();
 
-    public static void addSymbol(String ident, Object value)
+    public static void addSymbol(String ident, SymbolNode value)
     {
         if(table.containsKey(ident))
         {
@@ -21,7 +17,7 @@ public class SymbolTable {
         }
     }
 
-    public static Object getSymbol(String ident) {
+    public static SymbolNode getSymbol(String ident) {
         if(table.containsKey(ident))
         {
             return table.get(ident);
