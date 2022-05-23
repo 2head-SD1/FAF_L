@@ -43,7 +43,7 @@ DictSet.            Expr ::= "dict-set" "(" Ident "," Pair ")";
 --Array rules
 ArrayConstructor.   Expr ::= Type "["Expr"]" "{"[Expr]"}";
 First.              Expr ::= "first" "("Expr")";
-Last.              Expr ::= "first" "("Expr")";
+Last.               Expr ::= "last" "("Expr")";
 ArrayGet.                Expr ::= "get" "(" Expr "," Expr ")";
 ArraySet.                Expr ::= "array-set" "(" Expr "," Expr "," Expr ")";
 ArrayLength.             Expr ::= "length" "("Expr")";

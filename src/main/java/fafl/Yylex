@@ -58,19 +58,20 @@ IDENT = ({LETTER}|{DIGIT}|['_])
 <YYINITIAL>isgreater { return new Symbol(sym._SYMB_31); }
 <YYINITIAL>isless { return new Symbol(sym._SYMB_32); }
 <YYINITIAL>lambda { return new Symbol(sym._SYMB_33); }
-<YYINITIAL>length { return new Symbol(sym._SYMB_34); }
-<YYINITIAL>minus { return new Symbol(sym._SYMB_35); }
-<YYINITIAL>mul { return new Symbol(sym._SYMB_36); }
-<YYINITIAL>or { return new Symbol(sym._SYMB_37); }
-<YYINITIAL>plus { return new Symbol(sym._SYMB_38); }
-<YYINITIAL>printline { return new Symbol(sym._SYMB_39); }
-<YYINITIAL>raise { return new Symbol(sym._SYMB_40); }
-<YYINITIAL>readline { return new Symbol(sym._SYMB_41); }
-<YYINITIAL>setq { return new Symbol(sym._SYMB_42); }
-<YYINITIAL>struct { return new Symbol(sym._SYMB_43); }
-<YYINITIAL>then { return new Symbol(sym._SYMB_44); }
-<YYINITIAL>true { return new Symbol(sym._SYMB_45); }
-<YYINITIAL>try { return new Symbol(sym._SYMB_46); }
+<YYINITIAL>last { return new Symbol(sym._SYMB_34); }
+<YYINITIAL>length { return new Symbol(sym._SYMB_35); }
+<YYINITIAL>minus { return new Symbol(sym._SYMB_36); }
+<YYINITIAL>mul { return new Symbol(sym._SYMB_37); }
+<YYINITIAL>or { return new Symbol(sym._SYMB_38); }
+<YYINITIAL>plus { return new Symbol(sym._SYMB_39); }
+<YYINITIAL>printline { return new Symbol(sym._SYMB_40); }
+<YYINITIAL>raise { return new Symbol(sym._SYMB_41); }
+<YYINITIAL>readline { return new Symbol(sym._SYMB_42); }
+<YYINITIAL>setq { return new Symbol(sym._SYMB_43); }
+<YYINITIAL>struct { return new Symbol(sym._SYMB_44); }
+<YYINITIAL>then { return new Symbol(sym._SYMB_45); }
+<YYINITIAL>true { return new Symbol(sym._SYMB_46); }
+<YYINITIAL>try { return new Symbol(sym._SYMB_47); }
 <YYINITIAL>"//"[^\n]*\n { /* BNFC single-line comment */ }
 <YYINITIAL>"/*" { yybegin(COMMENT); }
 <COMMENT>"*/" { yybegin(YYINITIAL); }

@@ -85,7 +85,7 @@ public class ArrayEval
     }
 
     private static Expr doSet(ArraySet expr) throws Exception {
-        ArrayConstructor arrayConstructor = getArrayConstructor(expr);
+        ArrayConstructor arrayConstructor = getArrayConstructor(expr.expr_1);
         ListExpr listExpr = getArray(expr.expr_1);
         Expr indexExpr = Evaluator.evalStep(expr.expr_2);
         Expr toSet = Evaluator.evalStep(expr.expr_3);

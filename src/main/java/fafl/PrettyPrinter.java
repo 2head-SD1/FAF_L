@@ -470,7 +470,7 @@ public class PrettyPrinter
     {
        fafl.Absyn.Last _last = (fafl.Absyn.Last) foo;
        if (_i_ > 0) render(_L_PAREN);
-       render("first");
+       render("last");
        render("(");
        pp(_last.expr_, 0);
        render(")");
