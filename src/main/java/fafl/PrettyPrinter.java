@@ -153,6 +153,36 @@ public class PrettyPrinter
     buf_.delete(0,buf_.length());
     return temp;
   }
+  public static String print(fafl.Absyn.Pair foo)
+  {
+    pp(foo, 0);
+    trim();
+    String temp = buf_.toString();
+    buf_.delete(0,buf_.length());
+    return temp;
+  }
+  public static String show(fafl.Absyn.Pair foo)
+  {
+    sh(foo);
+    String temp = buf_.toString();
+    buf_.delete(0,buf_.length());
+    return temp;
+  }
+  public static String print(fafl.Absyn.ListPair foo)
+  {
+    pp(foo, 0);
+    trim();
+    String temp = buf_.toString();
+    buf_.delete(0,buf_.length());
+    return temp;
+  }
+  public static String show(fafl.Absyn.ListPair foo)
+  {
+    sh(foo);
+    String temp = buf_.toString();
+    buf_.delete(0,buf_.length());
+    return temp;
+  }
   public static String print(fafl.Absyn.ATypedArg foo)
   {
     pp(foo, 0);
@@ -385,6 +415,34 @@ public class PrettyPrinter
        render("}");
        if (_i_ > 0) render(_R_PAREN);
     }
+    else     if (foo instanceof fafl.Absyn.DictConstructor)
+    {
+       fafl.Absyn.DictConstructor _dictconstructor = (fafl.Absyn.DictConstructor) foo;
+       if (_i_ > 0) render(_L_PAREN);
+       render("dict");
+       pp(_dictconstructor.ident_, 0);
+       render("<");
+       pp(_dictconstructor.type_1, 0);
+       render(",");
+       pp(_dictconstructor.type_2, 0);
+       render(">");
+       render("(");
+       pp(_dictconstructor.listpair_, 0);
+       render(")");
+       if (_i_ > 0) render(_R_PAREN);
+    }
+    else     if (foo instanceof fafl.Absyn.Set)
+    {
+       fafl.Absyn.Set _set = (fafl.Absyn.Set) foo;
+       if (_i_ > 0) render(_L_PAREN);
+       render("set");
+       render("(");
+       pp(_set.ident_, 0);
+       render(",");
+       pp(_set.pair_, 0);
+       render(")");
+       if (_i_ > 0) render(_R_PAREN);
+    }
     else     if (foo instanceof fafl.Absyn.ArrayConstructor)
     {
        fafl.Absyn.ArrayConstructor _arrayconstructor = (fafl.Absyn.ArrayConstructor) foo;
@@ -610,6 +668,33 @@ public class PrettyPrinter
        if (_i_ > 0) render(_R_PAREN);
     }
   }
+
+  private static void pp(fafl.Absyn.Pair foo, int _i_)
+  {
+    if (foo instanceof fafl.Absyn.DictPair)
+    {
+       fafl.Absyn.DictPair _dictpair = (fafl.Absyn.DictPair) foo;
+       if (_i_ > 0) render(_L_PAREN);
+       render("(");
+       pp(_dictpair.expr_1, 0);
+       render(".");
+       pp(_dictpair.expr_2, 0);
+       render(")");
+       if (_i_ > 0) render(_R_PAREN);
+    }
+  }
+
+  private static void pp(fafl.Absyn.ListPair foo, int _i_)
+  {
+     for (java.util.Iterator<Pair> it = foo.iterator(); it.hasNext();)
+     {
+       pp(it.next(), _i_);
+       if (it.hasNext()) {
+         render(",");
+       } else {
+         render("");
+       }
+     }  }
 
   private static void pp(fafl.Absyn.ATypedArg foo, int _i_)
   {
@@ -884,6 +969,28 @@ public class PrettyPrinter
        sh(_lambda.expr_);
        render(")");
     }
+    if (foo instanceof fafl.Absyn.DictConstructor)
+    {
+       fafl.Absyn.DictConstructor _dictconstructor = (fafl.Absyn.DictConstructor) foo;
+       render("(");
+       render("DictConstructor");
+       sh(_dictconstructor.ident_);
+       sh(_dictconstructor.type_1);
+       sh(_dictconstructor.type_2);
+       render("[");
+       sh(_dictconstructor.listpair_);
+       render("]");
+       render(")");
+    }
+    if (foo instanceof fafl.Absyn.Set)
+    {
+       fafl.Absyn.Set _set = (fafl.Absyn.Set) foo;
+       render("(");
+       render("Set");
+       sh(_set.ident_);
+       sh(_set.pair_);
+       render(")");
+    }
     if (foo instanceof fafl.Absyn.ArrayConstructor)
     {
        fafl.Absyn.ArrayConstructor _arrayconstructor = (fafl.Absyn.ArrayConstructor) foo;
@@ -1072,6 +1179,29 @@ public class PrettyPrinter
        sh(_funcreturntype.type_);
        render(")");
     }
+  }
+
+  private static void sh(fafl.Absyn.Pair foo)
+  {
+    if (foo instanceof fafl.Absyn.DictPair)
+    {
+       fafl.Absyn.DictPair _dictpair = (fafl.Absyn.DictPair) foo;
+       render("(");
+       render("DictPair");
+       sh(_dictpair.expr_1);
+       sh(_dictpair.expr_2);
+       render(")");
+    }
+  }
+
+  private static void sh(fafl.Absyn.ListPair foo)
+  {
+     for (java.util.Iterator<Pair> it = foo.iterator(); it.hasNext();)
+     {
+       sh(it.next());
+       if (it.hasNext())
+         render(",");
+     }
   }
 
   private static void sh(fafl.Absyn.ATypedArg foo)

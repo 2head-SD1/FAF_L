@@ -35,9 +35,13 @@ If.                 Expr ::= "if" Expr "then" Expr "else" Expr;
 Lambda.             Expr ::= "lambda" "("[ATypedArg]")" "->" AFuncReturnType "{" Expr "}";
 
 --Dict rules
+DictPair.           Pair ::= "(" Expr "." Expr ")";
+separator           Pair ",";
+DictConstructor.    Expr ::= "dict" Ident "<" Type "," Type ">" "(" [Pair] ")";
+Set.                Expr ::= "set" "(" Ident "," Pair ")";
 
 --Array rules
-ArrayConstructor.   Expr ::= Type "["Expr"]" "{"[Expr]"}"
+ArrayConstructor.   Expr ::= Type "["Expr"]" "{"[Expr]"}";
 First.              Expr ::= "first" "(" Ident ")";
 Get.                Expr ::= "get" "(" Ident "," Expr ")";
 Length.             Expr ::= "length" "(" Ident ")";

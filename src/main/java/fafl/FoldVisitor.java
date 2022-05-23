@@ -97,6 +97,21 @@ public abstract class FoldVisitor<R,A> implements AllVisitor<R,A> {
       r = combine(p.expr_.accept(this, arg), r, arg);
       return r;
     }
+    public R visit(fafl.Absyn.DictConstructor p, A arg) {
+      R r = leaf(arg);
+      r = combine(p.type_1.accept(this, arg), r, arg);
+      r = combine(p.type_2.accept(this, arg), r, arg);
+      for (Pair x : p.listpair_)
+      {
+        r = combine(x.accept(this, arg), r, arg);
+      }
+      return r;
+    }
+    public R visit(fafl.Absyn.Set p, A arg) {
+      R r = leaf(arg);
+      r = combine(p.pair_.accept(this, arg), r, arg);
+      return r;
+    }
     public R visit(fafl.Absyn.ArrayConstructor p, A arg) {
       R r = leaf(arg);
       r = combine(p.type_.accept(this, arg), r, arg);
@@ -215,6 +230,14 @@ public abstract class FoldVisitor<R,A> implements AllVisitor<R,A> {
     public R visit(fafl.Absyn.FuncReturnType p, A arg) {
       R r = leaf(arg);
       r = combine(p.type_.accept(this, arg), r, arg);
+      return r;
+    }
+
+/* Pair */
+    public R visit(fafl.Absyn.DictPair p, A arg) {
+      R r = leaf(arg);
+      r = combine(p.expr_1.accept(this, arg), r, arg);
+      r = combine(p.expr_2.accept(this, arg), r, arg);
       return r;
     }
 
