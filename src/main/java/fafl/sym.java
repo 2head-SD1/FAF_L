@@ -15,11 +15,15 @@ public class sym {
   public static final int _SYMB_14 = 16;
   public static final int _SYMB_13 = 15;
   public static final int _SYMB_12 = 14;
+  public static final int _SYMB_43 = 45;
   public static final int _SYMB_11 = 13;
   public static final int _SYMB_9 = 11;
+  public static final int _SYMB_42 = 44;
   public static final int _SYMB_8 = 10;
   public static final int _SYMB_10 = 12;
+  public static final int _SYMB_41 = 43;
   public static final int _SYMB_7 = 9;
+  public static final int _SYMB_40 = 42;
   public static final int _SYMB_6 = 8;
   public static final int _SYMB_5 = 7;
   public static final int _SYMB_4 = 6;
@@ -27,9 +31,9 @@ public class sym {
   public static final int _SYMB_2 = 4;
   public static final int _SYMB_1 = 3;
   public static final int _SYMB_0 = 2;
-  public static final int _IDENT_ = 45;
-  public static final int _INTEGER_ = 43;
-  public static final int _STRING_ = 42;
+  public static final int _IDENT_ = 49;
+  public static final int _INTEGER_ = 47;
+  public static final int _STRING_ = 46;
   public static final int _SYMB_39 = 41;
   public static final int _SYMB_38 = 40;
   public static final int _SYMB_37 = 39;
@@ -52,7 +56,7 @@ public class sym {
   public static final int _SYMB_22 = 24;
   public static final int _SYMB_21 = 23;
   public static final int _SYMB_20 = 22;
-  public static final int _DOUBLE_ = 44;
+  public static final int _DOUBLE_ = 48;
   public static final int _SYMB_19 = 21;
   public static final String[] terminalNames = new String[] {
   "EOF",
@@ -97,6 +101,10 @@ public class sym {
   "_SYMB_37",
   "_SYMB_38",
   "_SYMB_39",
+  "_SYMB_40",
+  "_SYMB_41",
+  "_SYMB_42",
+  "_SYMB_43",
   "_STRING_",
   "_INTEGER_",
   "_DOUBLE_",

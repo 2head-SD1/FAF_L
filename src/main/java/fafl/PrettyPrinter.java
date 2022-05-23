@@ -153,36 +153,6 @@ public class PrettyPrinter
     buf_.delete(0,buf_.length());
     return temp;
   }
-  public static String print(fafl.Absyn.Raise foo)
-  {
-    pp(foo, 0);
-    trim();
-    String temp = buf_.toString();
-    buf_.delete(0,buf_.length());
-    return temp;
-  }
-  public static String show(fafl.Absyn.Raise foo)
-  {
-    sh(foo);
-    String temp = buf_.toString();
-    buf_.delete(0,buf_.length());
-    return temp;
-  }
-  public static String print(fafl.Absyn.ATryCatch foo)
-  {
-    pp(foo, 0);
-    trim();
-    String temp = buf_.toString();
-    buf_.delete(0,buf_.length());
-    return temp;
-  }
-  public static String show(fafl.Absyn.ATryCatch foo)
-  {
-    sh(foo);
-    String temp = buf_.toString();
-    buf_.delete(0,buf_.length());
-    return temp;
-  }
   public static String print(fafl.Absyn.ATypedArg foo)
   {
     pp(foo, 0);
@@ -415,6 +385,74 @@ public class PrettyPrinter
        render("}");
        if (_i_ > 0) render(_R_PAREN);
     }
+    else     if (foo instanceof fafl.Absyn.ArrayConstructor)
+    {
+       fafl.Absyn.ArrayConstructor _arrayconstructor = (fafl.Absyn.ArrayConstructor) foo;
+       if (_i_ > 0) render(_L_PAREN);
+       pp(_arrayconstructor.type_, 0);
+       render("[");
+       pp(_arrayconstructor.expr_, 0);
+       render("]");
+       render("{");
+       pp(_arrayconstructor.listexpr_, 0);
+       render("}");
+       if (_i_ > 0) render(_R_PAREN);
+    }
+    else     if (foo instanceof fafl.Absyn.First)
+    {
+       fafl.Absyn.First _first = (fafl.Absyn.First) foo;
+       if (_i_ > 0) render(_L_PAREN);
+       render("first");
+       render("(");
+       pp(_first.ident_, 0);
+       render(")");
+       if (_i_ > 0) render(_R_PAREN);
+    }
+    else     if (foo instanceof fafl.Absyn.Get)
+    {
+       fafl.Absyn.Get _get = (fafl.Absyn.Get) foo;
+       if (_i_ > 0) render(_L_PAREN);
+       render("get");
+       render("(");
+       pp(_get.ident_, 0);
+       render(",");
+       pp(_get.expr_, 0);
+       render(")");
+       if (_i_ > 0) render(_R_PAREN);
+    }
+    else     if (foo instanceof fafl.Absyn.Length)
+    {
+       fafl.Absyn.Length _length = (fafl.Absyn.Length) foo;
+       if (_i_ > 0) render(_L_PAREN);
+       render("length");
+       render("(");
+       pp(_length.ident_, 0);
+       render(")");
+       if (_i_ > 0) render(_R_PAREN);
+    }
+    else     if (foo instanceof fafl.Absyn.RaiseEx)
+    {
+       fafl.Absyn.RaiseEx _raiseex = (fafl.Absyn.RaiseEx) foo;
+       if (_i_ > 0) render(_L_PAREN);
+       render("raise");
+       render("Exception");
+       render("(");
+       pp(_raiseex.string_, 0);
+       render(")");
+       if (_i_ > 0) render(_R_PAREN);
+    }
+    else     if (foo instanceof fafl.Absyn.TryCatch)
+    {
+       fafl.Absyn.TryCatch _trycatch = (fafl.Absyn.TryCatch) foo;
+       if (_i_ > 0) render(_L_PAREN);
+       render("try");
+       pp(_trycatch.expr_1, 0);
+       render("catch");
+       render("(");
+       pp(_trycatch.expr_2, 0);
+       render(")");
+       if (_i_ > 0) render(_R_PAREN);
+    }
     else     if (foo instanceof fafl.Absyn.Plus)
     {
        fafl.Absyn.Plus _plus = (fafl.Absyn.Plus) foo;
@@ -452,6 +490,18 @@ public class PrettyPrinter
        render("div");
        render("(");
        pp(_div.listexpr_, 0);
+       render(")");
+       if (_i_ > 0) render(_R_PAREN);
+    }
+    else     if (foo instanceof fafl.Absyn.Equals)
+    {
+       fafl.Absyn.Equals _equals = (fafl.Absyn.Equals) foo;
+       if (_i_ > 0) render(_L_PAREN);
+       render("equals");
+       render("(");
+       pp(_equals.expr_1, 0);
+       render(",");
+       pp(_equals.expr_2, 0);
        render(")");
        if (_i_ > 0) render(_R_PAREN);
     }
@@ -561,37 +611,6 @@ public class PrettyPrinter
     }
   }
 
-  private static void pp(fafl.Absyn.Raise foo, int _i_)
-  {
-    if (foo instanceof fafl.Absyn.RaiseEx)
-    {
-       fafl.Absyn.RaiseEx _raiseex = (fafl.Absyn.RaiseEx) foo;
-       if (_i_ > 0) render(_L_PAREN);
-       render("raise");
-       render("Exception");
-       render("(");
-       pp(_raiseex.string_, 0);
-       render(")");
-       if (_i_ > 0) render(_R_PAREN);
-    }
-  }
-
-  private static void pp(fafl.Absyn.ATryCatch foo, int _i_)
-  {
-    if (foo instanceof fafl.Absyn.TryCatch)
-    {
-       fafl.Absyn.TryCatch _trycatch = (fafl.Absyn.TryCatch) foo;
-       if (_i_ > 0) render(_L_PAREN);
-       render("try");
-       pp(_trycatch.expr_1, 0);
-       render("catch");
-       render("(");
-       pp(_trycatch.expr_2, 0);
-       render(")");
-       if (_i_ > 0) render(_R_PAREN);
-    }
-  }
-
   private static void pp(fafl.Absyn.ATypedArg foo, int _i_)
   {
     if (foo instanceof fafl.Absyn.TypedArg)
@@ -651,48 +670,48 @@ public class PrettyPrinter
     if (foo instanceof fafl.Absyn.BoolType)
     {
        fafl.Absyn.BoolType _booltype = (fafl.Absyn.BoolType) foo;
-       if (_i_ > 0) render(_L_PAREN);
+       if (_i_ > 1) render(_L_PAREN);
        render("Bool");
-       if (_i_ > 0) render(_R_PAREN);
+       if (_i_ > 1) render(_R_PAREN);
     }
     else     if (foo instanceof fafl.Absyn.IntType)
     {
        fafl.Absyn.IntType _inttype = (fafl.Absyn.IntType) foo;
-       if (_i_ > 0) render(_L_PAREN);
+       if (_i_ > 1) render(_L_PAREN);
        render("Int");
-       if (_i_ > 0) render(_R_PAREN);
+       if (_i_ > 1) render(_R_PAREN);
     }
     else     if (foo instanceof fafl.Absyn.DoubleType)
     {
        fafl.Absyn.DoubleType _doubletype = (fafl.Absyn.DoubleType) foo;
-       if (_i_ > 0) render(_L_PAREN);
+       if (_i_ > 1) render(_L_PAREN);
        render("Double");
-       if (_i_ > 0) render(_R_PAREN);
+       if (_i_ > 1) render(_R_PAREN);
     }
     else     if (foo instanceof fafl.Absyn.StringType)
     {
        fafl.Absyn.StringType _stringtype = (fafl.Absyn.StringType) foo;
-       if (_i_ > 0) render(_L_PAREN);
+       if (_i_ > 1) render(_L_PAREN);
        render("String");
-       if (_i_ > 0) render(_R_PAREN);
+       if (_i_ > 1) render(_R_PAREN);
     }
     else     if (foo instanceof fafl.Absyn.ArrayType)
     {
        fafl.Absyn.ArrayType _arraytype = (fafl.Absyn.ArrayType) foo;
-       if (_i_ > 0) render(_L_PAREN);
+       if (_i_ > 1) render(_L_PAREN);
        render("[");
        pp(_arraytype.type_, 0);
        render("]");
-       if (_i_ > 0) render(_R_PAREN);
+       if (_i_ > 1) render(_R_PAREN);
     }
     else     if (foo instanceof fafl.Absyn.StructType)
     {
        fafl.Absyn.StructType _structtype = (fafl.Absyn.StructType) foo;
-       if (_i_ > 0) render(_L_PAREN);
+       if (_i_ > 1) render(_L_PAREN);
        render("<");
        pp(_structtype.ident_, 0);
        render(">");
-       if (_i_ > 0) render(_R_PAREN);
+       if (_i_ > 1) render(_R_PAREN);
     }
     else     if (foo instanceof fafl.Absyn.StructFieldType)
     {
@@ -707,7 +726,7 @@ public class PrettyPrinter
     {
        fafl.Absyn.FuncType _functype = (fafl.Absyn.FuncType) foo;
        if (_i_ > 0) render(_L_PAREN);
-       pp(_functype.type_1, 0);
+       pp(_functype.type_1, 1);
        render("->");
        pp(_functype.type_2, 0);
        if (_i_ > 0) render(_R_PAREN);
@@ -865,6 +884,60 @@ public class PrettyPrinter
        sh(_lambda.expr_);
        render(")");
     }
+    if (foo instanceof fafl.Absyn.ArrayConstructor)
+    {
+       fafl.Absyn.ArrayConstructor _arrayconstructor = (fafl.Absyn.ArrayConstructor) foo;
+       render("(");
+       render("ArrayConstructor");
+       sh(_arrayconstructor.type_);
+       sh(_arrayconstructor.expr_);
+       render("[");
+       sh(_arrayconstructor.listexpr_);
+       render("]");
+       render(")");
+    }
+    if (foo instanceof fafl.Absyn.First)
+    {
+       fafl.Absyn.First _first = (fafl.Absyn.First) foo;
+       render("(");
+       render("First");
+       sh(_first.ident_);
+       render(")");
+    }
+    if (foo instanceof fafl.Absyn.Get)
+    {
+       fafl.Absyn.Get _get = (fafl.Absyn.Get) foo;
+       render("(");
+       render("Get");
+       sh(_get.ident_);
+       sh(_get.expr_);
+       render(")");
+    }
+    if (foo instanceof fafl.Absyn.Length)
+    {
+       fafl.Absyn.Length _length = (fafl.Absyn.Length) foo;
+       render("(");
+       render("Length");
+       sh(_length.ident_);
+       render(")");
+    }
+    if (foo instanceof fafl.Absyn.RaiseEx)
+    {
+       fafl.Absyn.RaiseEx _raiseex = (fafl.Absyn.RaiseEx) foo;
+       render("(");
+       render("RaiseEx");
+       sh(_raiseex.string_);
+       render(")");
+    }
+    if (foo instanceof fafl.Absyn.TryCatch)
+    {
+       fafl.Absyn.TryCatch _trycatch = (fafl.Absyn.TryCatch) foo;
+       render("(");
+       render("TryCatch");
+       sh(_trycatch.expr_1);
+       sh(_trycatch.expr_2);
+       render(")");
+    }
     if (foo instanceof fafl.Absyn.Plus)
     {
        fafl.Absyn.Plus _plus = (fafl.Absyn.Plus) foo;
@@ -903,6 +976,15 @@ public class PrettyPrinter
        render("[");
        sh(_div.listexpr_);
        render("]");
+       render(")");
+    }
+    if (foo instanceof fafl.Absyn.Equals)
+    {
+       fafl.Absyn.Equals _equals = (fafl.Absyn.Equals) foo;
+       render("(");
+       render("Equals");
+       sh(_equals.expr_1);
+       sh(_equals.expr_2);
        render(")");
     }
     if (foo instanceof fafl.Absyn.IsLess)
@@ -988,31 +1070,6 @@ public class PrettyPrinter
        render("(");
        render("FuncReturnType");
        sh(_funcreturntype.type_);
-       render(")");
-    }
-  }
-
-  private static void sh(fafl.Absyn.Raise foo)
-  {
-    if (foo instanceof fafl.Absyn.RaiseEx)
-    {
-       fafl.Absyn.RaiseEx _raiseex = (fafl.Absyn.RaiseEx) foo;
-       render("(");
-       render("RaiseEx");
-       sh(_raiseex.string_);
-       render(")");
-    }
-  }
-
-  private static void sh(fafl.Absyn.ATryCatch foo)
-  {
-    if (foo instanceof fafl.Absyn.TryCatch)
-    {
-       fafl.Absyn.TryCatch _trycatch = (fafl.Absyn.TryCatch) foo;
-       render("(");
-       render("TryCatch");
-       sh(_trycatch.expr_1);
-       sh(_trycatch.expr_2);
        render(")");
     }
   }

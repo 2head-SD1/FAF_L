@@ -8,8 +8,6 @@ public class ComposVisitor<A> implements
   fafl.Absyn.Expr.Visitor<fafl.Absyn.Expr,A>,
   fafl.Absyn.Bool.Visitor<fafl.Absyn.Bool,A>,
   fafl.Absyn.AFuncReturnType.Visitor<fafl.Absyn.AFuncReturnType,A>,
-  fafl.Absyn.Raise.Visitor<fafl.Absyn.Raise,A>,
-  fafl.Absyn.ATryCatch.Visitor<fafl.Absyn.ATryCatch,A>,
   fafl.Absyn.ATypedArg.Visitor<fafl.Absyn.ATypedArg,A>,
   fafl.Absyn.Args.Visitor<fafl.Absyn.Args,A>,
   fafl.Absyn.Arg.Visitor<fafl.Absyn.Arg,A>,
@@ -104,6 +102,38 @@ public class ComposVisitor<A> implements
       AFuncReturnType afuncreturntype_ = p.afuncreturntype_.accept(this, arg);
       Expr expr_ = p.expr_.accept(this, arg);
       return new fafl.Absyn.Lambda(listatypedarg_, afuncreturntype_, expr_);
+    }    public Expr visit(fafl.Absyn.ArrayConstructor p, A arg)
+    {
+      Type type_ = p.type_.accept(this, arg);
+      Expr expr_ = p.expr_.accept(this, arg);
+      ListExpr listexpr_ = new ListExpr();
+      for (Expr x : p.listexpr_)
+      {
+        listexpr_.add(x.accept(this,arg));
+      }
+      return new fafl.Absyn.ArrayConstructor(type_, expr_, listexpr_);
+    }    public Expr visit(fafl.Absyn.First p, A arg)
+    {
+      String ident_ = p.ident_;
+      return new fafl.Absyn.First(ident_);
+    }    public Expr visit(fafl.Absyn.Get p, A arg)
+    {
+      String ident_ = p.ident_;
+      Expr expr_ = p.expr_.accept(this, arg);
+      return new fafl.Absyn.Get(ident_, expr_);
+    }    public Expr visit(fafl.Absyn.Length p, A arg)
+    {
+      String ident_ = p.ident_;
+      return new fafl.Absyn.Length(ident_);
+    }    public Expr visit(fafl.Absyn.RaiseEx p, A arg)
+    {
+      String string_ = p.string_;
+      return new fafl.Absyn.RaiseEx(string_);
+    }    public Expr visit(fafl.Absyn.TryCatch p, A arg)
+    {
+      Expr expr_1 = p.expr_1.accept(this, arg);
+      Expr expr_2 = p.expr_2.accept(this, arg);
+      return new fafl.Absyn.TryCatch(expr_1, expr_2);
     }    public Expr visit(fafl.Absyn.Plus p, A arg)
     {
       ListExpr listexpr_ = new ListExpr();
@@ -136,6 +166,11 @@ public class ComposVisitor<A> implements
         listexpr_.add(x.accept(this,arg));
       }
       return new fafl.Absyn.Div(listexpr_);
+    }    public Expr visit(fafl.Absyn.Equals p, A arg)
+    {
+      Expr expr_1 = p.expr_1.accept(this, arg);
+      Expr expr_2 = p.expr_2.accept(this, arg);
+      return new fafl.Absyn.Equals(expr_1, expr_2);
     }    public Expr visit(fafl.Absyn.IsLess p, A arg)
     {
       Expr expr_1 = p.expr_1.accept(this, arg);
@@ -177,19 +212,6 @@ public class ComposVisitor<A> implements
     {
       Type type_ = p.type_.accept(this, arg);
       return new fafl.Absyn.FuncReturnType(type_);
-    }
-/* Raise */
-    public Raise visit(fafl.Absyn.RaiseEx p, A arg)
-    {
-      String string_ = p.string_;
-      return new fafl.Absyn.RaiseEx(string_);
-    }
-/* ATryCatch */
-    public ATryCatch visit(fafl.Absyn.TryCatch p, A arg)
-    {
-      Expr expr_1 = p.expr_1.accept(this, arg);
-      Expr expr_2 = p.expr_2.accept(this, arg);
-      return new fafl.Absyn.TryCatch(expr_1, expr_2);
     }
 /* ATypedArg */
     public ATypedArg visit(fafl.Absyn.TypedArg p, A arg)

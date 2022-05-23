@@ -16,10 +16,17 @@ public abstract class Expr implements java.io.Serializable {
     public R visit(fafl.Absyn.StructField p, A arg);
     public R visit(fafl.Absyn.If p, A arg);
     public R visit(fafl.Absyn.Lambda p, A arg);
+    public R visit(fafl.Absyn.ArrayConstructor p, A arg);
+    public R visit(fafl.Absyn.First p, A arg);
+    public R visit(fafl.Absyn.Get p, A arg);
+    public R visit(fafl.Absyn.Length p, A arg);
+    public R visit(fafl.Absyn.RaiseEx p, A arg);
+    public R visit(fafl.Absyn.TryCatch p, A arg);
     public R visit(fafl.Absyn.Plus p, A arg);
     public R visit(fafl.Absyn.Minus p, A arg);
     public R visit(fafl.Absyn.Mul p, A arg);
     public R visit(fafl.Absyn.Div p, A arg);
+    public R visit(fafl.Absyn.Equals p, A arg);
     public R visit(fafl.Absyn.IsLess p, A arg);
     public R visit(fafl.Absyn.IsGreater p, A arg);
     public R visit(fafl.Absyn.And p, A arg);

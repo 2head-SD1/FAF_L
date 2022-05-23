@@ -97,6 +97,39 @@ public abstract class FoldVisitor<R,A> implements AllVisitor<R,A> {
       r = combine(p.expr_.accept(this, arg), r, arg);
       return r;
     }
+    public R visit(fafl.Absyn.ArrayConstructor p, A arg) {
+      R r = leaf(arg);
+      r = combine(p.type_.accept(this, arg), r, arg);
+      r = combine(p.expr_.accept(this, arg), r, arg);
+      for (Expr x : p.listexpr_)
+      {
+        r = combine(x.accept(this, arg), r, arg);
+      }
+      return r;
+    }
+    public R visit(fafl.Absyn.First p, A arg) {
+      R r = leaf(arg);
+      return r;
+    }
+    public R visit(fafl.Absyn.Get p, A arg) {
+      R r = leaf(arg);
+      r = combine(p.expr_.accept(this, arg), r, arg);
+      return r;
+    }
+    public R visit(fafl.Absyn.Length p, A arg) {
+      R r = leaf(arg);
+      return r;
+    }
+    public R visit(fafl.Absyn.RaiseEx p, A arg) {
+      R r = leaf(arg);
+      return r;
+    }
+    public R visit(fafl.Absyn.TryCatch p, A arg) {
+      R r = leaf(arg);
+      r = combine(p.expr_1.accept(this, arg), r, arg);
+      r = combine(p.expr_2.accept(this, arg), r, arg);
+      return r;
+    }
     public R visit(fafl.Absyn.Plus p, A arg) {
       R r = leaf(arg);
       for (Expr x : p.listexpr_)
@@ -127,6 +160,12 @@ public abstract class FoldVisitor<R,A> implements AllVisitor<R,A> {
       {
         r = combine(x.accept(this, arg), r, arg);
       }
+      return r;
+    }
+    public R visit(fafl.Absyn.Equals p, A arg) {
+      R r = leaf(arg);
+      r = combine(p.expr_1.accept(this, arg), r, arg);
+      r = combine(p.expr_2.accept(this, arg), r, arg);
       return r;
     }
     public R visit(fafl.Absyn.IsLess p, A arg) {
@@ -176,20 +215,6 @@ public abstract class FoldVisitor<R,A> implements AllVisitor<R,A> {
     public R visit(fafl.Absyn.FuncReturnType p, A arg) {
       R r = leaf(arg);
       r = combine(p.type_.accept(this, arg), r, arg);
-      return r;
-    }
-
-/* Raise */
-    public R visit(fafl.Absyn.RaiseEx p, A arg) {
-      R r = leaf(arg);
-      return r;
-    }
-
-/* ATryCatch */
-    public R visit(fafl.Absyn.TryCatch p, A arg) {
-      R r = leaf(arg);
-      r = combine(p.expr_1.accept(this, arg), r, arg);
-      r = combine(p.expr_2.accept(this, arg), r, arg);
       return r;
     }
 

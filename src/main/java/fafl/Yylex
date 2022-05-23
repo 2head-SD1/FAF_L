@@ -47,23 +47,27 @@ IDENT = ({LETTER}|{DIGIT}|['_])
 <YYINITIAL>define { return new Symbol(sym._SYMB_20); }
 <YYINITIAL>div { return new Symbol(sym._SYMB_21); }
 <YYINITIAL>else { return new Symbol(sym._SYMB_22); }
-<YYINITIAL>false { return new Symbol(sym._SYMB_23); }
-<YYINITIAL>if { return new Symbol(sym._SYMB_24); }
-<YYINITIAL>isgreater { return new Symbol(sym._SYMB_25); }
-<YYINITIAL>isless { return new Symbol(sym._SYMB_26); }
-<YYINITIAL>lambda { return new Symbol(sym._SYMB_27); }
-<YYINITIAL>minus { return new Symbol(sym._SYMB_28); }
-<YYINITIAL>mul { return new Symbol(sym._SYMB_29); }
-<YYINITIAL>or { return new Symbol(sym._SYMB_30); }
-<YYINITIAL>plus { return new Symbol(sym._SYMB_31); }
-<YYINITIAL>printline { return new Symbol(sym._SYMB_32); }
-<YYINITIAL>raise { return new Symbol(sym._SYMB_33); }
-<YYINITIAL>readline { return new Symbol(sym._SYMB_34); }
-<YYINITIAL>setq { return new Symbol(sym._SYMB_35); }
-<YYINITIAL>struct { return new Symbol(sym._SYMB_36); }
-<YYINITIAL>then { return new Symbol(sym._SYMB_37); }
-<YYINITIAL>true { return new Symbol(sym._SYMB_38); }
-<YYINITIAL>try { return new Symbol(sym._SYMB_39); }
+<YYINITIAL>equals { return new Symbol(sym._SYMB_23); }
+<YYINITIAL>false { return new Symbol(sym._SYMB_24); }
+<YYINITIAL>first { return new Symbol(sym._SYMB_25); }
+<YYINITIAL>get { return new Symbol(sym._SYMB_26); }
+<YYINITIAL>if { return new Symbol(sym._SYMB_27); }
+<YYINITIAL>isgreater { return new Symbol(sym._SYMB_28); }
+<YYINITIAL>isless { return new Symbol(sym._SYMB_29); }
+<YYINITIAL>lambda { return new Symbol(sym._SYMB_30); }
+<YYINITIAL>length { return new Symbol(sym._SYMB_31); }
+<YYINITIAL>minus { return new Symbol(sym._SYMB_32); }
+<YYINITIAL>mul { return new Symbol(sym._SYMB_33); }
+<YYINITIAL>or { return new Symbol(sym._SYMB_34); }
+<YYINITIAL>plus { return new Symbol(sym._SYMB_35); }
+<YYINITIAL>printline { return new Symbol(sym._SYMB_36); }
+<YYINITIAL>raise { return new Symbol(sym._SYMB_37); }
+<YYINITIAL>readline { return new Symbol(sym._SYMB_38); }
+<YYINITIAL>setq { return new Symbol(sym._SYMB_39); }
+<YYINITIAL>struct { return new Symbol(sym._SYMB_40); }
+<YYINITIAL>then { return new Symbol(sym._SYMB_41); }
+<YYINITIAL>true { return new Symbol(sym._SYMB_42); }
+<YYINITIAL>try { return new Symbol(sym._SYMB_43); }
 <YYINITIAL>"//"[^\n]*\n { /* BNFC single-line comment */ }
 <YYINITIAL>"/*" { yybegin(COMMENT); }
 <COMMENT>"*/" { yybegin(YYINITIAL); }

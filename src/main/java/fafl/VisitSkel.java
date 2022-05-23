@@ -89,6 +89,35 @@ public class VisitSkel
       p.afuncreturntype_.accept(new AFuncReturnTypeVisitor<R,A>(), arg);
       p.expr_.accept(new ExprVisitor<R,A>(), arg);
       return null;
+    }    public R visit(fafl.Absyn.ArrayConstructor p, A arg)
+    { /* Code For ArrayConstructor Goes Here */
+      p.type_.accept(new TypeVisitor<R,A>(), arg);
+      p.expr_.accept(new ExprVisitor<R,A>(), arg);
+      for (Expr x: p.listexpr_)
+      { /* ... */ }
+      return null;
+    }    public R visit(fafl.Absyn.First p, A arg)
+    { /* Code For First Goes Here */
+      //p.ident_;
+      return null;
+    }    public R visit(fafl.Absyn.Get p, A arg)
+    { /* Code For Get Goes Here */
+      //p.ident_;
+      p.expr_.accept(new ExprVisitor<R,A>(), arg);
+      return null;
+    }    public R visit(fafl.Absyn.Length p, A arg)
+    { /* Code For Length Goes Here */
+      //p.ident_;
+      return null;
+    }    public R visit(fafl.Absyn.RaiseEx p, A arg)
+    { /* Code For RaiseEx Goes Here */
+      //p.string_;
+      return null;
+    }    public R visit(fafl.Absyn.TryCatch p, A arg)
+    { /* Code For TryCatch Goes Here */
+      p.expr_1.accept(new ExprVisitor<R,A>(), arg);
+      p.expr_2.accept(new ExprVisitor<R,A>(), arg);
+      return null;
     }    public R visit(fafl.Absyn.Plus p, A arg)
     { /* Code For Plus Goes Here */
       for (Expr x: p.listexpr_)
@@ -108,6 +137,11 @@ public class VisitSkel
     { /* Code For Div Goes Here */
       for (Expr x: p.listexpr_)
       { /* ... */ }
+      return null;
+    }    public R visit(fafl.Absyn.Equals p, A arg)
+    { /* Code For Equals Goes Here */
+      p.expr_1.accept(new ExprVisitor<R,A>(), arg);
+      p.expr_2.accept(new ExprVisitor<R,A>(), arg);
       return null;
     }    public R visit(fafl.Absyn.IsLess p, A arg)
     { /* Code For IsLess Goes Here */
@@ -153,23 +187,6 @@ public class VisitSkel
     public R visit(fafl.Absyn.FuncReturnType p, A arg)
     { /* Code For FuncReturnType Goes Here */
       p.type_.accept(new TypeVisitor<R,A>(), arg);
-      return null;
-    }
-  }
-  public class RaiseVisitor<R,A> implements Raise.Visitor<R,A>
-  {
-    public R visit(fafl.Absyn.RaiseEx p, A arg)
-    { /* Code For RaiseEx Goes Here */
-      //p.string_;
-      return null;
-    }
-  }
-  public class ATryCatchVisitor<R,A> implements ATryCatch.Visitor<R,A>
-  {
-    public R visit(fafl.Absyn.TryCatch p, A arg)
-    { /* Code For TryCatch Goes Here */
-      p.expr_1.accept(new ExprVisitor<R,A>(), arg);
-      p.expr_2.accept(new ExprVisitor<R,A>(), arg);
       return null;
     }
   }
@@ -225,7 +242,7 @@ public class VisitSkel
     { /* Code For StructType Goes Here */
       //p.ident_;
       return null;
-    }    public R visit(fafl.Absyn.StructFieldType p, A arg)
+    }        public R visit(fafl.Absyn.StructFieldType p, A arg)
     { /* Code For StructFieldType Goes Here */
       p.type_.accept(new TypeVisitor<R,A>(), arg);
       return null;
@@ -234,6 +251,6 @@ public class VisitSkel
       p.type_1.accept(new TypeVisitor<R,A>(), arg);
       p.type_2.accept(new TypeVisitor<R,A>(), arg);
       return null;
-    }
+    }    
   }
 }
