@@ -79,19 +79,19 @@ public class ArithmeticEvaluator
 
         if (inMinusExprList.get(0) instanceof IntConst)
         {
-            Integer ans = 0;
-            for (Expr inMinusExpr : inMinusExprList)
+            Integer ans = ((IntConst) inMinusExprList.get(0)).integer_;
+            for (int i = 1; i < inMinusExprList.size(); i++)
             {
-                ans -= ((IntConst) inMinusExpr).integer_;
+                ans -= ((IntConst) inMinusExprList.get(i)).integer_;
             }
             return new IntConst(ans);
         }
         else if (inMinusExprList.get(0) instanceof DoubleConst)
         {
-            Double ans = 0.0;
-            for (Expr inMinusExpr : inMinusExprList)
+            Double ans = ((DoubleConst) inMinusExprList.get(0)).double_;
+            for (int i = 1; i < inMinusExprList.size(); i++)
             {
-                ans -= ((DoubleConst) inMinusExpr).double_;
+                ans -= ((DoubleConst) inMinusExprList.get(0)).double_;
             }
             return new DoubleConst(ans);
         }
@@ -108,19 +108,19 @@ public class ArithmeticEvaluator
 
         if (inMulExprList.get(0) instanceof IntConst)
         {
-            Integer ans = 0;
-            for (Expr inMulExpr : inMulExprList)
+            Integer ans = ((IntConst) inMulExprList.get(0)).integer_;
+            for (int i = 1; i < inMulExprList.size(); i++)
             {
-                ans *= ((IntConst) inMulExpr).integer_;
+                ans *= ((IntConst) inMulExprList.get(i)).integer_;
             }
             return new IntConst(ans);
         }
         else if (inMulExprList.get(0) instanceof DoubleConst)
         {
-            Double ans = 0.0;
-            for (Expr inMulExpr : inMulExprList)
+            Double ans = ((DoubleConst) inMulExprList.get(0)).double_;
+            for (int i = 1; i < inMulExprList.size(); i++)
             {
-                ans *= ((DoubleConst) inMulExpr).double_;
+                ans *= ((DoubleConst) inMulExprList.get(i)).double_;
             }
             return new DoubleConst(ans);
         }
@@ -137,19 +137,19 @@ public class ArithmeticEvaluator
 
         if (inDivExprList.get(0) instanceof IntConst)
         {
-            Integer ans = 0;
-            for (Expr inDivExpr : inDivExprList)
+            Integer ans = (((IntConst) inDivExprList.get(0)).integer_);
+            for (int i = 1; i < inDivExprList.size(); i++)
             {
-                ans /= ((IntConst) inDivExpr).integer_;
+                ans /= ((IntConst) inDivExprList.get(i)).integer_;
             }
             return new IntConst(ans);
         }
         else if (inDivExprList.get(0) instanceof DoubleConst)
         {
-            Double ans = 0.0;
-            for (Expr inDivExpr : inDivExprList)
+            Double ans = (((DoubleConst) inDivExprList.get(0)).double_);
+            for (int i = 1; i < inDivExprList.size(); i++)
             {
-                ans /= ((DoubleConst) inDivExpr).double_;
+                ans /= ((DoubleConst) inDivExprList.get(i)).double_;
             }
             return new DoubleConst(ans);
         }
