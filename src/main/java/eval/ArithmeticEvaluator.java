@@ -91,7 +91,7 @@ public class ArithmeticEvaluator
             Double ans = ((DoubleConst) inMinusExprList.get(0)).double_;
             for (int i = 1; i < inMinusExprList.size(); i++)
             {
-                ans -= ((DoubleConst) inMinusExprList.get(0)).double_;
+                ans -= ((DoubleConst) inMinusExprList.get(i)).double_;
             }
             return new DoubleConst(ans);
         }
