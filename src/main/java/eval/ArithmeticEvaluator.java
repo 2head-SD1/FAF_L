@@ -136,7 +136,7 @@ public class ArithmeticEvaluator
             Integer ans = 0;
             for (Expr inDivExpr : inDivExprList)
             {
-                ans -= ((IntConst) inDivExpr).integer_;
+                ans /= ((IntConst) inDivExpr).integer_;
             }
             return new IntConst(ans);
         }
@@ -145,7 +145,7 @@ public class ArithmeticEvaluator
             Double ans = 0.0;
             for (Expr inDivExpr : inDivExprList)
             {
-                ans -= ((DoubleConst) inDivExpr).double_;
+                ans /= ((DoubleConst) inDivExpr).double_;
             }
             return new DoubleConst(ans);
         }
