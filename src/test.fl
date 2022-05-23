@@ -3,11 +3,8 @@ setq y:Int minus(2, 5);
 plus(y,plus(minus(x, 3), 2));
 define myFunc(x:Int, y:String)->Int {if true then false else true};
 
-dict numbers<String, Int>();
-set(numbers, ("One" . 1));
-set(numbers, ("Two" . 2));
-set(numbers, ("Three" . 3));
-
+setq numbers:[Int] Int[3]{1, 2, 3};
+array-set (numbers, 0, 9);
 struct Date(day:Int, Month:Int, Year:Int);
 struct Worker(Name:String, Birthdate:<Date>, Salary:Int);
 setq fileContext:String readline;

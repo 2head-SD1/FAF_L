@@ -27,4 +27,15 @@ public class SymbolTable {
             throw new IllegalArgumentException(String.format("Identifier %s does not exist", ident));
         }
     }
+
+    public static SymbolNode removeSymbol(String ident) {
+        if(table.containsKey(ident))
+        {
+            return table.remove(ident);
+        }
+        else
+        {
+            throw new IllegalArgumentException(String.format("Identifier %s does not exist", ident));
+        }
+    }
 }

@@ -14,6 +14,10 @@ public class Evaluator
             return expr;
         }
 
+        if (expr instanceof ArrayConstructor){
+            return expr;
+        }
+
         if (expr instanceof SetqSimple)
         {
             SetqSimple setq = (SetqSimple) expr;
@@ -48,6 +52,11 @@ public class Evaluator
         if (ArithmeticEvaluator.isExprArithmetic(expr))
         {
             return ArithmeticEvaluator.doArithmeticExpr(expr);
+        }
+
+        if (ArrayEval.isArrayExpr(expr))
+        {
+            return ArrayEval.doArrayExpr(expr);
         }
 
         if (BoolPredicateEvaluator.isExprBoolPredicate(expr))

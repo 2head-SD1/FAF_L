@@ -23,11 +23,13 @@ public class AbstractVisitor<R,A> implements AllVisitor<R,A> {
     public R visit(fafl.Absyn.If p, A arg) { return visitDefault(p, arg); }
     public R visit(fafl.Absyn.Lambda p, A arg) { return visitDefault(p, arg); }
     public R visit(fafl.Absyn.DictConstructor p, A arg) { return visitDefault(p, arg); }
-    public R visit(fafl.Absyn.Set p, A arg) { return visitDefault(p, arg); }
+    public R visit(fafl.Absyn.DictSet p, A arg) { return visitDefault(p, arg); }
     public R visit(fafl.Absyn.ArrayConstructor p, A arg) { return visitDefault(p, arg); }
     public R visit(fafl.Absyn.First p, A arg) { return visitDefault(p, arg); }
-    public R visit(fafl.Absyn.Get p, A arg) { return visitDefault(p, arg); }
-    public R visit(fafl.Absyn.Length p, A arg) { return visitDefault(p, arg); }
+    public R visit(fafl.Absyn.Last p, A arg) { return visitDefault(p, arg); }
+    public R visit(fafl.Absyn.ArrayGet p, A arg) { return visitDefault(p, arg); }
+    public R visit(fafl.Absyn.ArraySet p, A arg) { return visitDefault(p, arg); }
+    public R visit(fafl.Absyn.ArrayLength p, A arg) { return visitDefault(p, arg); }
     public R visit(fafl.Absyn.RaiseEx p, A arg) { return visitDefault(p, arg); }
     public R visit(fafl.Absyn.TryCatch p, A arg) { return visitDefault(p, arg); }
     public R visit(fafl.Absyn.Plus p, A arg) { return visitDefault(p, arg); }

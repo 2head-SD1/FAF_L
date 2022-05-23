@@ -107,7 +107,7 @@ public abstract class FoldVisitor<R,A> implements AllVisitor<R,A> {
       }
       return r;
     }
-    public R visit(fafl.Absyn.Set p, A arg) {
+    public R visit(fafl.Absyn.DictSet p, A arg) {
       R r = leaf(arg);
       r = combine(p.pair_.accept(this, arg), r, arg);
       return r;
@@ -124,15 +124,30 @@ public abstract class FoldVisitor<R,A> implements AllVisitor<R,A> {
     }
     public R visit(fafl.Absyn.First p, A arg) {
       R r = leaf(arg);
+      r = combine(p.expr_.accept(this, arg), r, arg);
       return r;
     }
-    public R visit(fafl.Absyn.Get p, A arg) {
+    public R visit(fafl.Absyn.Last p, A arg) {
       R r = leaf(arg);
       r = combine(p.expr_.accept(this, arg), r, arg);
       return r;
     }
-    public R visit(fafl.Absyn.Length p, A arg) {
+    public R visit(fafl.Absyn.ArrayGet p, A arg) {
       R r = leaf(arg);
+      r = combine(p.expr_1.accept(this, arg), r, arg);
+      r = combine(p.expr_2.accept(this, arg), r, arg);
+      return r;
+    }
+    public R visit(fafl.Absyn.ArraySet p, A arg) {
+      R r = leaf(arg);
+      r = combine(p.expr_1.accept(this, arg), r, arg);
+      r = combine(p.expr_2.accept(this, arg), r, arg);
+      r = combine(p.expr_3.accept(this, arg), r, arg);
+      return r;
+    }
+    public R visit(fafl.Absyn.ArrayLength p, A arg) {
+      R r = leaf(arg);
+      r = combine(p.expr_.accept(this, arg), r, arg);
       return r;
     }
     public R visit(fafl.Absyn.RaiseEx p, A arg) {

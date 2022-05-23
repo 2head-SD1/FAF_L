@@ -431,15 +431,15 @@ public class PrettyPrinter
        render(")");
        if (_i_ > 0) render(_R_PAREN);
     }
-    else     if (foo instanceof fafl.Absyn.Set)
+    else     if (foo instanceof fafl.Absyn.DictSet)
     {
-       fafl.Absyn.Set _set = (fafl.Absyn.Set) foo;
+       fafl.Absyn.DictSet _dictset = (fafl.Absyn.DictSet) foo;
        if (_i_ > 0) render(_L_PAREN);
-       render("set");
+       render("dict-set");
        render("(");
-       pp(_set.ident_, 0);
+       pp(_dictset.ident_, 0);
        render(",");
-       pp(_set.pair_, 0);
+       pp(_dictset.pair_, 0);
        render(")");
        if (_i_ > 0) render(_R_PAREN);
     }
@@ -462,29 +462,53 @@ public class PrettyPrinter
        if (_i_ > 0) render(_L_PAREN);
        render("first");
        render("(");
-       pp(_first.ident_, 0);
+       pp(_first.expr_, 0);
        render(")");
        if (_i_ > 0) render(_R_PAREN);
     }
-    else     if (foo instanceof fafl.Absyn.Get)
+    else     if (foo instanceof fafl.Absyn.Last)
     {
-       fafl.Absyn.Get _get = (fafl.Absyn.Get) foo;
+       fafl.Absyn.Last _last = (fafl.Absyn.Last) foo;
+       if (_i_ > 0) render(_L_PAREN);
+       render("first");
+       render("(");
+       pp(_last.expr_, 0);
+       render(")");
+       if (_i_ > 0) render(_R_PAREN);
+    }
+    else     if (foo instanceof fafl.Absyn.ArrayGet)
+    {
+       fafl.Absyn.ArrayGet _arrayget = (fafl.Absyn.ArrayGet) foo;
        if (_i_ > 0) render(_L_PAREN);
        render("get");
        render("(");
-       pp(_get.ident_, 0);
+       pp(_arrayget.expr_1, 0);
        render(",");
-       pp(_get.expr_, 0);
+       pp(_arrayget.expr_2, 0);
        render(")");
        if (_i_ > 0) render(_R_PAREN);
     }
-    else     if (foo instanceof fafl.Absyn.Length)
+    else     if (foo instanceof fafl.Absyn.ArraySet)
     {
-       fafl.Absyn.Length _length = (fafl.Absyn.Length) foo;
+       fafl.Absyn.ArraySet _arrayset = (fafl.Absyn.ArraySet) foo;
+       if (_i_ > 0) render(_L_PAREN);
+       render("array-set");
+       render("(");
+       pp(_arrayset.expr_1, 0);
+       render(",");
+       pp(_arrayset.expr_2, 0);
+       render(",");
+       pp(_arrayset.expr_3, 0);
+       render(")");
+       if (_i_ > 0) render(_R_PAREN);
+    }
+    else     if (foo instanceof fafl.Absyn.ArrayLength)
+    {
+       fafl.Absyn.ArrayLength _arraylength = (fafl.Absyn.ArrayLength) foo;
        if (_i_ > 0) render(_L_PAREN);
        render("length");
        render("(");
-       pp(_length.ident_, 0);
+       pp(_arraylength.expr_, 0);
        render(")");
        if (_i_ > 0) render(_R_PAREN);
     }
@@ -982,13 +1006,13 @@ public class PrettyPrinter
        render("]");
        render(")");
     }
-    if (foo instanceof fafl.Absyn.Set)
+    if (foo instanceof fafl.Absyn.DictSet)
     {
-       fafl.Absyn.Set _set = (fafl.Absyn.Set) foo;
+       fafl.Absyn.DictSet _dictset = (fafl.Absyn.DictSet) foo;
        render("(");
-       render("Set");
-       sh(_set.ident_);
-       sh(_set.pair_);
+       render("DictSet");
+       sh(_dictset.ident_);
+       sh(_dictset.pair_);
        render(")");
     }
     if (foo instanceof fafl.Absyn.ArrayConstructor)
@@ -1008,24 +1032,42 @@ public class PrettyPrinter
        fafl.Absyn.First _first = (fafl.Absyn.First) foo;
        render("(");
        render("First");
-       sh(_first.ident_);
+       sh(_first.expr_);
        render(")");
     }
-    if (foo instanceof fafl.Absyn.Get)
+    if (foo instanceof fafl.Absyn.Last)
     {
-       fafl.Absyn.Get _get = (fafl.Absyn.Get) foo;
+       fafl.Absyn.Last _last = (fafl.Absyn.Last) foo;
        render("(");
-       render("Get");
-       sh(_get.ident_);
-       sh(_get.expr_);
+       render("Last");
+       sh(_last.expr_);
        render(")");
     }
-    if (foo instanceof fafl.Absyn.Length)
+    if (foo instanceof fafl.Absyn.ArrayGet)
     {
-       fafl.Absyn.Length _length = (fafl.Absyn.Length) foo;
+       fafl.Absyn.ArrayGet _arrayget = (fafl.Absyn.ArrayGet) foo;
        render("(");
-       render("Length");
-       sh(_length.ident_);
+       render("ArrayGet");
+       sh(_arrayget.expr_1);
+       sh(_arrayget.expr_2);
+       render(")");
+    }
+    if (foo instanceof fafl.Absyn.ArraySet)
+    {
+       fafl.Absyn.ArraySet _arrayset = (fafl.Absyn.ArraySet) foo;
+       render("(");
+       render("ArraySet");
+       sh(_arrayset.expr_1);
+       sh(_arrayset.expr_2);
+       sh(_arrayset.expr_3);
+       render(")");
+    }
+    if (foo instanceof fafl.Absyn.ArrayLength)
+    {
+       fafl.Absyn.ArrayLength _arraylength = (fafl.Absyn.ArrayLength) foo;
+       render("(");
+       render("ArrayLength");
+       sh(_arraylength.expr_);
        render(")");
     }
     if (foo instanceof fafl.Absyn.RaiseEx)

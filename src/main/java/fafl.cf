@@ -38,13 +38,15 @@ Lambda.             Expr ::= "lambda" "("[ATypedArg]")" "->" AFuncReturnType "{"
 DictPair.           Pair ::= "(" Expr "." Expr ")";
 separator           Pair ",";
 DictConstructor.    Expr ::= "dict" Ident "<" Type "," Type ">" "(" [Pair] ")";
-Set.                Expr ::= "set" "(" Ident "," Pair ")";
+DictSet.            Expr ::= "dict-set" "(" Ident "," Pair ")";
 
 --Array rules
 ArrayConstructor.   Expr ::= Type "["Expr"]" "{"[Expr]"}";
-First.              Expr ::= "first" "(" Ident ")";
-Get.                Expr ::= "get" "(" Ident "," Expr ")";
-Length.             Expr ::= "length" "(" Ident ")";
+First.              Expr ::= "first" "("Expr")";
+Last.              Expr ::= "first" "("Expr")";
+ArrayGet.                Expr ::= "get" "(" Expr "," Expr ")";
+ArraySet.                Expr ::= "array-set" "(" Expr "," Expr "," Expr ")";
+ArrayLength.             Expr ::= "length" "("Expr")";
 
 --Exception rules
 RaiseEx.            Expr ::= "raise" "Exception" "("String")";

@@ -97,8 +97,8 @@ public class VisitSkel
       for (Pair x: p.listpair_)
       { /* ... */ }
       return null;
-    }    public R visit(fafl.Absyn.Set p, A arg)
-    { /* Code For Set Goes Here */
+    }    public R visit(fafl.Absyn.DictSet p, A arg)
+    { /* Code For DictSet Goes Here */
       //p.ident_;
       p.pair_.accept(new PairVisitor<R,A>(), arg);
       return null;
@@ -111,16 +111,26 @@ public class VisitSkel
       return null;
     }    public R visit(fafl.Absyn.First p, A arg)
     { /* Code For First Goes Here */
-      //p.ident_;
-      return null;
-    }    public R visit(fafl.Absyn.Get p, A arg)
-    { /* Code For Get Goes Here */
-      //p.ident_;
       p.expr_.accept(new ExprVisitor<R,A>(), arg);
       return null;
-    }    public R visit(fafl.Absyn.Length p, A arg)
-    { /* Code For Length Goes Here */
-      //p.ident_;
+    }    public R visit(fafl.Absyn.Last p, A arg)
+    { /* Code For Last Goes Here */
+      p.expr_.accept(new ExprVisitor<R,A>(), arg);
+      return null;
+    }    public R visit(fafl.Absyn.ArrayGet p, A arg)
+    { /* Code For ArrayGet Goes Here */
+      p.expr_1.accept(new ExprVisitor<R,A>(), arg);
+      p.expr_2.accept(new ExprVisitor<R,A>(), arg);
+      return null;
+    }    public R visit(fafl.Absyn.ArraySet p, A arg)
+    { /* Code For ArraySet Goes Here */
+      p.expr_1.accept(new ExprVisitor<R,A>(), arg);
+      p.expr_2.accept(new ExprVisitor<R,A>(), arg);
+      p.expr_3.accept(new ExprVisitor<R,A>(), arg);
+      return null;
+    }    public R visit(fafl.Absyn.ArrayLength p, A arg)
+    { /* Code For ArrayLength Goes Here */
+      p.expr_.accept(new ExprVisitor<R,A>(), arg);
       return null;
     }    public R visit(fafl.Absyn.RaiseEx p, A arg)
     { /* Code For RaiseEx Goes Here */

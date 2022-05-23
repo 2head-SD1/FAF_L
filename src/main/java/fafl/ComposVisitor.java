@@ -114,11 +114,11 @@ public class ComposVisitor<A> implements
         listpair_.add(x.accept(this,arg));
       }
       return new fafl.Absyn.DictConstructor(ident_, type_1, type_2, listpair_);
-    }    public Expr visit(fafl.Absyn.Set p, A arg)
+    }    public Expr visit(fafl.Absyn.DictSet p, A arg)
     {
       String ident_ = p.ident_;
       Pair pair_ = p.pair_.accept(this, arg);
-      return new fafl.Absyn.Set(ident_, pair_);
+      return new fafl.Absyn.DictSet(ident_, pair_);
     }    public Expr visit(fafl.Absyn.ArrayConstructor p, A arg)
     {
       Type type_ = p.type_.accept(this, arg);
@@ -131,17 +131,27 @@ public class ComposVisitor<A> implements
       return new fafl.Absyn.ArrayConstructor(type_, expr_, listexpr_);
     }    public Expr visit(fafl.Absyn.First p, A arg)
     {
-      String ident_ = p.ident_;
-      return new fafl.Absyn.First(ident_);
-    }    public Expr visit(fafl.Absyn.Get p, A arg)
-    {
-      String ident_ = p.ident_;
       Expr expr_ = p.expr_.accept(this, arg);
-      return new fafl.Absyn.Get(ident_, expr_);
-    }    public Expr visit(fafl.Absyn.Length p, A arg)
+      return new fafl.Absyn.First(expr_);
+    }    public Expr visit(fafl.Absyn.Last p, A arg)
     {
-      String ident_ = p.ident_;
-      return new fafl.Absyn.Length(ident_);
+      Expr expr_ = p.expr_.accept(this, arg);
+      return new fafl.Absyn.Last(expr_);
+    }    public Expr visit(fafl.Absyn.ArrayGet p, A arg)
+    {
+      Expr expr_1 = p.expr_1.accept(this, arg);
+      Expr expr_2 = p.expr_2.accept(this, arg);
+      return new fafl.Absyn.ArrayGet(expr_1, expr_2);
+    }    public Expr visit(fafl.Absyn.ArraySet p, A arg)
+    {
+      Expr expr_1 = p.expr_1.accept(this, arg);
+      Expr expr_2 = p.expr_2.accept(this, arg);
+      Expr expr_3 = p.expr_3.accept(this, arg);
+      return new fafl.Absyn.ArraySet(expr_1, expr_2, expr_3);
+    }    public Expr visit(fafl.Absyn.ArrayLength p, A arg)
+    {
+      Expr expr_ = p.expr_.accept(this, arg);
+      return new fafl.Absyn.ArrayLength(expr_);
     }    public Expr visit(fafl.Absyn.RaiseEx p, A arg)
     {
       String string_ = p.string_;
