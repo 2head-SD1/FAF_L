@@ -8,6 +8,7 @@ public class ComposVisitor<A> implements
   fafl.Absyn.Expr.Visitor<fafl.Absyn.Expr,A>,
   fafl.Absyn.Bool.Visitor<fafl.Absyn.Bool,A>,
   fafl.Absyn.AFuncReturnType.Visitor<fafl.Absyn.AFuncReturnType,A>,
+  fafl.Absyn.Pair.Visitor<fafl.Absyn.Pair,A>,
   fafl.Absyn.ATypedArg.Visitor<fafl.Absyn.ATypedArg,A>,
   fafl.Absyn.Args.Visitor<fafl.Absyn.Args,A>,
   fafl.Absyn.Arg.Visitor<fafl.Absyn.Arg,A>,
@@ -102,6 +103,22 @@ public class ComposVisitor<A> implements
       AFuncReturnType afuncreturntype_ = p.afuncreturntype_.accept(this, arg);
       Expr expr_ = p.expr_.accept(this, arg);
       return new fafl.Absyn.Lambda(listatypedarg_, afuncreturntype_, expr_);
+    }    public Expr visit(fafl.Absyn.DictConstructor p, A arg)
+    {
+      String ident_ = p.ident_;
+      Type type_1 = p.type_1.accept(this, arg);
+      Type type_2 = p.type_2.accept(this, arg);
+      ListPair listpair_ = new ListPair();
+      for (Pair x : p.listpair_)
+      {
+        listpair_.add(x.accept(this,arg));
+      }
+      return new fafl.Absyn.DictConstructor(ident_, type_1, type_2, listpair_);
+    }    public Expr visit(fafl.Absyn.Set p, A arg)
+    {
+      String ident_ = p.ident_;
+      Pair pair_ = p.pair_.accept(this, arg);
+      return new fafl.Absyn.Set(ident_, pair_);
     }    public Expr visit(fafl.Absyn.ArrayConstructor p, A arg)
     {
       Type type_ = p.type_.accept(this, arg);
@@ -212,6 +229,13 @@ public class ComposVisitor<A> implements
     {
       Type type_ = p.type_.accept(this, arg);
       return new fafl.Absyn.FuncReturnType(type_);
+    }
+/* Pair */
+    public Pair visit(fafl.Absyn.DictPair p, A arg)
+    {
+      Expr expr_1 = p.expr_1.accept(this, arg);
+      Expr expr_2 = p.expr_2.accept(this, arg);
+      return new fafl.Absyn.DictPair(expr_1, expr_2);
     }
 /* ATypedArg */
     public ATypedArg visit(fafl.Absyn.TypedArg p, A arg)

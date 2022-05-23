@@ -1,11 +1,8 @@
 package fafl;
-
-import eval.Evaluator;
-import fafl.Absyn.Program;
-
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.InputStreamReader;
+import java_cup.runtime.*;
+import fafl.*;
+import fafl.Absyn.*;
+import java.io.*;
 
 public class Test
 {
@@ -27,15 +24,10 @@ public class Test
     /* The default parser is the first-defined entry point. */
     /* You may want to change this. Other options are: */
     /* pListExpr, pExpr, pBool, pListATypedArg, pAFuncReturnType,
-       pATypedArg, pArgs, pListArg, pArg, pType */
+       pPair, pListPair, pATypedArg, pArgs, pListArg, pArg, pType */
     try
     {
       fafl.Absyn.ProgramExprs parse_tree = p.pProgramExprs();
-      Program program = (Program)parse_tree;
-      for(var expr : program.listexpr_)
-      {
-        System.out.println(PrettyPrinter.show(Evaluator.evalStep(expr)));
-      }
       System.out.println();
       System.out.println("Parse Succesful!");
       System.out.println();
@@ -51,7 +43,7 @@ public class Test
     {
       System.err.println("At line " + String.valueOf(l.line_num()) + ", near \"" + l.buff() + "\" :");
       System.err.println("     " + e.getMessage());
-      System.exit(0);
+      System.exit(1);
     }
   }
 }

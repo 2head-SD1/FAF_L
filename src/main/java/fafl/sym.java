@@ -13,7 +13,9 @@ public class sym {
   public static final int _SYMB_16 = 18;
   public static final int _SYMB_15 = 17;
   public static final int _SYMB_14 = 16;
+  public static final int _SYMB_45 = 47;
   public static final int _SYMB_13 = 15;
+  public static final int _SYMB_44 = 46;
   public static final int _SYMB_12 = 14;
   public static final int _SYMB_43 = 45;
   public static final int _SYMB_11 = 13;
@@ -31,9 +33,9 @@ public class sym {
   public static final int _SYMB_2 = 4;
   public static final int _SYMB_1 = 3;
   public static final int _SYMB_0 = 2;
-  public static final int _IDENT_ = 49;
-  public static final int _INTEGER_ = 47;
-  public static final int _STRING_ = 46;
+  public static final int _IDENT_ = 51;
+  public static final int _INTEGER_ = 49;
+  public static final int _STRING_ = 48;
   public static final int _SYMB_39 = 41;
   public static final int _SYMB_38 = 40;
   public static final int _SYMB_37 = 39;
@@ -56,7 +58,7 @@ public class sym {
   public static final int _SYMB_22 = 24;
   public static final int _SYMB_21 = 23;
   public static final int _SYMB_20 = 22;
-  public static final int _DOUBLE_ = 48;
+  public static final int _DOUBLE_ = 50;
   public static final int _SYMB_19 = 21;
   public static final String[] terminalNames = new String[] {
   "EOF",
@@ -105,6 +107,8 @@ public class sym {
   "_SYMB_41",
   "_SYMB_42",
   "_SYMB_43",
+  "_SYMB_44",
+  "_SYMB_45",
   "_STRING_",
   "_INTEGER_",
   "_DOUBLE_",

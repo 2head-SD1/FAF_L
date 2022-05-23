@@ -89,6 +89,19 @@ public class VisitSkel
       p.afuncreturntype_.accept(new AFuncReturnTypeVisitor<R,A>(), arg);
       p.expr_.accept(new ExprVisitor<R,A>(), arg);
       return null;
+    }    public R visit(fafl.Absyn.DictConstructor p, A arg)
+    { /* Code For DictConstructor Goes Here */
+      //p.ident_;
+      p.type_1.accept(new TypeVisitor<R,A>(), arg);
+      p.type_2.accept(new TypeVisitor<R,A>(), arg);
+      for (Pair x: p.listpair_)
+      { /* ... */ }
+      return null;
+    }    public R visit(fafl.Absyn.Set p, A arg)
+    { /* Code For Set Goes Here */
+      //p.ident_;
+      p.pair_.accept(new PairVisitor<R,A>(), arg);
+      return null;
     }    public R visit(fafl.Absyn.ArrayConstructor p, A arg)
     { /* Code For ArrayConstructor Goes Here */
       p.type_.accept(new TypeVisitor<R,A>(), arg);
@@ -187,6 +200,15 @@ public class VisitSkel
     public R visit(fafl.Absyn.FuncReturnType p, A arg)
     { /* Code For FuncReturnType Goes Here */
       p.type_.accept(new TypeVisitor<R,A>(), arg);
+      return null;
+    }
+  }
+  public class PairVisitor<R,A> implements Pair.Visitor<R,A>
+  {
+    public R visit(fafl.Absyn.DictPair p, A arg)
+    { /* Code For DictPair Goes Here */
+      p.expr_1.accept(new ExprVisitor<R,A>(), arg);
+      p.expr_2.accept(new ExprVisitor<R,A>(), arg);
       return null;
     }
   }

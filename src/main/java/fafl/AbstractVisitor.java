@@ -22,6 +22,8 @@ public class AbstractVisitor<R,A> implements AllVisitor<R,A> {
     public R visit(fafl.Absyn.StructField p, A arg) { return visitDefault(p, arg); }
     public R visit(fafl.Absyn.If p, A arg) { return visitDefault(p, arg); }
     public R visit(fafl.Absyn.Lambda p, A arg) { return visitDefault(p, arg); }
+    public R visit(fafl.Absyn.DictConstructor p, A arg) { return visitDefault(p, arg); }
+    public R visit(fafl.Absyn.Set p, A arg) { return visitDefault(p, arg); }
     public R visit(fafl.Absyn.ArrayConstructor p, A arg) { return visitDefault(p, arg); }
     public R visit(fafl.Absyn.First p, A arg) { return visitDefault(p, arg); }
     public R visit(fafl.Absyn.Get p, A arg) { return visitDefault(p, arg); }
@@ -51,6 +53,11 @@ public class AbstractVisitor<R,A> implements AllVisitor<R,A> {
 /* AFuncReturnType */
     public R visit(fafl.Absyn.FuncReturnType p, A arg) { return visitDefault(p, arg); }
     public R visitDefault(fafl.Absyn.AFuncReturnType p, A arg) {
+      throw new IllegalArgumentException(this.getClass().getName() + ": " + p);
+    }
+/* Pair */
+    public R visit(fafl.Absyn.DictPair p, A arg) { return visitDefault(p, arg); }
+    public R visitDefault(fafl.Absyn.Pair p, A arg) {
       throw new IllegalArgumentException(this.getClass().getName() + ": " + p);
     }
 /* ATypedArg */
