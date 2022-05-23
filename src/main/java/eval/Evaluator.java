@@ -8,7 +8,7 @@ public class Evaluator
 {
     public static Expr evalStep(Expr expr) throws Exception
     {
-        //Implemented: setq rules(without setqstruct), if rules, arithmetic rules,
+        //Implemented: setq rules(without setqstruct), if rules, arithmetic rules, bool predicates
         if (isExprConst(expr))
         {
             return expr;
@@ -47,13 +47,18 @@ public class Evaluator
 
         if (ArithmeticEvaluator.isExprArithmetic(expr))
         {
-            return  ArithmeticEvaluator.doArithmeticExpr(expr);
+            return ArithmeticEvaluator.doArithmeticExpr(expr);
+        }
+
+        if (BoolPredicateEvaluator.isExprBoolPredicate(expr))
+        {
+            return BoolPredicateEvaluator.doBoolPredicateExpr(expr);
         }
 
         throw new Exception("No such expression");
     }
 
-    private static boolean isExprConst(Expr expr)
+    public static boolean isExprConst(Expr expr)
     {
         return expr instanceof IntConst ||
                 expr instanceof DoubleConst ||
