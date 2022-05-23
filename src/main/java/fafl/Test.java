@@ -1,5 +1,8 @@
 package fafl;
 
+import eval.Evaluator;
+import fafl.Absyn.Program;
+
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.InputStreamReader;
@@ -24,10 +27,15 @@ public class Test
     /* The default parser is the first-defined entry point. */
     /* You may want to change this. Other options are: */
     /* pListExpr, pExpr, pBool, pListATypedArg, pAFuncReturnType,
-       pRaise, pATryCatch, pATypedArg, pArgs, pListArg, pArg, pType */
+       pATypedArg, pArgs, pListArg, pArg, pType */
     try
     {
       fafl.Absyn.ProgramExprs parse_tree = p.pProgramExprs();
+      Program program = (Program)parse_tree;
+      for(var expr : program.listexpr_)
+      {
+        System.out.println(PrettyPrinter.show(Evaluator.evalStep(expr)));
+      }
       System.out.println();
       System.out.println("Parse Succesful!");
       System.out.println();
