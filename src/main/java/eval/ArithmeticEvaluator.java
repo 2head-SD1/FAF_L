@@ -17,20 +17,24 @@ public class ArithmeticEvaluator
 
     public static Expr doArithmeticExpr(Expr expr) throws Exception
     {
-        if (expr instanceof Plus plus)
+        if (expr instanceof Plus)
         {
+            Plus plus = (Plus) expr;
             return doPlusExpr(plus);
         }
-        if (expr instanceof Minus minus)
+        if (expr instanceof Minus)
         {
+            Minus minus = (Minus) expr;
             return doMinusExpr(minus);
         }
-        if (expr instanceof Mul mul)
+        if (expr instanceof Mul)
         {
+            Mul mul = (Mul) expr;
             return doMulExpr(mul);
         }
-        if (expr instanceof Div div)
+        if (expr instanceof Div)
         {
+            Div div = (Div) expr;
             return doDivExrp(div);
         }
         throw new Exception("No such expression");
