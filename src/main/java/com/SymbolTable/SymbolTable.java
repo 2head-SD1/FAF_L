@@ -21,14 +21,14 @@ public class SymbolTable
     public static void addSymbol(String ident, SymbolNode value)
     {
         SymbolTableKey key = new SymbolTableKey(ident, currentScopeLevel);
-        if (table.containsKey(key))
-        {
-            throw new IllegalArgumentException(String.format("Identifier %s exist", ident));
-        }
-        else
-        {
+//        if (table.containsKey(key))
+//        {
+//            throw new IllegalArgumentException(String.format("Identifier %s exist", ident));
+//        }
+//        else
+//        {
             table.put(key, value);
-        }
+        //}
     }
 
     public static SymbolNode getSymbol(String ident)

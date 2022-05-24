@@ -30,19 +30,9 @@ public class Test
     {
       fafl.Absyn.ProgramExprs parse_tree = p.pProgramExprs();
       Program program = (Program) parse_tree;
-      for (Expr expr : program.listexpr_)
-      {
-        System.out.println(PrettyPrinter.print(Evaluator.evalStep(expr)));
+      for(var expr: program.listexpr_){
+        System.out.println(PrettyPrinter.show(Evaluator.evalStep(expr)));
       }
-      System.out.println();
-      System.out.println("Parse Succesful!");
-      System.out.println();
-      System.out.println("[Abstract Syntax]");
-      System.out.println();
-      System.out.println(PrettyPrinter.show(parse_tree));
-      System.out.println();
-      System.out.println("[Linearized Tree]");
-      System.out.println();
       System.out.println(PrettyPrinter.print(parse_tree));
     }
     catch(Throwable e)

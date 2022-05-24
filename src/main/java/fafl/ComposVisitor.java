@@ -89,13 +89,17 @@ public class ComposVisitor<A> implements
     }    public Expr visit(fafl.Absyn.StructConstructor p, A arg)
     {
       String ident_ = p.ident_;
-      Args args_ = p.args_.accept(this, arg);
-      return new fafl.Absyn.StructConstructor(ident_, args_);
+      ListExpr listexpr_ = new ListExpr();
+      for (Expr x : p.listexpr_)
+      {
+        listexpr_.add(x.accept(this,arg));
+      }
+      return new fafl.Absyn.StructConstructor(ident_, listexpr_);
     }    public Expr visit(fafl.Absyn.StructField p, A arg)
     {
-      String ident_1 = p.ident_1;
-      String ident_2 = p.ident_2;
-      return new fafl.Absyn.StructField(ident_1, ident_2);
+      Expr expr_ = p.expr_.accept(this, arg);
+      String ident_ = p.ident_;
+      return new fafl.Absyn.StructField(expr_, ident_);
     }    public Expr visit(fafl.Absyn.If p, A arg)
     {
       Expr expr_1 = p.expr_1.accept(this, arg);

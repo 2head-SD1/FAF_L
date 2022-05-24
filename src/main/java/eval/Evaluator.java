@@ -22,16 +22,26 @@ public class Evaluator
         {
             SetqSimple setq = (SetqSimple) expr;
             Expr value = evalStep(setq.expr_);
+
+            if (value instanceof StructConstructor){
+                StructConstructor structConstructor = (StructConstructor) value;
+
+                SymbolTable.addSymbol(
+                        setq.ident_,
+                        new SymbolNode(
+                                new StructType(
+                                        structConstructor.ident_
+                                ),
+                                structConstructor
+                        )
+                );
+                return value;
+            }
+
             SymbolNode node = new SymbolNode(setq.type_, value);
             SymbolTable.addSymbol(setq.ident_, node);
             return value;
         }
-
-        if (expr instanceof  DictConstructor){
-
-        }
-
-        //TODO: SetqStruct
 
         if (expr instanceof Id)
         {
@@ -72,6 +82,11 @@ public class Evaluator
         if (DictEval.isDictExpr(expr))
         {
             return DictEval.doDictExpr(expr);
+        }
+
+        if (StructEval.isStructExpr(expr))
+        {
+            return StructEval.doStructExpr(expr);
         }
 
         if (BoolPredicateEvaluator.isExprBoolPredicate(expr))

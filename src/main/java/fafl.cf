@@ -25,9 +25,9 @@ _.                  Expr ::= "(" Expr ")";
 
 --Struct rules
 StructInit.         Expr ::= "struct" Ident "("[ATypedArg]")";
-StructConstructor.  Expr ::= Ident "("Args")";
+StructConstructor.  Expr ::= Ident "("[Expr]")";
 separator           ATypedArg ",";
-StructField.        Expr ::= Ident "." Ident;
+StructField.        Expr ::= Expr "." Ident;
 
 --If rules
 If.                 Expr ::= "if" Expr "then" Expr "else" Expr;
