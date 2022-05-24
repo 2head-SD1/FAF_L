@@ -1,0 +1,138 @@
+/* Type checking */
+setq x:Int 5;
+setq x:Double 5.6;
+setq x:Bool true;
+setq x:[Int] Int[3]{1, 2, 3};
+setq x:String 'test';
+define x(y:[String]) -> Int{5};
+setq x:Tuple (1, 2);
+struct Person(name:String, age:Int);
+setq Kate:<Person> (Kate, 23);
+dict numbers<String, Int>(
+ ("One". 1),
+ ("Two". 2),
+ ("Three". 3)
+);
+
+/* Failing tests*/
+setq x:Bool 5;
+setq x:Int true;
+setq x:String 5;
+setq x:Double Tuple (1, 2);
+setq x:[Int] Int[1]{false};
+setq x:[Int] Int[1]{1,2,3};
+define x(y:[String]) -> Int{true};
+struct Person(name:String, age:Int);
+setq Kate:<Person> (1, 23);
+dict numbers<String, Int>(
+ (true. 1),
+ (false. 2),
+ ("Three". 3)
+);
+
+/* IF */
+if true then Int[3]{1, 2, 3} else 21.4;
+/* Failing tests */
+if Tuple (1, 2) then Int[3]{1, 2, 3} else 21.4;
+
+/* Lambda */
+lambda (x:[string]) -> Int { 4 };
+/* Failing tests */
+lambda (x:[string]) -> Int { 5.4 };
+
+/* Dict methods*/
+dict numbers<String, Int>(
+ ("One". 1),
+ ("Two". 2),
+ ("Three". 3)
+);
+dict-get(numbers, "One");
+dict-set(numbers, ("Four", 5);
+dict-remove(numbers, "Two");
+dict-keys(numbers);
+dict-values(numbers);
+dict-length(numbers);
+
+/* Failing tests*/
+dict numbers<String, Int>(("One". true),("Two". "error"),(false. 3));
+
+/* Array methods */
+setq x:[Bool] Bool[2]{true, false};
+first(x);
+last(x);
+array-get(x,1);
+array-set(x,0,false);
+array-length(x);
+
+/* Failing tests*/
+setq x:[Bool] Bool[2]{true, false};
+array-get(x,'test');
+array-get(x,true);
+array-set(x,0.1,5);
+array-set(x,1,5);
+
+
+/* Tuple methods */
+setq tuple:Tuple (plus(1, 2), minus(1, 2));
+tuple-get(tuple, 0);
+tuple-length(tuple);
+
+/* Failing tests*/
+setq tuple:Tuple ();
+
+setq tuple:Tuple (plus(1, 2), minus(1, 2));
+tuple-get(tuple,1.1);
+tuple-get(tuple,lambda (x:[string]) -> Int { 4 });
+tuple-get(tuple,10);
+
+
+/* Exception */
+raise Exception("test");
+try raise Exception("test") catch (printline("caught!"));
+
+/* Failing tests*/
+raise Exception(1);
+raise Exception(false);
+
+/* Arithmetic */
+plus(1,2);
+plus(1.1,2.0);
+minus(1,2);
+minus(1.1,2.5);
+mul(1,2);
+mul(1.1,2.8);
+div(1,2);
+div(1.1,2.8);
+
+/* Failing tests*/
+plus(true,2);
+minus(1,false);
+mul(1,2.2);
+div('test',2);
+plus(lambda (x:[string]) -> Int { 4 }, 2);
+
+
+/* Bool predicates */
+equals(true, true)
+equals(lambda (x:[string]) -> Int { 4 }, lambda (x:[string]) -> Int { 5 })
+isless(1,0)
+isless(1.2,0.9)
+IsGreater(4.5, 3.2)
+IsGreater(4, 3)
+equals('test', 'test')
+and (true false)
+or (true false)
+/* Failing tests*/
+equals(1.0, 1)
+equals(struct Person(name:String, age:Int), lambda (x:[string]) -> Int { 5 })
+equals(false, 0)
+equals('test', Tuple('test'))
+isless(1.0,0)
+IsGreater(4, 3.2)
+
+
+/* IO */
+readline
+printline 'test'
+/* Failing tests */
+printline 58
