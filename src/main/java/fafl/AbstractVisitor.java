@@ -36,6 +36,9 @@ public class AbstractVisitor<R,A> implements AllVisitor<R,A> {
     public R visit(fafl.Absyn.ArrayGet p, A arg) { return visitDefault(p, arg); }
     public R visit(fafl.Absyn.ArraySet p, A arg) { return visitDefault(p, arg); }
     public R visit(fafl.Absyn.ArrayLength p, A arg) { return visitDefault(p, arg); }
+    public R visit(fafl.Absyn.TupleConstructor p, A arg) { return visitDefault(p, arg); }
+    public R visit(fafl.Absyn.TupleGet p, A arg) { return visitDefault(p, arg); }
+    public R visit(fafl.Absyn.TupleLength p, A arg) { return visitDefault(p, arg); }
     public R visit(fafl.Absyn.RaiseEx p, A arg) { return visitDefault(p, arg); }
     public R visit(fafl.Absyn.TryCatch p, A arg) { return visitDefault(p, arg); }
     public R visit(fafl.Absyn.Plus p, A arg) { return visitDefault(p, arg); }
@@ -85,6 +88,7 @@ public class AbstractVisitor<R,A> implements AllVisitor<R,A> {
       throw new IllegalArgumentException(this.getClass().getName() + ": " + p);
     }
 /* Type */
+    public R visit(fafl.Absyn.TupleType p, A arg) { return visitDefault(p, arg); }
     public R visit(fafl.Absyn.BoolType p, A arg) { return visitDefault(p, arg); }
     public R visit(fafl.Absyn.IntType p, A arg) { return visitDefault(p, arg); }
     public R visit(fafl.Absyn.DoubleType p, A arg) { return visitDefault(p, arg); }

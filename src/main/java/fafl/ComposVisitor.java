@@ -187,6 +187,23 @@ public class ComposVisitor<A> implements
     {
       Expr expr_ = p.expr_.accept(this, arg);
       return new fafl.Absyn.ArrayLength(expr_);
+    }    public Expr visit(fafl.Absyn.TupleConstructor p, A arg)
+    {
+      ListExpr listexpr_ = new ListExpr();
+      for (Expr x : p.listexpr_)
+      {
+        listexpr_.add(x.accept(this,arg));
+      }
+      return new fafl.Absyn.TupleConstructor(listexpr_);
+    }    public Expr visit(fafl.Absyn.TupleGet p, A arg)
+    {
+      Expr expr_1 = p.expr_1.accept(this, arg);
+      Expr expr_2 = p.expr_2.accept(this, arg);
+      return new fafl.Absyn.TupleGet(expr_1, expr_2);
+    }    public Expr visit(fafl.Absyn.TupleLength p, A arg)
+    {
+      Expr expr_ = p.expr_.accept(this, arg);
+      return new fafl.Absyn.TupleLength(expr_);
     }    public Expr visit(fafl.Absyn.RaiseEx p, A arg)
     {
       String string_ = p.string_;
@@ -310,7 +327,10 @@ public class ComposVisitor<A> implements
       return new fafl.Absyn.ExprArg(expr_);
     }
 /* Type */
-    public Type visit(fafl.Absyn.BoolType p, A arg)
+    public Type visit(fafl.Absyn.TupleType p, A arg)
+    {
+      return new fafl.Absyn.TupleType();
+    }    public Type visit(fafl.Absyn.BoolType p, A arg)
     {
       return new fafl.Absyn.BoolType();
     }    public Type visit(fafl.Absyn.IntType p, A arg)

@@ -161,6 +161,20 @@ public class VisitSkel
     { /* Code For ArrayLength Goes Here */
       p.expr_.accept(new ExprVisitor<R,A>(), arg);
       return null;
+    }    public R visit(fafl.Absyn.TupleConstructor p, A arg)
+    { /* Code For TupleConstructor Goes Here */
+      for (Expr x: p.listexpr_)
+      { /* ... */ }
+      return null;
+    }    public R visit(fafl.Absyn.TupleGet p, A arg)
+    { /* Code For TupleGet Goes Here */
+      p.expr_1.accept(new ExprVisitor<R,A>(), arg);
+      p.expr_2.accept(new ExprVisitor<R,A>(), arg);
+      return null;
+    }    public R visit(fafl.Absyn.TupleLength p, A arg)
+    { /* Code For TupleLength Goes Here */
+      p.expr_.accept(new ExprVisitor<R,A>(), arg);
+      return null;
     }    public R visit(fafl.Absyn.RaiseEx p, A arg)
     { /* Code For RaiseEx Goes Here */
       //p.string_;
@@ -283,7 +297,10 @@ public class VisitSkel
   }
   public class TypeVisitor<R,A> implements Type.Visitor<R,A>
   {
-    public R visit(fafl.Absyn.BoolType p, A arg)
+    public R visit(fafl.Absyn.TupleType p, A arg)
+    { /* Code For TupleType Goes Here */
+      return null;
+    }    public R visit(fafl.Absyn.BoolType p, A arg)
     { /* Code For BoolType Goes Here */
       return null;
     }    public R visit(fafl.Absyn.IntType p, A arg)
