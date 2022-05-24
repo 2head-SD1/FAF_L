@@ -1,6 +1,16 @@
-setq lol:Tuple (
-    1, 2, "Hello, World"
+struct Student(name:String, age:Int);
+
+setq student:<Student> (oleg, 20);
+
+dict numbers<String, Int> (
+    ("One" . 1),
+    ("Two" . 2),
 );
 
-tuple-get(lol, 0);
-tuple-length(lol);
+setq lol:Tuple (1, 2, student);
+
+dict-length(numbers);
+tuple-get(lol, 2);
+
+(tuple-get(lol, 2)).name;
+
