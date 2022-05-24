@@ -69,12 +69,13 @@ public class VisitSkel
     }    public R visit(fafl.Absyn.StructConstructor p, A arg)
     { /* Code For StructConstructor Goes Here */
       //p.ident_;
-      p.args_.accept(new ArgsVisitor<R,A>(), arg);
+      for (Expr x: p.listexpr_)
+      { /* ... */ }
       return null;
     }    public R visit(fafl.Absyn.StructField p, A arg)
     { /* Code For StructField Goes Here */
-      //p.ident_1;
-      //p.ident_2;
+      p.expr_.accept(new ExprVisitor<R,A>(), arg);
+      //p.ident_;
       return null;
     }    public R visit(fafl.Absyn.If p, A arg)
     { /* Code For If Goes Here */

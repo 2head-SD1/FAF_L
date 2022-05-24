@@ -121,8 +121,8 @@ Expr ::= _SYMB_48 _IDENT_:p_2 _SYMB_1 Type:p_4 Expr:p_5  {: RESULT = new fafl.Ab
   | _SYMB_28 _IDENT_:p_2 _SYMB_2 ListATypedArg:p_4 _SYMB_3 _SYMB_4 AFuncReturnType:p_7 _SYMB_5 Expr:p_9 _SYMB_6  {: RESULT = new fafl.Absyn.Define(p_2,p_4,p_7,p_9); :}
   | _SYMB_2 Expr:p_2 _SYMB_3  {: RESULT = p_2; :}
   | _SYMB_49 _IDENT_:p_2 _SYMB_2 ListATypedArg:p_4 _SYMB_3  {: RESULT = new fafl.Absyn.StructInit(p_2,p_4); :}
-  | _IDENT_:p_1 _SYMB_2 Args:p_3 _SYMB_3  {: RESULT = new fafl.Absyn.StructConstructor(p_1,p_3); :}
-  | _IDENT_:p_1 _SYMB_8 _IDENT_:p_3  {: RESULT = new fafl.Absyn.StructField(p_1,p_3); :}
+  | _IDENT_:p_1 _SYMB_2 ListExpr:p_3 _SYMB_3  {: RESULT = new fafl.Absyn.StructConstructor(p_1,p_3); :}
+  | Expr:p_1 _SYMB_8 _IDENT_:p_3  {: RESULT = new fafl.Absyn.StructField(p_1,p_3); :}
   | _SYMB_36 Expr:p_2 _SYMB_50 Expr:p_4 _SYMB_31 Expr:p_6  {: RESULT = new fafl.Absyn.If(p_2,p_4,p_6); :}
   | _SYMB_39 _SYMB_2 ListATypedArg:p_3 _SYMB_3 _SYMB_4 AFuncReturnType:p_6 _SYMB_5 Expr:p_8 _SYMB_6  {: RESULT = new fafl.Absyn.Lambda(p_3,p_6,p_8); :}
   | _SYMB_29 _IDENT_:p_2 _SYMB_9 Type:p_4 _SYMB_7 Type:p_6 _SYMB_10 _SYMB_2 ListPair:p_9 _SYMB_3  {: RESULT = new fafl.Absyn.DictConstructor(p_2,p_4,p_6,p_9); :}

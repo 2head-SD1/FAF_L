@@ -375,7 +375,7 @@ public class PrettyPrinter
        if (_i_ > 0) render(_L_PAREN);
        pp(_structconstructor.ident_, 0);
        render("(");
-       pp(_structconstructor.args_, 0);
+       pp(_structconstructor.listexpr_, 0);
        render(")");
        if (_i_ > 0) render(_R_PAREN);
     }
@@ -383,9 +383,9 @@ public class PrettyPrinter
     {
        fafl.Absyn.StructField _structfield = (fafl.Absyn.StructField) foo;
        if (_i_ > 0) render(_L_PAREN);
-       pp(_structfield.ident_1, 0);
+       pp(_structfield.expr_, 0);
        render(".");
-       pp(_structfield.ident_2, 0);
+       pp(_structfield.ident_, 0);
        if (_i_ > 0) render(_R_PAREN);
     }
     else     if (foo instanceof fafl.Absyn.If)
@@ -1024,7 +1024,9 @@ public class PrettyPrinter
        render("(");
        render("StructConstructor");
        sh(_structconstructor.ident_);
-       sh(_structconstructor.args_);
+       render("[");
+       sh(_structconstructor.listexpr_);
+       render("]");
        render(")");
     }
     if (foo instanceof fafl.Absyn.StructField)
@@ -1032,8 +1034,8 @@ public class PrettyPrinter
        fafl.Absyn.StructField _structfield = (fafl.Absyn.StructField) foo;
        render("(");
        render("StructField");
-       sh(_structfield.ident_1);
-       sh(_structfield.ident_2);
+       sh(_structfield.expr_);
+       sh(_structfield.ident_);
        render(")");
     }
     if (foo instanceof fafl.Absyn.If)

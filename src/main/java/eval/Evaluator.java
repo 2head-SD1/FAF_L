@@ -22,16 +22,38 @@ public class Evaluator
         {
             SetqSimple setq = (SetqSimple) expr;
             Expr value = evalStep(setq.expr_);
+
+            if (value instanceof StructConstructor){
+                StructConstructor structConstructor = (StructConstructor) value;
+                ListExpr arguments = structConstructor.listexpr_;
+
+                SymbolNode structNode = SymbolTable.getSymbol(structConstructor.ident_);
+                StructInit structInit = (StructInit) structNode.value;
+
+                ListATypedArg fields = structInit.listatypedarg_;
+
+                for(int i = 0; i < arguments.size(); i++){
+                    TypedArg typedArg = (TypedArg) fields.get(i);
+                    SymbolNode argumentNode = new SymbolNode(
+                            new StructFieldType(
+                                    typedArg.type_
+                            ),
+                            arguments.get(i)
+                    );
+
+                    SymbolTable.addSymbol(
+                            setq.ident_ + "." + typedArg.ident_,
+                            argumentNode
+                    );
+                }
+
+                return value;
+            }
+
             SymbolNode node = new SymbolNode(setq.type_, value);
             SymbolTable.addSymbol(setq.ident_, node);
             return value;
         }
-
-        if (expr instanceof  DictConstructor){
-
-        }
-
-        //TODO: SetqStruct
 
         if (expr instanceof Id)
         {
@@ -66,6 +88,11 @@ public class Evaluator
         if (DictEval.isDictExpr(expr))
         {
             return DictEval.doDictExpr(expr);
+        }
+
+        if (StructEval.isStructExpr(expr))
+        {
+            return StructEval.doStructExpr(expr);
         }
 
         if (BoolPredicateEvaluator.isExprBoolPredicate(expr))

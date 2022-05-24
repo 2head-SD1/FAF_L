@@ -4,8 +4,6 @@ import com.SymbolTable.SymbolNode;
 import com.SymbolTable.SymbolTable;
 import fafl.Absyn.*;
 
-import java.util.List;
-
 public class DictEval
 {
     public static Expr doDictExpr(Expr expr) throws Exception
