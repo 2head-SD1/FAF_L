@@ -1,14 +1,21 @@
 plugins {
     id 'java'
     id 'idea'
+    id 'application'
 }
 
 group 'src'
 version '1.0-SNAPSHOT'
 
+mainClassName = 'fafl.Test'
+
 repositories {
     mavenCentral()
 }
+
+//application {
+//    mainClass = 'src.main.java.fafl.Test.main'
+//}
 
 dependencies {
     implementation group: 'com.github.vbmacher', name: 'java-cup-runtime', version: '11b'

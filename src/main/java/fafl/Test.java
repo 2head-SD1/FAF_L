@@ -39,7 +39,7 @@ public class Test
     {
       System.err.println("At line " + String.valueOf(l.line_num()) + ", near \"" + l.buff() + "\" :");
       System.err.println("     " + e.getMessage());
-      System.exit(1);
+      System.exit(0);
     }
   }
 }
