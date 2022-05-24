@@ -86,5 +86,11 @@ public class SymbolTable
             return other.scopeLevel == this.scopeLevel &&
                     other.symbolIdent.equals(this.symbolIdent);
         }
+
+        @Override
+        public int hashCode()
+        {
+            return this.symbolIdent.hashCode() + scopeLevel;
+        }
     }
 }
