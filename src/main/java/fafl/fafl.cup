@@ -119,7 +119,7 @@ Expr ::= _SYMB_49 _IDENT_:p_2 _SYMB_1 Type:p_4 Expr:p_5  {: RESULT = new fafl.Ab
   | Bool:p_1  {: RESULT = new fafl.Absyn.BoolConst(p_1); :}
   | _STRING_:p_1  {: RESULT = new fafl.Absyn.StringConst(p_1); :}
   | _IDENT_:p_1  {: RESULT = new fafl.Absyn.Id(p_1); :}
-  | _SYMB_27 _IDENT_:p_2 _SYMB_2 Expr:p_4 _SYMB_3  {: RESULT = new fafl.Absyn.FuncCall(p_2,p_4); :}
+  | _SYMB_27 _IDENT_:p_2 _SYMB_2 ListExpr:p_4 _SYMB_3  {: RESULT = new fafl.Absyn.FuncCall(p_2,p_4); :}
   | _SYMB_29 _IDENT_:p_2 _SYMB_2 ListATypedArg:p_4 _SYMB_3 _SYMB_4 AFuncReturnType:p_7 _SYMB_5 Expr:p_9 _SYMB_6  {: RESULT = new fafl.Absyn.Define(p_2,p_4,p_7,p_9); :}
   | _SYMB_2 Expr:p_2 _SYMB_3  {: RESULT = p_2; :}
   | _SYMB_50 _IDENT_:p_2 _SYMB_2 ListATypedArg:p_4 _SYMB_3  {: RESULT = new fafl.Absyn.StructInit(p_2,p_4); :}
