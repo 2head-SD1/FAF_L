@@ -83,6 +83,11 @@ public class Evaluator
             return ArrayEval.doArrayExpr(expr);
         }
 
+        if (TupleEval.isTupleExpr(expr))
+        {
+            return TupleEval.doTupleExpr(expr);
+        }
+
         if (DictEval.isDictExpr(expr))
         {
             return DictEval.doDictExpr(expr);
