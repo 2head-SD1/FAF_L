@@ -21,13 +21,15 @@ Define.             Expr ::= "define" Ident "("[ATypedArg]")" "->" AFuncReturnTy
 separator           ATypedArg ",";
 separator           Expr ",";
 FuncReturnType.     AFuncReturnType ::= Type;
-_.                  Expr ::= "(" Expr ")";
 
 --Struct rules
 StructInit.         Expr ::= "struct" Ident "("[ATypedArg]")";
 StructConstructor.  Expr ::= Ident "("[Expr]")";
 separator           ATypedArg ",";
-StructField.        Expr ::= Expr "." Ident;
+StructField.        Expr ::= Expr1 "." Ident;
+_.                  Expr ::= Expr1;
+_.                  Expr1 ::= "(" Expr ")";
+
 
 --If rules
 If.                 Expr ::= "if" Expr "then" Expr "else" Expr;
@@ -55,7 +57,7 @@ ArraySet.                Expr ::= "array-set" "(" Expr "," Expr "," Expr ")";
 ArrayLength.             Expr ::= "array-length" "("Expr")";
 
 --Tuple rules
-TupleConstructor.   Expr ::= "(" [Expr] ")";
+TupleConstructor.   Expr ::= "tuple" "(" [Expr] ")";
 TupleGet.                Expr ::= "tuple-get" "(" Expr "," Expr ")";
 TupleLength.             Expr ::= "tuple-length" "("Expr")";
 

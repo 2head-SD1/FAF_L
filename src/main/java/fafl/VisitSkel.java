@@ -66,7 +66,7 @@ public class VisitSkel
       p.afuncreturntype_.accept(new AFuncReturnTypeVisitor<R,A>(), arg);
       p.expr_.accept(new ExprVisitor<R,A>(), arg);
       return null;
-    }        public R visit(fafl.Absyn.StructInit p, A arg)
+    }    public R visit(fafl.Absyn.StructInit p, A arg)
     { /* Code For StructInit Goes Here */
       //p.ident_;
       for (ATypedArg x: p.listatypedarg_)
@@ -83,7 +83,7 @@ public class VisitSkel
       p.expr_.accept(new ExprVisitor<R,A>(), arg);
       //p.ident_;
       return null;
-    }    public R visit(fafl.Absyn.If p, A arg)
+    }        public R visit(fafl.Absyn.If p, A arg)
     { /* Code For If Goes Here */
       p.expr_1.accept(new ExprVisitor<R,A>(), arg);
       p.expr_2.accept(new ExprVisitor<R,A>(), arg);
@@ -236,7 +236,7 @@ public class VisitSkel
     { /* Code For PrintLine Goes Here */
       //p.string_;
       return null;
-    }
+    }    
   }
   public class BoolVisitor<R,A> implements Bool.Visitor<R,A>
   {
