@@ -342,6 +342,17 @@ public class PrettyPrinter
        pp(_id.ident_, 0);
        if (_i_ > 0) render(_R_PAREN);
     }
+    else     if (foo instanceof fafl.Absyn.FuncCall)
+    {
+       fafl.Absyn.FuncCall _funccall = (fafl.Absyn.FuncCall) foo;
+       if (_i_ > 0) render(_L_PAREN);
+       render("call");
+       pp(_funccall.ident_, 0);
+       render("(");
+       pp(_funccall.expr_, 0);
+       render(")");
+       if (_i_ > 0) render(_R_PAREN);
+    }
     else     if (foo instanceof fafl.Absyn.Define)
     {
        fafl.Absyn.Define _define = (fafl.Absyn.Define) foo;
@@ -992,6 +1003,15 @@ public class PrettyPrinter
        render("(");
        render("Id");
        sh(_id.ident_);
+       render(")");
+    }
+    if (foo instanceof fafl.Absyn.FuncCall)
+    {
+       fafl.Absyn.FuncCall _funccall = (fafl.Absyn.FuncCall) foo;
+       render("(");
+       render("FuncCall");
+       sh(_funccall.ident_);
+       sh(_funccall.expr_);
        render(")");
     }
     if (foo instanceof fafl.Absyn.Define)

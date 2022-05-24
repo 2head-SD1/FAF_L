@@ -53,6 +53,11 @@ public abstract class FoldVisitor<R,A> implements AllVisitor<R,A> {
       R r = leaf(arg);
       return r;
     }
+    public R visit(fafl.Absyn.FuncCall p, A arg) {
+      R r = leaf(arg);
+      r = combine(p.expr_.accept(this, arg), r, arg);
+      return r;
+    }
     public R visit(fafl.Absyn.Define p, A arg) {
       R r = leaf(arg);
       for (ATypedArg x : p.listatypedarg_)

@@ -10,6 +10,7 @@ public abstract class Expr implements java.io.Serializable {
     public R visit(fafl.Absyn.BoolConst p, A arg);
     public R visit(fafl.Absyn.StringConst p, A arg);
     public R visit(fafl.Absyn.Id p, A arg);
+    public R visit(fafl.Absyn.FuncCall p, A arg);
     public R visit(fafl.Absyn.Define p, A arg);
     public R visit(fafl.Absyn.StructInit p, A arg);
     public R visit(fafl.Absyn.StructConstructor p, A arg);

@@ -46,6 +46,28 @@ public class TypeChecker {
             Type exprType = typecheck(context, curExpr.expr_, curExpr.type_);
             context.add(new Context.ContextNode(curExpr.ident_, exprType));
         }
+        //Dict typechecking
+        if(expr instanceof DictConstructor)
+        {
+        }
+        if(expr instanceof DictGet)
+        {
+        }
+        if(expr instanceof DictKeys)
+        {
+        }
+        if(expr instanceof DictLength)
+        {
+        }
+        if(expr instanceof DictRemove)
+        {
+        }
+        if(expr instanceof DictValues)
+        {
+        }
+        if(expr instanceof DictSet)
+        {
+        }
         //Array typechecking
         if(expr instanceof ArrayConstructor)
         {
@@ -77,11 +99,13 @@ public class TypeChecker {
         }
         if(expr instanceof First)
         {
-
+            First curExpr = (First)expr;
+            return getArrayContentType(context, curExpr.expr_);
         }
         if(expr instanceof Last)
         {
-
+            Last curExpr = (Last) expr;
+            return getArrayContentType(context, curExpr.expr_);
         }
         //Func typechecking
         if(expr instanceof Define)

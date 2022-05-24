@@ -64,32 +64,33 @@ terminal _SYMB_23;    //   Exception
 terminal _SYMB_24;    //   Int
 terminal _SYMB_25;    //   String
 terminal _SYMB_26;    //   and
-terminal _SYMB_27;    //   catch
-terminal _SYMB_28;    //   define
-terminal _SYMB_29;    //   dict
-terminal _SYMB_30;    //   div
-terminal _SYMB_31;    //   else
-terminal _SYMB_32;    //   equals
-terminal _SYMB_33;    //   false
-terminal _SYMB_34;    //   first
-terminal _SYMB_35;    //   get
-terminal _SYMB_36;    //   if
-terminal _SYMB_37;    //   isgreater
-terminal _SYMB_38;    //   isless
-terminal _SYMB_39;    //   lambda
-terminal _SYMB_40;    //   last
-terminal _SYMB_41;    //   minus
-terminal _SYMB_42;    //   mul
-terminal _SYMB_43;    //   or
-terminal _SYMB_44;    //   plus
-terminal _SYMB_45;    //   printline
-terminal _SYMB_46;    //   raise
-terminal _SYMB_47;    //   readline
-terminal _SYMB_48;    //   setq
-terminal _SYMB_49;    //   struct
-terminal _SYMB_50;    //   then
-terminal _SYMB_51;    //   true
-terminal _SYMB_52;    //   try
+terminal _SYMB_27;    //   call
+terminal _SYMB_28;    //   catch
+terminal _SYMB_29;    //   define
+terminal _SYMB_30;    //   dict
+terminal _SYMB_31;    //   div
+terminal _SYMB_32;    //   else
+terminal _SYMB_33;    //   equals
+terminal _SYMB_34;    //   false
+terminal _SYMB_35;    //   first
+terminal _SYMB_36;    //   get
+terminal _SYMB_37;    //   if
+terminal _SYMB_38;    //   isgreater
+terminal _SYMB_39;    //   isless
+terminal _SYMB_40;    //   lambda
+terminal _SYMB_41;    //   last
+terminal _SYMB_42;    //   minus
+terminal _SYMB_43;    //   mul
+terminal _SYMB_44;    //   or
+terminal _SYMB_45;    //   plus
+terminal _SYMB_46;    //   printline
+terminal _SYMB_47;    //   raise
+terminal _SYMB_48;    //   readline
+terminal _SYMB_49;    //   setq
+terminal _SYMB_50;    //   struct
+terminal _SYMB_51;    //   then
+terminal _SYMB_52;    //   true
+terminal _SYMB_53;    //   try
 
 terminal String _STRING_;
 
@@ -111,21 +112,22 @@ ListExpr ::=  /* empty */  {: RESULT = new fafl.Absyn.ListExpr(); :}
   | Expr:p_1  {: RESULT = new fafl.Absyn.ListExpr(); RESULT.addLast(p_1); :}
   | Expr:p_1 _SYMB_7 ListExpr:p_3  {: RESULT = p_3; p_3.addFirst(p_1); :}
 ;
-Expr ::= _SYMB_48 _IDENT_:p_2 _SYMB_1 Type:p_4 Expr:p_5  {: RESULT = new fafl.Absyn.SetqSimple(p_2,p_4,p_5); :} 
-  | _SYMB_48 _IDENT_:p_2 _SYMB_1 _IDENT_:p_4 Args:p_5  {: RESULT = new fafl.Absyn.SetqStruct(p_2,p_4,p_5); :}
+Expr ::= _SYMB_49 _IDENT_:p_2 _SYMB_1 Type:p_4 Expr:p_5  {: RESULT = new fafl.Absyn.SetqSimple(p_2,p_4,p_5); :} 
+  | _SYMB_49 _IDENT_:p_2 _SYMB_1 _IDENT_:p_4 Args:p_5  {: RESULT = new fafl.Absyn.SetqStruct(p_2,p_4,p_5); :}
   | _INTEGER_:p_1  {: RESULT = new fafl.Absyn.IntConst(p_1); :}
   | _DOUBLE_:p_1  {: RESULT = new fafl.Absyn.DoubleConst(p_1); :}
   | Bool:p_1  {: RESULT = new fafl.Absyn.BoolConst(p_1); :}
   | _STRING_:p_1  {: RESULT = new fafl.Absyn.StringConst(p_1); :}
   | _IDENT_:p_1  {: RESULT = new fafl.Absyn.Id(p_1); :}
-  | _SYMB_28 _IDENT_:p_2 _SYMB_2 ListATypedArg:p_4 _SYMB_3 _SYMB_4 AFuncReturnType:p_7 _SYMB_5 Expr:p_9 _SYMB_6  {: RESULT = new fafl.Absyn.Define(p_2,p_4,p_7,p_9); :}
+  | _SYMB_27 _IDENT_:p_2 _SYMB_2 Expr:p_4 _SYMB_3  {: RESULT = new fafl.Absyn.FuncCall(p_2,p_4); :}
+  | _SYMB_29 _IDENT_:p_2 _SYMB_2 ListATypedArg:p_4 _SYMB_3 _SYMB_4 AFuncReturnType:p_7 _SYMB_5 Expr:p_9 _SYMB_6  {: RESULT = new fafl.Absyn.Define(p_2,p_4,p_7,p_9); :}
   | _SYMB_2 Expr:p_2 _SYMB_3  {: RESULT = p_2; :}
-  | _SYMB_49 _IDENT_:p_2 _SYMB_2 ListATypedArg:p_4 _SYMB_3  {: RESULT = new fafl.Absyn.StructInit(p_2,p_4); :}
+  | _SYMB_50 _IDENT_:p_2 _SYMB_2 ListATypedArg:p_4 _SYMB_3  {: RESULT = new fafl.Absyn.StructInit(p_2,p_4); :}
   | _IDENT_:p_1 _SYMB_2 Args:p_3 _SYMB_3  {: RESULT = new fafl.Absyn.StructConstructor(p_1,p_3); :}
   | _IDENT_:p_1 _SYMB_8 _IDENT_:p_3  {: RESULT = new fafl.Absyn.StructField(p_1,p_3); :}
-  | _SYMB_36 Expr:p_2 _SYMB_50 Expr:p_4 _SYMB_31 Expr:p_6  {: RESULT = new fafl.Absyn.If(p_2,p_4,p_6); :}
-  | _SYMB_39 _SYMB_2 ListATypedArg:p_3 _SYMB_3 _SYMB_4 AFuncReturnType:p_6 _SYMB_5 Expr:p_8 _SYMB_6  {: RESULT = new fafl.Absyn.Lambda(p_3,p_6,p_8); :}
-  | _SYMB_29 _IDENT_:p_2 _SYMB_9 Type:p_4 _SYMB_7 Type:p_6 _SYMB_10 _SYMB_2 ListPair:p_9 _SYMB_3  {: RESULT = new fafl.Absyn.DictConstructor(p_2,p_4,p_6,p_9); :}
+  | _SYMB_37 Expr:p_2 _SYMB_51 Expr:p_4 _SYMB_32 Expr:p_6  {: RESULT = new fafl.Absyn.If(p_2,p_4,p_6); :}
+  | _SYMB_40 _SYMB_2 ListATypedArg:p_3 _SYMB_3 _SYMB_4 AFuncReturnType:p_6 _SYMB_5 Expr:p_8 _SYMB_6  {: RESULT = new fafl.Absyn.Lambda(p_3,p_6,p_8); :}
+  | _SYMB_30 _IDENT_:p_2 _SYMB_9 Type:p_4 _SYMB_7 Type:p_6 _SYMB_10 _SYMB_2 ListPair:p_9 _SYMB_3  {: RESULT = new fafl.Absyn.DictConstructor(p_2,p_4,p_6,p_9); :}
   | _SYMB_11 _SYMB_2 Expr:p_3 _SYMB_7 Pair:p_5 _SYMB_3  {: RESULT = new fafl.Absyn.DictSet(p_3,p_5); :}
   | _SYMB_12 _SYMB_2 Expr:p_3 _SYMB_7 Expr:p_5 _SYMB_3  {: RESULT = new fafl.Absyn.DictGet(p_3,p_5); :}
   | _SYMB_13 _SYMB_2 Expr:p_3 _SYMB_7 Expr:p_5 _SYMB_3  {: RESULT = new fafl.Absyn.DictRemove(p_3,p_5); :}
@@ -133,27 +135,27 @@ Expr ::= _SYMB_48 _IDENT_:p_2 _SYMB_1 Type:p_4 Expr:p_5  {: RESULT = new fafl.Ab
   | _SYMB_15 _SYMB_2 Expr:p_3 _SYMB_3  {: RESULT = new fafl.Absyn.DictValues(p_3); :}
   | _SYMB_16 _SYMB_2 Expr:p_3 _SYMB_3  {: RESULT = new fafl.Absyn.DictLength(p_3); :}
   | Type:p_1 _SYMB_17 Expr:p_3 _SYMB_18 _SYMB_5 ListExpr:p_6 _SYMB_6  {: RESULT = new fafl.Absyn.ArrayConstructor(p_1,p_3,p_6); :}
-  | _SYMB_34 _SYMB_2 Expr:p_3 _SYMB_3  {: RESULT = new fafl.Absyn.First(p_3); :}
-  | _SYMB_40 _SYMB_2 Expr:p_3 _SYMB_3  {: RESULT = new fafl.Absyn.Last(p_3); :}
-  | _SYMB_35 _SYMB_2 Expr:p_3 _SYMB_7 Expr:p_5 _SYMB_3  {: RESULT = new fafl.Absyn.ArrayGet(p_3,p_5); :}
+  | _SYMB_35 _SYMB_2 Expr:p_3 _SYMB_3  {: RESULT = new fafl.Absyn.First(p_3); :}
+  | _SYMB_41 _SYMB_2 Expr:p_3 _SYMB_3  {: RESULT = new fafl.Absyn.Last(p_3); :}
+  | _SYMB_36 _SYMB_2 Expr:p_3 _SYMB_7 Expr:p_5 _SYMB_3  {: RESULT = new fafl.Absyn.ArrayGet(p_3,p_5); :}
   | _SYMB_19 _SYMB_2 Expr:p_3 _SYMB_7 Expr:p_5 _SYMB_7 Expr:p_7 _SYMB_3  {: RESULT = new fafl.Absyn.ArraySet(p_3,p_5,p_7); :}
   | _SYMB_20 _SYMB_2 Expr:p_3 _SYMB_3  {: RESULT = new fafl.Absyn.ArrayLength(p_3); :}
-  | _SYMB_46 _SYMB_23 _SYMB_2 _STRING_:p_4 _SYMB_3  {: RESULT = new fafl.Absyn.RaiseEx(p_4); :}
-  | _SYMB_52 Expr:p_2 _SYMB_27 _SYMB_2 Expr:p_5 _SYMB_3  {: RESULT = new fafl.Absyn.TryCatch(p_2,p_5); :}
-  | _SYMB_44 _SYMB_2 ListExpr:p_3 _SYMB_3  {: RESULT = new fafl.Absyn.Plus(p_3); :}
-  | _SYMB_41 _SYMB_2 ListExpr:p_3 _SYMB_3  {: RESULT = new fafl.Absyn.Minus(p_3); :}
-  | _SYMB_42 _SYMB_2 ListExpr:p_3 _SYMB_3  {: RESULT = new fafl.Absyn.Mul(p_3); :}
-  | _SYMB_30 _SYMB_2 ListExpr:p_3 _SYMB_3  {: RESULT = new fafl.Absyn.Div(p_3); :}
-  | _SYMB_32 _SYMB_2 Expr:p_3 _SYMB_7 Expr:p_5 _SYMB_3  {: RESULT = new fafl.Absyn.Equals(p_3,p_5); :}
-  | _SYMB_38 _SYMB_2 Expr:p_3 _SYMB_7 Expr:p_5 _SYMB_3  {: RESULT = new fafl.Absyn.IsLess(p_3,p_5); :}
-  | _SYMB_37 _SYMB_2 Expr:p_3 _SYMB_7 Expr:p_5 _SYMB_3  {: RESULT = new fafl.Absyn.IsGreater(p_3,p_5); :}
+  | _SYMB_47 _SYMB_23 _SYMB_2 _STRING_:p_4 _SYMB_3  {: RESULT = new fafl.Absyn.RaiseEx(p_4); :}
+  | _SYMB_53 Expr:p_2 _SYMB_28 _SYMB_2 Expr:p_5 _SYMB_3  {: RESULT = new fafl.Absyn.TryCatch(p_2,p_5); :}
+  | _SYMB_45 _SYMB_2 ListExpr:p_3 _SYMB_3  {: RESULT = new fafl.Absyn.Plus(p_3); :}
+  | _SYMB_42 _SYMB_2 ListExpr:p_3 _SYMB_3  {: RESULT = new fafl.Absyn.Minus(p_3); :}
+  | _SYMB_43 _SYMB_2 ListExpr:p_3 _SYMB_3  {: RESULT = new fafl.Absyn.Mul(p_3); :}
+  | _SYMB_31 _SYMB_2 ListExpr:p_3 _SYMB_3  {: RESULT = new fafl.Absyn.Div(p_3); :}
+  | _SYMB_33 _SYMB_2 Expr:p_3 _SYMB_7 Expr:p_5 _SYMB_3  {: RESULT = new fafl.Absyn.Equals(p_3,p_5); :}
+  | _SYMB_39 _SYMB_2 Expr:p_3 _SYMB_7 Expr:p_5 _SYMB_3  {: RESULT = new fafl.Absyn.IsLess(p_3,p_5); :}
+  | _SYMB_38 _SYMB_2 Expr:p_3 _SYMB_7 Expr:p_5 _SYMB_3  {: RESULT = new fafl.Absyn.IsGreater(p_3,p_5); :}
   | _SYMB_26 _SYMB_2 Expr:p_3 _SYMB_7 Expr:p_5 _SYMB_3  {: RESULT = new fafl.Absyn.And(p_3,p_5); :}
-  | _SYMB_43 _SYMB_2 Expr:p_3 _SYMB_7 Expr:p_5 _SYMB_3  {: RESULT = new fafl.Absyn.Or(p_3,p_5); :}
-  | _SYMB_47  {: RESULT = new fafl.Absyn.ReadLine(); :}
-  | _SYMB_45 _STRING_:p_2  {: RESULT = new fafl.Absyn.PrintLine(p_2); :}
+  | _SYMB_44 _SYMB_2 Expr:p_3 _SYMB_7 Expr:p_5 _SYMB_3  {: RESULT = new fafl.Absyn.Or(p_3,p_5); :}
+  | _SYMB_48  {: RESULT = new fafl.Absyn.ReadLine(); :}
+  | _SYMB_46 _STRING_:p_2  {: RESULT = new fafl.Absyn.PrintLine(p_2); :}
 ;
-Bool ::= _SYMB_51  {: RESULT = new fafl.Absyn.BoolTrue(); :} 
-  | _SYMB_33  {: RESULT = new fafl.Absyn.BoolFalse(); :}
+Bool ::= _SYMB_52  {: RESULT = new fafl.Absyn.BoolTrue(); :} 
+  | _SYMB_34  {: RESULT = new fafl.Absyn.BoolFalse(); :}
 ;
 ListATypedArg ::=  /* empty */  {: RESULT = new fafl.Absyn.ListATypedArg(); :} 
   | ATypedArg:p_1  {: RESULT = new fafl.Absyn.ListATypedArg(); RESULT.addLast(p_1); :}
