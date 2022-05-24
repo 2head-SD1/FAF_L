@@ -45,7 +45,9 @@ public class StructEval {
     }
 
     private static Expr doStructField(StructField expr) throws Exception {
-        StructConstructor structConstructor = getStructConstructor(expr.expr_);
+        Expr evalExpr = Evaluator.evalStep(expr.expr_);
+        System.out.println(evalExpr);
+        StructConstructor structConstructor = getStructConstructor(evalExpr);
         ListExpr arguments = structConstructor.listexpr_;
 
         SymbolNode structNode = SymbolTable.getSymbol(structConstructor.ident_);
@@ -76,6 +78,7 @@ public class StructEval {
 
         if (expr instanceof Id){
             Id id = (Id) expr;
+            System.out.println( SymbolTable.getSymbol(id.ident_));
             structConstructor = (StructConstructor) SymbolTable.getSymbol(id.ident_).value;
         } else {
             structConstructor = (StructConstructor) Evaluator.evalStep(expr);

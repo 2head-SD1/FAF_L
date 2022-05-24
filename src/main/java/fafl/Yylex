@@ -81,6 +81,7 @@ IDENT = ({LETTER}|{DIGIT}|['_])
 <YYINITIAL>then { return new Symbol(sym._SYMB_54); }
 <YYINITIAL>true { return new Symbol(sym._SYMB_55); }
 <YYINITIAL>try { return new Symbol(sym._SYMB_56); }
+<YYINITIAL>tuple { return new Symbol(sym._SYMB_57); }
 <YYINITIAL>"//"[^\n]*\n { /* BNFC single-line comment */ }
 <YYINITIAL>"/*" { yybegin(COMMENT); }
 <COMMENT>"*/" { yybegin(YYINITIAL); }

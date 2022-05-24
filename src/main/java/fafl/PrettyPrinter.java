@@ -394,7 +394,7 @@ public class PrettyPrinter
     {
        fafl.Absyn.StructField _structfield = (fafl.Absyn.StructField) foo;
        if (_i_ > 0) render(_L_PAREN);
-       pp(_structfield.expr_, 0);
+       pp(_structfield.expr_, 1);
        render(".");
        pp(_structfield.ident_, 0);
        if (_i_ > 0) render(_R_PAREN);
@@ -581,6 +581,7 @@ public class PrettyPrinter
     {
        fafl.Absyn.TupleConstructor _tupleconstructor = (fafl.Absyn.TupleConstructor) foo;
        if (_i_ > 0) render(_L_PAREN);
+       render("tuple");
        render("(");
        pp(_tupleconstructor.listexpr_, 0);
        render(")");
