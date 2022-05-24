@@ -21,3 +21,7 @@ dependencies {
     implementation group: 'com.github.vbmacher', name: 'java-cup-runtime', version: '11b'
     implementation group: 'com.github.vbmacher', name: 'java-cup', version: '11b'
 }
+
+run{
+    standardOutput = System.out
+}
