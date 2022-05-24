@@ -99,8 +99,30 @@ public class VisitSkel
       return null;
     }    public R visit(fafl.Absyn.DictSet p, A arg)
     { /* Code For DictSet Goes Here */
-      //p.ident_;
+      p.expr_.accept(new ExprVisitor<R,A>(), arg);
       p.pair_.accept(new PairVisitor<R,A>(), arg);
+      return null;
+    }    public R visit(fafl.Absyn.DictGet p, A arg)
+    { /* Code For DictGet Goes Here */
+      p.expr_1.accept(new ExprVisitor<R,A>(), arg);
+      p.expr_2.accept(new ExprVisitor<R,A>(), arg);
+      return null;
+    }    public R visit(fafl.Absyn.DictRemove p, A arg)
+    { /* Code For DictRemove Goes Here */
+      p.expr_1.accept(new ExprVisitor<R,A>(), arg);
+      p.expr_2.accept(new ExprVisitor<R,A>(), arg);
+      return null;
+    }    public R visit(fafl.Absyn.DictKeys p, A arg)
+    { /* Code For DictKeys Goes Here */
+      p.expr_.accept(new ExprVisitor<R,A>(), arg);
+      return null;
+    }    public R visit(fafl.Absyn.DictValues p, A arg)
+    { /* Code For DictValues Goes Here */
+      p.expr_.accept(new ExprVisitor<R,A>(), arg);
+      return null;
+    }    public R visit(fafl.Absyn.DictLength p, A arg)
+    { /* Code For DictLength Goes Here */
+      p.expr_.accept(new ExprVisitor<R,A>(), arg);
       return null;
     }    public R visit(fafl.Absyn.ArrayConstructor p, A arg)
     { /* Code For ArrayConstructor Goes Here */
@@ -273,6 +295,11 @@ public class VisitSkel
     }    public R visit(fafl.Absyn.StructType p, A arg)
     { /* Code For StructType Goes Here */
       //p.ident_;
+      return null;
+    }    public R visit(fafl.Absyn.DictType p, A arg)
+    { /* Code For DictType Goes Here */
+      p.type_1.accept(new TypeVisitor<R,A>(), arg);
+      p.type_2.accept(new TypeVisitor<R,A>(), arg);
       return null;
     }        public R visit(fafl.Absyn.StructFieldType p, A arg)
     { /* Code For StructFieldType Goes Here */

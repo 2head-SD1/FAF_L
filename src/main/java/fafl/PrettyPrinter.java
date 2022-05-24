@@ -437,9 +437,63 @@ public class PrettyPrinter
        if (_i_ > 0) render(_L_PAREN);
        render("dict-set");
        render("(");
-       pp(_dictset.ident_, 0);
+       pp(_dictset.expr_, 0);
        render(",");
        pp(_dictset.pair_, 0);
+       render(")");
+       if (_i_ > 0) render(_R_PAREN);
+    }
+    else     if (foo instanceof fafl.Absyn.DictGet)
+    {
+       fafl.Absyn.DictGet _dictget = (fafl.Absyn.DictGet) foo;
+       if (_i_ > 0) render(_L_PAREN);
+       render("dict-get");
+       render("(");
+       pp(_dictget.expr_1, 0);
+       render(",");
+       pp(_dictget.expr_2, 0);
+       render(")");
+       if (_i_ > 0) render(_R_PAREN);
+    }
+    else     if (foo instanceof fafl.Absyn.DictRemove)
+    {
+       fafl.Absyn.DictRemove _dictremove = (fafl.Absyn.DictRemove) foo;
+       if (_i_ > 0) render(_L_PAREN);
+       render("dict-remove");
+       render("(");
+       pp(_dictremove.expr_1, 0);
+       render(",");
+       pp(_dictremove.expr_2, 0);
+       render(")");
+       if (_i_ > 0) render(_R_PAREN);
+    }
+    else     if (foo instanceof fafl.Absyn.DictKeys)
+    {
+       fafl.Absyn.DictKeys _dictkeys = (fafl.Absyn.DictKeys) foo;
+       if (_i_ > 0) render(_L_PAREN);
+       render("dict-keys");
+       render("(");
+       pp(_dictkeys.expr_, 0);
+       render(")");
+       if (_i_ > 0) render(_R_PAREN);
+    }
+    else     if (foo instanceof fafl.Absyn.DictValues)
+    {
+       fafl.Absyn.DictValues _dictvalues = (fafl.Absyn.DictValues) foo;
+       if (_i_ > 0) render(_L_PAREN);
+       render("dict-values");
+       render("(");
+       pp(_dictvalues.expr_, 0);
+       render(")");
+       if (_i_ > 0) render(_R_PAREN);
+    }
+    else     if (foo instanceof fafl.Absyn.DictLength)
+    {
+       fafl.Absyn.DictLength _dictlength = (fafl.Absyn.DictLength) foo;
+       if (_i_ > 0) render(_L_PAREN);
+       render("dict-length");
+       render("(");
+       pp(_dictlength.expr_, 0);
        render(")");
        if (_i_ > 0) render(_R_PAREN);
     }
@@ -506,7 +560,7 @@ public class PrettyPrinter
     {
        fafl.Absyn.ArrayLength _arraylength = (fafl.Absyn.ArrayLength) foo;
        if (_i_ > 0) render(_L_PAREN);
-       render("length");
+       render("array-length");
        render("(");
        pp(_arraylength.expr_, 0);
        render(")");
@@ -822,6 +876,17 @@ public class PrettyPrinter
        render(">");
        if (_i_ > 1) render(_R_PAREN);
     }
+    else     if (foo instanceof fafl.Absyn.DictType)
+    {
+       fafl.Absyn.DictType _dicttype = (fafl.Absyn.DictType) foo;
+       if (_i_ > 1) render(_L_PAREN);
+       render("<");
+       pp(_dicttype.type_1, 0);
+       render(",");
+       pp(_dicttype.type_2, 0);
+       render(">");
+       if (_i_ > 1) render(_R_PAREN);
+    }
     else     if (foo instanceof fafl.Absyn.StructFieldType)
     {
        fafl.Absyn.StructFieldType _structfieldtype = (fafl.Absyn.StructFieldType) foo;
@@ -1011,8 +1076,50 @@ public class PrettyPrinter
        fafl.Absyn.DictSet _dictset = (fafl.Absyn.DictSet) foo;
        render("(");
        render("DictSet");
-       sh(_dictset.ident_);
+       sh(_dictset.expr_);
        sh(_dictset.pair_);
+       render(")");
+    }
+    if (foo instanceof fafl.Absyn.DictGet)
+    {
+       fafl.Absyn.DictGet _dictget = (fafl.Absyn.DictGet) foo;
+       render("(");
+       render("DictGet");
+       sh(_dictget.expr_1);
+       sh(_dictget.expr_2);
+       render(")");
+    }
+    if (foo instanceof fafl.Absyn.DictRemove)
+    {
+       fafl.Absyn.DictRemove _dictremove = (fafl.Absyn.DictRemove) foo;
+       render("(");
+       render("DictRemove");
+       sh(_dictremove.expr_1);
+       sh(_dictremove.expr_2);
+       render(")");
+    }
+    if (foo instanceof fafl.Absyn.DictKeys)
+    {
+       fafl.Absyn.DictKeys _dictkeys = (fafl.Absyn.DictKeys) foo;
+       render("(");
+       render("DictKeys");
+       sh(_dictkeys.expr_);
+       render(")");
+    }
+    if (foo instanceof fafl.Absyn.DictValues)
+    {
+       fafl.Absyn.DictValues _dictvalues = (fafl.Absyn.DictValues) foo;
+       render("(");
+       render("DictValues");
+       sh(_dictvalues.expr_);
+       render(")");
+    }
+    if (foo instanceof fafl.Absyn.DictLength)
+    {
+       fafl.Absyn.DictLength _dictlength = (fafl.Absyn.DictLength) foo;
+       render("(");
+       render("DictLength");
+       sh(_dictlength.expr_);
        render(")");
     }
     if (foo instanceof fafl.Absyn.ArrayConstructor)
@@ -1339,6 +1446,15 @@ public class PrettyPrinter
        render("(");
        render("StructType");
        sh(_structtype.ident_);
+       render(")");
+    }
+    if (foo instanceof fafl.Absyn.DictType)
+    {
+       fafl.Absyn.DictType _dicttype = (fafl.Absyn.DictType) foo;
+       render("(");
+       render("DictType");
+       sh(_dicttype.type_1);
+       sh(_dicttype.type_2);
        render(")");
     }
     if (foo instanceof fafl.Absyn.StructFieldType)

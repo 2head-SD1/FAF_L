@@ -27,6 +27,10 @@ public class Evaluator
             return value;
         }
 
+        if (expr instanceof  DictConstructor){
+
+        }
+
         //TODO: SetqStruct
 
         if (expr instanceof Id)
@@ -57,6 +61,11 @@ public class Evaluator
         if (ArrayEval.isArrayExpr(expr))
         {
             return ArrayEval.doArrayExpr(expr);
+        }
+
+        if (DictEval.isDictExpr(expr))
+        {
+            return DictEval.doDictExpr(expr);
         }
 
         if (BoolPredicateEvaluator.isExprBoolPredicate(expr))

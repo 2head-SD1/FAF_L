@@ -38,7 +38,12 @@ Lambda.             Expr ::= "lambda" "("[ATypedArg]")" "->" AFuncReturnType "{"
 DictPair.           Pair ::= "(" Expr "." Expr ")";
 separator           Pair ",";
 DictConstructor.    Expr ::= "dict" Ident "<" Type "," Type ">" "(" [Pair] ")";
-DictSet.            Expr ::= "dict-set" "(" Ident "," Pair ")";
+DictSet.            Expr ::= "dict-set" "(" Expr "," Pair ")";
+DictGet.            Expr ::= "dict-get" "(" Expr "," Expr ")";
+DictRemove.         Expr ::= "dict-remove" "(" Expr "," Expr ")";
+DictKeys.           Expr ::= "dict-keys" "(" Expr ")";
+DictValues.         Expr ::= "dict-values" "(" Expr ")";
+DictLength.         Expr ::= "dict-length" "(" Expr ")";
 
 --Array rules
 ArrayConstructor.   Expr ::= Type "["Expr"]" "{"[Expr]"}";
@@ -46,7 +51,7 @@ First.              Expr ::= "first" "("Expr")";
 Last.               Expr ::= "last" "("Expr")";
 ArrayGet.                Expr ::= "get" "(" Expr "," Expr ")";
 ArraySet.                Expr ::= "array-set" "(" Expr "," Expr "," Expr ")";
-ArrayLength.             Expr ::= "length" "("Expr")";
+ArrayLength.             Expr ::= "array-length" "("Expr")";
 
 --Exception rules
 RaiseEx.            Expr ::= "raise" "Exception" "("String")";
@@ -84,6 +89,7 @@ DoubleType.         Type1 ::= "Double";
 StringType.         Type1 ::= "String";
 ArrayType.          Type1 ::= "["Type"]";
 StructType.         Type1 ::= "<"Ident">";
+DictType.           Type1 ::= "<" Type "," Type ">";
 StructFieldType.    Type ::= "{"Type"}";
 FuncType.           Type ::= Type1 "->" Type;
 _.                  Type ::= Type1;

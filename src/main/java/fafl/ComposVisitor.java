@@ -116,9 +116,31 @@ public class ComposVisitor<A> implements
       return new fafl.Absyn.DictConstructor(ident_, type_1, type_2, listpair_);
     }    public Expr visit(fafl.Absyn.DictSet p, A arg)
     {
-      String ident_ = p.ident_;
+      Expr expr_ = p.expr_.accept(this, arg);
       Pair pair_ = p.pair_.accept(this, arg);
-      return new fafl.Absyn.DictSet(ident_, pair_);
+      return new fafl.Absyn.DictSet(expr_, pair_);
+    }    public Expr visit(fafl.Absyn.DictGet p, A arg)
+    {
+      Expr expr_1 = p.expr_1.accept(this, arg);
+      Expr expr_2 = p.expr_2.accept(this, arg);
+      return new fafl.Absyn.DictGet(expr_1, expr_2);
+    }    public Expr visit(fafl.Absyn.DictRemove p, A arg)
+    {
+      Expr expr_1 = p.expr_1.accept(this, arg);
+      Expr expr_2 = p.expr_2.accept(this, arg);
+      return new fafl.Absyn.DictRemove(expr_1, expr_2);
+    }    public Expr visit(fafl.Absyn.DictKeys p, A arg)
+    {
+      Expr expr_ = p.expr_.accept(this, arg);
+      return new fafl.Absyn.DictKeys(expr_);
+    }    public Expr visit(fafl.Absyn.DictValues p, A arg)
+    {
+      Expr expr_ = p.expr_.accept(this, arg);
+      return new fafl.Absyn.DictValues(expr_);
+    }    public Expr visit(fafl.Absyn.DictLength p, A arg)
+    {
+      Expr expr_ = p.expr_.accept(this, arg);
+      return new fafl.Absyn.DictLength(expr_);
     }    public Expr visit(fafl.Absyn.ArrayConstructor p, A arg)
     {
       Type type_ = p.type_.accept(this, arg);
@@ -295,6 +317,11 @@ public class ComposVisitor<A> implements
     {
       String ident_ = p.ident_;
       return new fafl.Absyn.StructType(ident_);
+    }    public Type visit(fafl.Absyn.DictType p, A arg)
+    {
+      Type type_1 = p.type_1.accept(this, arg);
+      Type type_2 = p.type_2.accept(this, arg);
+      return new fafl.Absyn.DictType(type_1, type_2);
     }    public Type visit(fafl.Absyn.StructFieldType p, A arg)
     {
       Type type_ = p.type_.accept(this, arg);

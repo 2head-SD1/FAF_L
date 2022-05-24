@@ -24,6 +24,11 @@ public class AbstractVisitor<R,A> implements AllVisitor<R,A> {
     public R visit(fafl.Absyn.Lambda p, A arg) { return visitDefault(p, arg); }
     public R visit(fafl.Absyn.DictConstructor p, A arg) { return visitDefault(p, arg); }
     public R visit(fafl.Absyn.DictSet p, A arg) { return visitDefault(p, arg); }
+    public R visit(fafl.Absyn.DictGet p, A arg) { return visitDefault(p, arg); }
+    public R visit(fafl.Absyn.DictRemove p, A arg) { return visitDefault(p, arg); }
+    public R visit(fafl.Absyn.DictKeys p, A arg) { return visitDefault(p, arg); }
+    public R visit(fafl.Absyn.DictValues p, A arg) { return visitDefault(p, arg); }
+    public R visit(fafl.Absyn.DictLength p, A arg) { return visitDefault(p, arg); }
     public R visit(fafl.Absyn.ArrayConstructor p, A arg) { return visitDefault(p, arg); }
     public R visit(fafl.Absyn.First p, A arg) { return visitDefault(p, arg); }
     public R visit(fafl.Absyn.Last p, A arg) { return visitDefault(p, arg); }
@@ -85,6 +90,7 @@ public class AbstractVisitor<R,A> implements AllVisitor<R,A> {
     public R visit(fafl.Absyn.StringType p, A arg) { return visitDefault(p, arg); }
     public R visit(fafl.Absyn.ArrayType p, A arg) { return visitDefault(p, arg); }
     public R visit(fafl.Absyn.StructType p, A arg) { return visitDefault(p, arg); }
+    public R visit(fafl.Absyn.DictType p, A arg) { return visitDefault(p, arg); }
 
     public R visit(fafl.Absyn.StructFieldType p, A arg) { return visitDefault(p, arg); }
     public R visit(fafl.Absyn.FuncType p, A arg) { return visitDefault(p, arg); }

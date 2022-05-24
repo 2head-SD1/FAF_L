@@ -109,7 +109,35 @@ public abstract class FoldVisitor<R,A> implements AllVisitor<R,A> {
     }
     public R visit(fafl.Absyn.DictSet p, A arg) {
       R r = leaf(arg);
+      r = combine(p.expr_.accept(this, arg), r, arg);
       r = combine(p.pair_.accept(this, arg), r, arg);
+      return r;
+    }
+    public R visit(fafl.Absyn.DictGet p, A arg) {
+      R r = leaf(arg);
+      r = combine(p.expr_1.accept(this, arg), r, arg);
+      r = combine(p.expr_2.accept(this, arg), r, arg);
+      return r;
+    }
+    public R visit(fafl.Absyn.DictRemove p, A arg) {
+      R r = leaf(arg);
+      r = combine(p.expr_1.accept(this, arg), r, arg);
+      r = combine(p.expr_2.accept(this, arg), r, arg);
+      return r;
+    }
+    public R visit(fafl.Absyn.DictKeys p, A arg) {
+      R r = leaf(arg);
+      r = combine(p.expr_.accept(this, arg), r, arg);
+      return r;
+    }
+    public R visit(fafl.Absyn.DictValues p, A arg) {
+      R r = leaf(arg);
+      r = combine(p.expr_.accept(this, arg), r, arg);
+      return r;
+    }
+    public R visit(fafl.Absyn.DictLength p, A arg) {
+      R r = leaf(arg);
+      r = combine(p.expr_.accept(this, arg), r, arg);
       return r;
     }
     public R visit(fafl.Absyn.ArrayConstructor p, A arg) {
@@ -308,6 +336,12 @@ public abstract class FoldVisitor<R,A> implements AllVisitor<R,A> {
     }
     public R visit(fafl.Absyn.StructType p, A arg) {
       R r = leaf(arg);
+      return r;
+    }
+    public R visit(fafl.Absyn.DictType p, A arg) {
+      R r = leaf(arg);
+      r = combine(p.type_1.accept(this, arg), r, arg);
+      r = combine(p.type_2.accept(this, arg), r, arg);
       return r;
     }
     public R visit(fafl.Absyn.StructFieldType p, A arg) {

@@ -2,10 +2,7 @@ package eval;
 
 import com.SymbolTable.SymbolNode;
 import com.SymbolTable.SymbolTable;
-import com.sun.jdi.VoidType;
 import fafl.Absyn.*;
-
-import java.util.List;
 
 public class ArrayEval
 {
