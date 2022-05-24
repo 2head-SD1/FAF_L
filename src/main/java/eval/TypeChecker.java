@@ -22,6 +22,7 @@ public class TypeChecker {
             var typeOfResult = typeOf(context, ((If) expr).expr_2);
             return typecheck(context, ((If) expr).expr_3, typeOfResult);
         }
+        //Constants
         if(expr instanceof IntConst)
             return new IntType();
         if(expr instanceof DoubleConst)
@@ -30,6 +31,59 @@ public class TypeChecker {
             return new StringType();
         if(expr instanceof BoolConst)
             return new BoolType();
+        if(expr instanceof Id)
+        {
+            for(var t : context)
+            {
+                if(t.ident.equals(((Id)expr).ident_))
+                    return t.type;
+            }
+            throw new UndefinedVariableError(String.format("Variable %s undefined", ((Id)expr).ident_));
+        }
+        if(expr instanceof SetqSimple)
+        {
+            SetqSimple curExpr = (SetqSimple) expr;
+            Type exprType = typecheck(context, curExpr.expr_, curExpr.type_);
+            context.add(new Context.ContextNode(curExpr.ident_, exprType));
+        }
+        //Array typechecking
+        if(expr instanceof ArrayConstructor)
+        {
+            ArrayConstructor curExpr = (ArrayConstructor)expr;
+            typecheck(context, curExpr.expr_, new IntType());
+            for(var arrayExpr : curExpr.listexpr_)
+            {
+                typecheck(context, arrayExpr, curExpr.type_);
+            }
+            return new ArrayType(curExpr.type_);
+        }
+        if(expr instanceof ArrayGet)
+        {
+            ArrayGet curExpr = (ArrayGet)expr;
+
+            Type arrayContentType = getArrayContentType(context, curExpr);
+            typecheck(context, curExpr.expr_2, new IntType());
+            return arrayContentType;
+        }
+        if(expr instanceof ArrayLength)
+            return new IntType();
+        if(expr instanceof ArraySet)
+        {
+            ArraySet curExpr = (ArraySet) expr;
+            typecheck(context, curExpr.expr_2, new IntType());
+            Type arrayContentType = getArrayContentType(context, curExpr.expr_1);
+            typecheck(context, curExpr.expr_3, arrayContentType);
+            return new ArrayType(arrayContentType);
+        }
+        if(expr instanceof First)
+        {
+
+        }
+        if(expr instanceof Last)
+        {
+
+        }
+        //Func typechecking
         if(expr instanceof Define)
         {
             Define curDef = (Define)expr;
@@ -71,59 +125,76 @@ public class TypeChecker {
         if(expr instanceof Plus)
         {
             Plus curExpr = (Plus)expr;
-            typeCheckArithmetic(context, curExpr.listexpr_, expr);
+            return typeCheckArithmetic(context, curExpr.listexpr_, expr);
         }
         if(expr instanceof Minus)
         {
             Minus curExpr = (Minus)expr;
-            typeCheckArithmetic(context, curExpr.listexpr_, expr);
+            return typeCheckArithmetic(context, curExpr.listexpr_, expr);
         }
         if(expr instanceof Mul)
         {
             Mul curExpr = (Mul)expr;
-            typeCheckArithmetic(context, curExpr.listexpr_, expr);
+            return typeCheckArithmetic(context, curExpr.listexpr_, expr);
         }
         if(expr instanceof Div)
         {
             Div curExpr = (Div) expr;
-            typeCheckArithmetic(context, curExpr.listexpr_, expr);
+            return typeCheckArithmetic(context, curExpr.listexpr_, expr);
         }
         return null;
+    }
+
+    private static Type getArrayContentType(List<Context.ContextNode> context, Expr curExpr) throws TypeCheckError
+    {
+        Type arrayType = typeOf(context, curExpr);
+        Type arrayContentType;
+        try
+        {
+            ArrayType castedArrayType = (ArrayType) arrayType;
+            arrayContentType = castedArrayType.type_;
+        }
+        catch(ClassCastException e)
+        {
+            throw new UnexpectedTypeError(getUnexpectedTypeError(new ArrayType(null), arrayType, curExpr));
+        }
+        return arrayContentType;
     }
 
     private static Type getFuncArgsType(List<ATypedArg> args)
     {
         if(args.stream().count() == 1)
             return ((TypedArg)args.get(0)).type_;
-        return new FuncType(getFuncArgsType(args.subList(1, ((int)args.stream().count()-1))), ((TypedArg)args.get(0)).type_);
+        return new FuncType(((TypedArg)args.get(0)).type_, getFuncArgsType(args.subList(1, ((int)args.stream().count()))));
     }
 
-    private static void typeCheckNumericBoolPredicate(List<Context.ContextNode> context, Expr mainExpr, Expr expr1, Expr expr2) throws TypeCheckError
+    private static Type typeCheckNumericBoolPredicate(List<Context.ContextNode> context, Expr mainExpr, Expr expr1, Expr expr2) throws TypeCheckError
     {
         Type expr1Type = typeOf(context, expr1);
         if(!(expr1Type instanceof DoubleType || expr1Type instanceof IntType))
             throw new UnexpectedTypeError(getExpectedNumericalTypeError(expr1Type, mainExpr));
         typecheck(context, expr2, expr1Type);
+        return expr1Type;
     }
-    private static void typeCheckBaseBoolPredicate(List<Context.ContextNode> context, Expr mainExpr, Expr expr1, Expr expr2) throws TypeCheckError
+    private static Type typeCheckBaseBoolPredicate(List<Context.ContextNode> context, Expr mainExpr, Expr expr1, Expr expr2) throws TypeCheckError
     {
         Type expr1Type = typeOf(context, expr1);
         if(expr1Type instanceof DoubleType || expr1Type instanceof IntType || expr1Type instanceof StringType || expr1Type instanceof BoolType)
         {
-            typecheck(context, expr2, expr1Type);
+            return typecheck(context, expr2, expr1Type);
         }
         throw new UnexpectedTypeError(getExpectedBaseTypeError(expr1Type, mainExpr));
     }
 
-    private static void typeCheckBoolPredicate(List<Context.ContextNode> context, Expr mainExpr, Expr expr1, Expr expr2) throws TypeCheckError
+    private static Type typeCheckBoolPredicate(List<Context.ContextNode> context, Expr mainExpr, Expr expr1, Expr expr2) throws TypeCheckError
     {
         Type expr1Type = typeOf(context, expr1);
         if(expr1Type instanceof BoolType)
-            typecheck(context, expr2, expr1Type);
+            return typecheck(context, expr2, expr1Type);
         throw new UnexpectedTypeError(getUnexpectedTypeError(new BoolType(), expr1Type, mainExpr));
     }
 
-    private static void typeCheckArithmetic(List<Context.ContextNode> context, ListExpr curExpr, Expr expr) throws TypeCheckError
+    private static Type typeCheckArithmetic(List<Context.ContextNode> context, ListExpr curExpr, Expr expr) throws TypeCheckError
     {
         Type firstExprType = typeOf(context, curExpr.getFirst());
         if(!(firstExprType instanceof IntType || firstExprType instanceof DoubleType))
@@ -132,6 +203,7 @@ public class TypeChecker {
         {
             typecheck(context, curExpr.get(i), firstExprType);
         }
+        return firstExprType;
     }
 
     private Type lookup(String ident_, List<Context.ContextNode> context) throws TypeCheckError {
