@@ -57,6 +57,11 @@ public class ComposVisitor<A> implements
     {
       String ident_ = p.ident_;
       return new fafl.Absyn.Id(ident_);
+    }    public Expr visit(fafl.Absyn.FuncCall p, A arg)
+    {
+      String ident_ = p.ident_;
+      Expr expr_ = p.expr_.accept(this, arg);
+      return new fafl.Absyn.FuncCall(ident_, expr_);
     }    public Expr visit(fafl.Absyn.Define p, A arg)
     {
       String ident_ = p.ident_;

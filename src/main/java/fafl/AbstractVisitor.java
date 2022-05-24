@@ -15,6 +15,7 @@ public class AbstractVisitor<R,A> implements AllVisitor<R,A> {
     public R visit(fafl.Absyn.BoolConst p, A arg) { return visitDefault(p, arg); }
     public R visit(fafl.Absyn.StringConst p, A arg) { return visitDefault(p, arg); }
     public R visit(fafl.Absyn.Id p, A arg) { return visitDefault(p, arg); }
+    public R visit(fafl.Absyn.FuncCall p, A arg) { return visitDefault(p, arg); }
     public R visit(fafl.Absyn.Define p, A arg) { return visitDefault(p, arg); }
 
     public R visit(fafl.Absyn.StructInit p, A arg) { return visitDefault(p, arg); }

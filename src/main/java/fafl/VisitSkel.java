@@ -52,6 +52,11 @@ public class VisitSkel
     { /* Code For Id Goes Here */
       //p.ident_;
       return null;
+    }    public R visit(fafl.Absyn.FuncCall p, A arg)
+    { /* Code For FuncCall Goes Here */
+      //p.ident_;
+      p.expr_.accept(new ExprVisitor<R,A>(), arg);
+      return null;
     }    public R visit(fafl.Absyn.Define p, A arg)
     { /* Code For Define Goes Here */
       //p.ident_;
