@@ -30,7 +30,7 @@ public class FunctionEvaluator
 
     private static Expr doDefine(Define define) throws Exception
     {
-        SymbolNode node = new SymbolNode(TypeChecker.typeOf(null, define), define);
+        SymbolNode node = new SymbolNode(TypeChecker.typeOf(new Context().context, define), define);
         SymbolTable.addSymbol(define.ident_, node);
         return define;
     }

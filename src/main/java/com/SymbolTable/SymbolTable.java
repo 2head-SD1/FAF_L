@@ -1,6 +1,8 @@
 package com.SymbolTable;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class SymbolTable
 {
@@ -59,12 +61,17 @@ public class SymbolTable
 
     private static void deleteSymbolsWithBadScopes()
     {
+        List<SymbolTableKey> removeKeys = new ArrayList<>();
         for (SymbolTableKey key : table.keySet())
         {
             if (key.scopeLevel > currentScopeLevel)
             {
-                table.remove(key);
+                removeKeys.add(key);
             }
+        }
+        for(var key : removeKeys)
+        {
+            table.remove(key);
         }
     }
 
