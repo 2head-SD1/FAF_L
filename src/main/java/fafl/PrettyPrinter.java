@@ -349,7 +349,7 @@ public class PrettyPrinter
        render("call");
        pp(_funccall.ident_, 0);
        render("(");
-       pp(_funccall.expr_, 0);
+       pp(_funccall.listexpr_, 0);
        render(")");
        if (_i_ > 0) render(_R_PAREN);
     }
@@ -1011,7 +1011,9 @@ public class PrettyPrinter
        render("(");
        render("FuncCall");
        sh(_funccall.ident_);
-       sh(_funccall.expr_);
+       render("[");
+       sh(_funccall.listexpr_);
+       render("]");
        render(")");
     }
     if (foo instanceof fafl.Absyn.Define)

@@ -1,8 +1,2 @@
-struct Age(age:Int);
-struct Worker(name:String, worker_age:<Age>);
-
-setq IvansAge:<Age> Age(23);
-setq eevan:<Worker> Worker(ivan, IvansAge);
-
-setq a:Int 2;
-a;
+define myFunc(x:Int, y:Bool) -> Bool{true};
+call myFunc(1, true);
