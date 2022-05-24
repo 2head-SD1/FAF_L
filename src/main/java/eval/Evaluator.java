@@ -79,6 +79,11 @@ public class Evaluator
             return BoolPredicateEvaluator.doBoolPredicateExpr(expr);
         }
 
+        if (FunctionEvaluator.isFunctionExpr(expr))
+        {
+            return FunctionEvaluator.doFunctionExpr(expr);
+        }
+
         throw new Exception("No such expression");
     }
 

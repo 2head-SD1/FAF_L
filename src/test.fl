@@ -1,14 +1,2 @@
-setq x:Int plus(1, 2);
-setq y:Int minus(2, 5);
-plus(y,plus(minus(x, 3), 2));
-
-dict numbers <String, Int> (
-    ("One" . 1),
-    ("Two" . 2),
-    ("Three" . 3)
-);
-
-dict-set (numbers, ("Four" . 4));
-dict-set (numbers, ("One" . 23));
-dict-remove (numbers, "Two");
-dict-length (numbers);
+define myFunc(x:Int, y:Bool) -> Bool{true};
+call myFunc(1, true);

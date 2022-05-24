@@ -1,4 +1,5 @@
 package fafl;
+import eval.Evaluator;
 import java_cup.runtime.*;
 import fafl.*;
 import fafl.Absyn.*;
@@ -28,6 +29,11 @@ public class Test
     try
     {
       fafl.Absyn.ProgramExprs parse_tree = p.pProgramExprs();
+      Program program = (Program) parse_tree;
+      for (Expr expr : program.listexpr_)
+      {
+        System.out.println(PrettyPrinter.print(Evaluator.evalStep(expr)));
+      }
       System.out.println();
       System.out.println("Parse Succesful!");
       System.out.println();
