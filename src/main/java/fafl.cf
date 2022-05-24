@@ -16,7 +16,7 @@ StringConst.        Expr ::= String;
 Id.                 Expr ::= Ident;
 
 --Func rules
-FuncCall.           Expr ::= "call" Ident "("Expr")";
+FuncCall.           Expr ::= "call" Ident "("[Expr]")";
 Define.             Expr ::= "define" Ident "("[ATypedArg]")" "->" AFuncReturnType "{" Expr "}";
 separator           ATypedArg ",";
 separator           Expr ",";
