@@ -25,28 +25,16 @@ public class Evaluator
 
             if (value instanceof StructConstructor){
                 StructConstructor structConstructor = (StructConstructor) value;
-                ListExpr arguments = structConstructor.listexpr_;
 
-                SymbolNode structNode = SymbolTable.getSymbol(structConstructor.ident_);
-                StructInit structInit = (StructInit) structNode.value;
-
-                ListATypedArg fields = structInit.listatypedarg_;
-
-                for(int i = 0; i < arguments.size(); i++){
-                    TypedArg typedArg = (TypedArg) fields.get(i);
-                    SymbolNode argumentNode = new SymbolNode(
-                            new StructFieldType(
-                                    typedArg.type_
-                            ),
-                            arguments.get(i)
-                    );
-
-                    SymbolTable.addSymbol(
-                            setq.ident_ + "." + typedArg.ident_,
-                            argumentNode
-                    );
-                }
-
+                SymbolTable.addSymbol(
+                        setq.ident_,
+                        new SymbolNode(
+                                new StructType(
+                                        structConstructor.ident_
+                                ),
+                                structConstructor
+                        )
+                );
                 return value;
             }
 

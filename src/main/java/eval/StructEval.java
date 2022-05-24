@@ -45,37 +45,42 @@ public class StructEval {
     }
 
     private static Expr doStructField(StructField expr) throws Exception {
-//        System.out.println(expr.ident_);
-//
-//        if (expr.expr_ instanceof Id){
-//            Id id = (Id) expr.expr_;
-//
-//            return SymbolTable.getSymbol(
-//                    id.ident_ +"." + expr.ident_
-//            ).value;
-//        } else {
-//            Expr evaluatedExpr = expr.expr_;
-//            if (evaluatedExpr instanceof StructField){
-//                return SymbolTable.getSymbol(
-//                        ((StructField) evaluatedExpr).ident_ + "." + expr.ident_
-//                ).value;
-//            } else {
-//
-//            }
-//
-//            while (! (evaluatedExpr instanceof  StructField)){
-//                evaluatedExpr = Evaluator.evalStep(expr.)
-//            }
-//        }
-        return expr;
+        StructConstructor structConstructor = getStructConstructor(expr.expr_);
+        ListExpr arguments = structConstructor.listexpr_;
+
+        SymbolNode structNode = SymbolTable.getSymbol(structConstructor.ident_);
+        StructInit structInit = (StructInit) structNode.value;
+
+        ListATypedArg fields = structInit.listatypedarg_;
+
+        for(int i = 0; i < arguments.size(); i++){
+            TypedArg typedArg = (TypedArg) fields.get(i);
+
+            if (typedArg.ident_.equalsIgnoreCase(expr.ident_)){
+                return arguments.get(i);
+            }
+        }
+
+        throw new Exception("no such field");
     }
 
-
-    public static boolean isStructExpr(Expr expr)
-    {
+    public static boolean isStructExpr(Expr expr) {
         return
-                expr instanceof StructInit ||
-                expr instanceof StructConstructor ||
-                expr instanceof StructField;
+            expr instanceof StructInit ||
+            expr instanceof StructConstructor ||
+            expr instanceof StructField;
+    }
+
+    private static StructConstructor getStructConstructor(Expr expr) throws Exception {
+        StructConstructor structConstructor;
+
+        if (expr instanceof Id){
+            Id id = (Id) expr;
+            structConstructor = (StructConstructor) SymbolTable.getSymbol(id.ident_).value;
+        } else {
+            structConstructor = (StructConstructor) Evaluator.evalStep(expr);
+        }
+
+        return structConstructor;
     }
 }

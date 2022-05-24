@@ -3,4 +3,6 @@ struct Worker(name:String, worker_age:<Age>);
 
 setq IvansAge:<Age> Age(23);
 setq eevan:<Worker> Worker(ivan, IvansAge);
-eevan.worker_age.age;
+
+setq a:Int 2;
+a;
