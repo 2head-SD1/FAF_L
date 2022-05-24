@@ -30,6 +30,9 @@ public abstract class Expr implements java.io.Serializable {
     public R visit(fafl.Absyn.ArrayGet p, A arg);
     public R visit(fafl.Absyn.ArraySet p, A arg);
     public R visit(fafl.Absyn.ArrayLength p, A arg);
+    public R visit(fafl.Absyn.TupleConstructor p, A arg);
+    public R visit(fafl.Absyn.TupleGet p, A arg);
+    public R visit(fafl.Absyn.TupleLength p, A arg);
     public R visit(fafl.Absyn.RaiseEx p, A arg);
     public R visit(fafl.Absyn.TryCatch p, A arg);
     public R visit(fafl.Absyn.Plus p, A arg);

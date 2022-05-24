@@ -1,2 +1,6 @@
-define myFunc(x:Int, y:Bool) -> Bool{true};
-call myFunc(1, true);
+setq lol:Tuple (
+    1, 2, "Hello, World"
+);
+
+tuple-get(lol, 0);
+tuple-length(lol);

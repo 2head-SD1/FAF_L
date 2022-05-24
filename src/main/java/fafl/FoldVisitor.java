@@ -190,6 +190,25 @@ public abstract class FoldVisitor<R,A> implements AllVisitor<R,A> {
       r = combine(p.expr_.accept(this, arg), r, arg);
       return r;
     }
+    public R visit(fafl.Absyn.TupleConstructor p, A arg) {
+      R r = leaf(arg);
+      for (Expr x : p.listexpr_)
+      {
+        r = combine(x.accept(this, arg), r, arg);
+      }
+      return r;
+    }
+    public R visit(fafl.Absyn.TupleGet p, A arg) {
+      R r = leaf(arg);
+      r = combine(p.expr_1.accept(this, arg), r, arg);
+      r = combine(p.expr_2.accept(this, arg), r, arg);
+      return r;
+    }
+    public R visit(fafl.Absyn.TupleLength p, A arg) {
+      R r = leaf(arg);
+      r = combine(p.expr_.accept(this, arg), r, arg);
+      return r;
+    }
     public R visit(fafl.Absyn.RaiseEx p, A arg) {
       R r = leaf(arg);
       return r;
@@ -325,6 +344,10 @@ public abstract class FoldVisitor<R,A> implements AllVisitor<R,A> {
     }
 
 /* Type */
+    public R visit(fafl.Absyn.TupleType p, A arg) {
+      R r = leaf(arg);
+      return r;
+    }
     public R visit(fafl.Absyn.BoolType p, A arg) {
       R r = leaf(arg);
       return r;

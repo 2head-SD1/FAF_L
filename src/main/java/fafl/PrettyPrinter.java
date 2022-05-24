@@ -545,7 +545,7 @@ public class PrettyPrinter
     {
        fafl.Absyn.ArrayGet _arrayget = (fafl.Absyn.ArrayGet) foo;
        if (_i_ > 0) render(_L_PAREN);
-       render("get");
+       render("array-get");
        render("(");
        pp(_arrayget.expr_1, 0);
        render(",");
@@ -574,6 +574,37 @@ public class PrettyPrinter
        render("array-length");
        render("(");
        pp(_arraylength.expr_, 0);
+       render(")");
+       if (_i_ > 0) render(_R_PAREN);
+    }
+    else     if (foo instanceof fafl.Absyn.TupleConstructor)
+    {
+       fafl.Absyn.TupleConstructor _tupleconstructor = (fafl.Absyn.TupleConstructor) foo;
+       if (_i_ > 0) render(_L_PAREN);
+       render("(");
+       pp(_tupleconstructor.listexpr_, 0);
+       render(")");
+       if (_i_ > 0) render(_R_PAREN);
+    }
+    else     if (foo instanceof fafl.Absyn.TupleGet)
+    {
+       fafl.Absyn.TupleGet _tupleget = (fafl.Absyn.TupleGet) foo;
+       if (_i_ > 0) render(_L_PAREN);
+       render("tuple-get");
+       render("(");
+       pp(_tupleget.expr_1, 0);
+       render(",");
+       pp(_tupleget.expr_2, 0);
+       render(")");
+       if (_i_ > 0) render(_R_PAREN);
+    }
+    else     if (foo instanceof fafl.Absyn.TupleLength)
+    {
+       fafl.Absyn.TupleLength _tuplelength = (fafl.Absyn.TupleLength) foo;
+       if (_i_ > 0) render(_L_PAREN);
+       render("tuple-length");
+       render("(");
+       pp(_tuplelength.expr_, 0);
        render(")");
        if (_i_ > 0) render(_R_PAREN);
     }
@@ -841,7 +872,14 @@ public class PrettyPrinter
 
   private static void pp(fafl.Absyn.Type foo, int _i_)
   {
-    if (foo instanceof fafl.Absyn.BoolType)
+    if (foo instanceof fafl.Absyn.TupleType)
+    {
+       fafl.Absyn.TupleType _tupletype = (fafl.Absyn.TupleType) foo;
+       if (_i_ > 1) render(_L_PAREN);
+       render("Tuple");
+       if (_i_ > 1) render(_R_PAREN);
+    }
+    else     if (foo instanceof fafl.Absyn.BoolType)
     {
        fafl.Absyn.BoolType _booltype = (fafl.Absyn.BoolType) foo;
        if (_i_ > 1) render(_L_PAREN);
@@ -1201,6 +1239,33 @@ public class PrettyPrinter
        sh(_arraylength.expr_);
        render(")");
     }
+    if (foo instanceof fafl.Absyn.TupleConstructor)
+    {
+       fafl.Absyn.TupleConstructor _tupleconstructor = (fafl.Absyn.TupleConstructor) foo;
+       render("(");
+       render("TupleConstructor");
+       render("[");
+       sh(_tupleconstructor.listexpr_);
+       render("]");
+       render(")");
+    }
+    if (foo instanceof fafl.Absyn.TupleGet)
+    {
+       fafl.Absyn.TupleGet _tupleget = (fafl.Absyn.TupleGet) foo;
+       render("(");
+       render("TupleGet");
+       sh(_tupleget.expr_1);
+       sh(_tupleget.expr_2);
+       render(")");
+    }
+    if (foo instanceof fafl.Absyn.TupleLength)
+    {
+       fafl.Absyn.TupleLength _tuplelength = (fafl.Absyn.TupleLength) foo;
+       render("(");
+       render("TupleLength");
+       sh(_tuplelength.expr_);
+       render(")");
+    }
     if (foo instanceof fafl.Absyn.RaiseEx)
     {
        fafl.Absyn.RaiseEx _raiseex = (fafl.Absyn.RaiseEx) foo;
@@ -1436,6 +1501,11 @@ public class PrettyPrinter
 
   private static void sh(fafl.Absyn.Type foo)
   {
+    if (foo instanceof fafl.Absyn.TupleType)
+    {
+       fafl.Absyn.TupleType _tupletype = (fafl.Absyn.TupleType) foo;
+       render("TupleType");
+    }
     if (foo instanceof fafl.Absyn.BoolType)
     {
        fafl.Absyn.BoolType _booltype = (fafl.Absyn.BoolType) foo;

@@ -18,6 +18,10 @@ public class Evaluator
             return expr;
         }
 
+        if (expr instanceof TupleConstructor){
+            return expr;
+        }
+
         if (expr instanceof SetqSimple)
         {
             SetqSimple setq = (SetqSimple) expr;
