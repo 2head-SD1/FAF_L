@@ -43,17 +43,20 @@ define positivePow(x:Double, n:Int) -> Double {
     else mul(x, call positivePow(x, minus(n, 1)))
 };
 
+define doubleAbs(x:Double) -> Double{
+    if isless(x, 0.0)
+    then minus(0.0, x)
+    else x
+};
 
 define sinCalculator(x:Double, n:Int) -> Double {
     if equals(n, 0)
     then x
     else plus(
         div(
-            double (
-                mul(
-                    call positivePow(minus(0, 1), n),
-                    call positivePow(1.0, plus(mul(2, n), 1))
-                )
+            mul(
+                call positivePow(double(minus(0, 1)), n),
+                call positivePow(x, plus(mul(2, n), 1))
             ),
             double (call factorial(plus(mul(2, n), 1)))
         ),
@@ -61,4 +64,31 @@ define sinCalculator(x:Double, n:Int) -> Double {
     )
 };
 
-call sinCalculator(3.14159, 3);
+define calculatorHandler(x:Double, acc:Int, level:Int, calculator:(Double, Int)->Double) -> Double{
+    if isless(
+        call calculator(x, level),
+        0.0000001
+    )
+    then calculator(x, level)
+    else if isless(
+            call doubleAbs(
+                minus(
+                    call calculator(x, level),
+                    call calculator(x, plus(level, 1))
+                )
+            ),
+            call accuracy(acc)
+        )
+        then call calculator(x, plus(level, 1))
+        else call calculatorHandler(x, acc, plus(level, 1))
+};
+
+define sin(x:Double, acc:Int) -> Double{
+    call sinHandler(x, acc, 0, sinCalculator)
+};
+
+define toRadians(degrees:Double) -> Double{
+    div(mul(degrees, pi), 180.0)
+};
+
+call sin(call toRadians(180.0), 2);

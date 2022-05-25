@@ -47,10 +47,11 @@ public class ArithmeticEvaluator
     }
 
     private static Expr doToDouble(ToDouble toDouble) throws Exception {
-        if (toDouble.expr_ instanceof DoubleConst){
-            return toDouble.expr_;
+        Expr expr = Evaluator.evalStep(toDouble.expr_);
+
+        if (expr instanceof DoubleConst){
+            return expr;
         } else {
-            Expr expr = Evaluator.evalStep(toDouble.expr_);
             IntConst intConst = (IntConst) expr;
             return new DoubleConst(
                     intConst.integer_.doubleValue()
