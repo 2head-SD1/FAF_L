@@ -282,4 +282,9 @@ setq z:Int div(x, y); //ERROR!
 ```
 
 ## Demo programm
->In progress
+For demo program we decided to make a program, which will take list of employers with some data (Name, Salary) and sort it by given parameters (by name or by salary for example).
+Employer represented as struct (global user-defined type) with Name and Salary.
+It’s planned to use dictionaries, lists and tuples as temporary storages.
+The type checker will check the types of input and raise exception in case of invalid values.
+
+[Demo program file](https://github.com/2head-SD1/FAF_L/blob/main/demoprogram.fl)
