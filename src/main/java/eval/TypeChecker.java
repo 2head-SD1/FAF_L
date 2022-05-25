@@ -18,39 +18,45 @@ public class TypeChecker {
     }
     public static Type typeOf(List<Context.ContextNode> context, Expr expr, boolean useSymbolTable) throws TypeCheckError
     {
-        if(expr instanceof If)
+        if (expr instanceof If)
         {
             typecheck(context, ((If) expr).expr_1, new BoolType(), useSymbolTable);
             var typeOfResult = typeOf(context, ((If) expr).expr_2, useSymbolTable);
             return typecheck(context, ((If) expr).expr_3, typeOfResult, useSymbolTable);
         }
         //Constants
-        if(expr instanceof IntConst)
+        if (expr instanceof IntConst)
             return new IntType();
-        if(expr instanceof DoubleConst)
+        if (expr instanceof DoubleConst)
             return new DoubleType();
-        if(expr instanceof StringConst)
+        if (expr instanceof StringConst)
             return new StringType();
-        if(expr instanceof BoolConst)
+        if (expr instanceof BoolConst)
             return new BoolType();
-        if(expr instanceof Id)
+        if (expr instanceof Id)
         {
-            Id curExpr = (Id)expr;
-            if(useSymbolTable)
+            Id curExpr = (Id) expr;
+            if (useSymbolTable)
                 return SymbolTable.getSymbol(curExpr.ident_).GetType();
             else
                 return lookup(curExpr.ident_, context);
         }
-        if(expr instanceof SetqSimple)
+        if (expr instanceof SetqSimple)
         {
             SetqSimple curExpr = (SetqSimple) expr;
             Type exprType = typecheck(context, curExpr.expr_, curExpr.type_, useSymbolTable);
-            if(!useSymbolTable)
+            if (!useSymbolTable)
                 context.add(0, new Context.ContextNode(curExpr.ident_, exprType));
             return exprType;
         }
         //Tuple typechecking
-        if(expr instanceof TupleConstructor)
+        if (expr instanceof TupleConstructor)
+        {
+        }
+        if (expr instanceof TupleGet)
+        {
+        }
+        if (expr instanceof TupleLength)
         {
         }
         //Struct typechecking
