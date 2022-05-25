@@ -4,7 +4,7 @@ struct Student(name:String, age:Int, favorite:<Favorite>);
 setq olegsFavorite:<Favorite> Favorite("Orange", 77);
 setq student:<Student> Student("Oleg", 20, olegsFavorite);
 
-setq loZl:Tuple tuple(1, 2, student);
+setq lol:Tuple tuple(1, 2, student);
 ((tuple-get(lol, 2)).favorite).color;
 
 define firstElement (array : [Int]) -> Int {
