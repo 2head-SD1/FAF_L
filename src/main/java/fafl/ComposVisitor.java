@@ -77,6 +77,17 @@ public class ComposVisitor<A> implements
       AFuncReturnType afuncreturntype_ = p.afuncreturntype_.accept(this, arg);
       Expr expr_ = p.expr_.accept(this, arg);
       return new fafl.Absyn.Define(ident_, listatypedarg_, afuncreturntype_, expr_);
+    }    public Expr visit(fafl.Absyn.DefineWithExc p, A arg)
+    {
+      String ident_ = p.ident_;
+      ListATypedArg listatypedarg_ = new ListATypedArg();
+      for (ATypedArg x : p.listatypedarg_)
+      {
+        listatypedarg_.add(x.accept(this,arg));
+      }
+      AFuncReturnType afuncreturntype_ = p.afuncreturntype_.accept(this, arg);
+      Expr expr_ = p.expr_.accept(this, arg);
+      return new fafl.Absyn.DefineWithExc(ident_, listatypedarg_, afuncreturntype_, expr_);
     }    public Expr visit(fafl.Absyn.StructInit p, A arg)
     {
       String ident_ = p.ident_;
@@ -245,6 +256,10 @@ public class ComposVisitor<A> implements
         listexpr_.add(x.accept(this,arg));
       }
       return new fafl.Absyn.Div(listexpr_);
+    }    public Expr visit(fafl.Absyn.ToDouble p, A arg)
+    {
+      Expr expr_ = p.expr_.accept(this, arg);
+      return new fafl.Absyn.ToDouble(expr_);
     }    public Expr visit(fafl.Absyn.Equals p, A arg)
     {
       Expr expr_1 = p.expr_1.accept(this, arg);
@@ -327,7 +342,10 @@ public class ComposVisitor<A> implements
       return new fafl.Absyn.ExprArg(expr_);
     }
 /* Type */
-    public Type visit(fafl.Absyn.TupleType p, A arg)
+    public Type visit(fafl.Absyn.ExceptionType p, A arg)
+    {
+      return new fafl.Absyn.ExceptionType();
+    }    public Type visit(fafl.Absyn.TupleType p, A arg)
     {
       return new fafl.Absyn.TupleType();
     }    public Type visit(fafl.Absyn.BoolType p, A arg)
