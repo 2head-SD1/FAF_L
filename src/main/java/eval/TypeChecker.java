@@ -47,6 +47,7 @@ public class TypeChecker {
             Type exprType = typecheck(context, curExpr.expr_, curExpr.type_, useSymbolTable);
             if(!useSymbolTable)
                 context.add(0, new Context.ContextNode(curExpr.ident_, exprType));
+            return exprType;
         }
         //Tuple typechecking
         if(expr instanceof TupleConstructor)
@@ -56,7 +57,8 @@ public class TypeChecker {
         if(expr instanceof StructInit)
         {
             StructInit curExpr = (StructInit) expr;
-
+            if(!useSymbolTable)
+                context.add(0, new Context.ContextNode(curExpr.ident_, new StructType(curExpr.ident_)));
         }
         if(expr instanceof StructConstructor)
         {
@@ -185,9 +187,9 @@ public class TypeChecker {
         {
             Define curDef = (Define)expr;
             FuncType funcType = new FuncType(getFuncArgsFromTypedArgs(curDef.listatypedarg_), ((FuncReturnType) curDef.afuncreturntype_).type_);
-            context.add(0, new Context.ContextNode(curDef.ident_, funcType));
             if(!useSymbolTable)
             {
+                context.add(0, new Context.ContextNode(curDef.ident_, funcType));
                 for(var aTypedArg : curDef.listatypedarg_)
                 {
                     TypedArg typedArg = (TypedArg) aTypedArg;
@@ -312,7 +314,7 @@ public class TypeChecker {
         }
     }
 
-    private static Type getFuncArgsFromTypedArgs(List<ATypedArg> args)
+    public static Type getFuncArgsFromTypedArgs(List<ATypedArg> args)
     {
         if(args.stream().count() == 1)
             return ((TypedArg)args.get(0)).type_;

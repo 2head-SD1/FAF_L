@@ -4,8 +4,6 @@ import com.SymbolTable.SymbolNode;
 import com.SymbolTable.SymbolTable;
 import fafl.Absyn.*;
 
-import java.util.ArrayList;
-
 public class FunctionEvaluator
 {
     public static boolean isFunctionExpr(Expr expr)
@@ -38,8 +36,7 @@ public class FunctionEvaluator
 
     private static Expr doDefine(Define define) throws Exception
     {
-        ArrayList<Context.ContextNode> context = new ArrayList<>();
-        SymbolNode node = new SymbolNode(TypeChecker.typeOf(context, define, false), define);
+        SymbolNode node = new SymbolNode(new FuncType(TypeChecker.getFuncArgsFromTypedArgs(define.listatypedarg_), ((FuncReturnType) define.afuncreturntype_).type_), define);
         SymbolTable.addSymbol(define.ident_, node);
         return define;
     }
