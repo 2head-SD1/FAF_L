@@ -104,6 +104,11 @@ public class Evaluator
             return FunctionEvaluator.doFunctionExpr(expr);
         }
 
+        if (CastingEvaluator.isCastingExpr(expr))
+        {
+            return CastingEvaluator.doCastingExpr(expr);
+        }
+
         throw new Exception("No such expression");
     }
 

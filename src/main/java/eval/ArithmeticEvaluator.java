@@ -11,9 +11,7 @@ public class ArithmeticEvaluator
         return expr instanceof Plus ||
                 expr instanceof Minus ||
                 expr instanceof Div ||
-                expr instanceof Mul ||
-                expr instanceof ToDouble
-                ;
+                expr instanceof Mul;
     }
 
     public static Expr doArithmeticExpr(Expr expr) throws Exception
@@ -38,25 +36,7 @@ public class ArithmeticEvaluator
             Div div = (Div) expr;
             return doDivExrp(div);
         }
-        if (expr instanceof ToDouble)
-        {
-            ToDouble toDouble = (ToDouble) expr;
-            return doToDouble(toDouble);
-        }
         throw new Exception("No such expression");
-    }
-
-    private static Expr doToDouble(ToDouble toDouble) throws Exception {
-        Expr expr = Evaluator.evalStep(toDouble.expr_);
-
-        if (expr instanceof DoubleConst){
-            return expr;
-        } else {
-            IntConst intConst = (IntConst) expr;
-            return new DoubleConst(
-                    intConst.integer_.doubleValue()
-            );
-        }
     }
 
     private static Expr doPlusExpr(Plus plus) throws Exception
