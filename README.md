@@ -22,7 +22,7 @@ FAF-L - is a functional interpreting static-typed language.
 **Roman Mukhtarov** - interpreter developing and features implementation\
 **Ruslan Nurutdinov** - testing and features implementation\
 **Gleb Smetanin** - features and demo program implementation\
-**Alexey Rakov** - interpreter developing and features implementation\
+**Alexey Rakov** - interpreter developing and features implementation
 
 ## Installation
 
@@ -144,6 +144,10 @@ or(Expr2, Expr2); //Bool operation or
 >Functions `and` and `or` have signature `(Bool, Bool) -> Bool`
 
 ### Casting functions
+```common-lisp
+double(Expr); //Cast to double
+```
+>Function `double` has signatures `(Int) -> Double` and `(Double) -> Double`
 
 ## Examples
 ### Valid programms
@@ -164,6 +168,4 @@ define myFunc(x:Int)->Bool
 
 ```
 ## Demo programm
->In progress
-## Installation
 >In progress
