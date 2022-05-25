@@ -12,6 +12,7 @@ public abstract class Expr implements java.io.Serializable {
     public R visit(fafl.Absyn.Id p, A arg);
     public R visit(fafl.Absyn.FuncCall p, A arg);
     public R visit(fafl.Absyn.Define p, A arg);
+    public R visit(fafl.Absyn.DefineWithExc p, A arg);
     public R visit(fafl.Absyn.StructInit p, A arg);
     public R visit(fafl.Absyn.StructConstructor p, A arg);
     public R visit(fafl.Absyn.StructField p, A arg);
@@ -39,6 +40,7 @@ public abstract class Expr implements java.io.Serializable {
     public R visit(fafl.Absyn.Minus p, A arg);
     public R visit(fafl.Absyn.Mul p, A arg);
     public R visit(fafl.Absyn.Div p, A arg);
+    public R visit(fafl.Absyn.ToDouble p, A arg);
     public R visit(fafl.Absyn.Equals p, A arg);
     public R visit(fafl.Absyn.IsLess p, A arg);
     public R visit(fafl.Absyn.IsGreater p, A arg);
