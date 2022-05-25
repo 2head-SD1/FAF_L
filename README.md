@@ -23,6 +23,20 @@ FAF-L - is a functional interpreting static-typed language.
 **Ruslan Nurutdinov** - testing and features implementation\
 **Gleb Smetanin** - features and demo program implementation\
 **Alexey Rakov** - interpreter developing and features implementation\
+
+## Installation
+
+### Requirements
+To build FAF_L you need Java with version 11 (jdk11).
+
+### Build
+To install FAF_L you need to download project to your machine.
+After that go to folder with project and execute such instruction:
+```
+./gradlew run --args="PATH TO YOUR PROGRAM ON FAF_L"
+```
+Where "PATH TO YOU PROGRAM ON FAF_L" is a path where you FAF_L program is located.
+
 ## Syntax Reference
 
 ### Set variable
@@ -38,7 +52,7 @@ Basic types are ***Int***, ***Double***, ***Bool*** and ***String***. For user t
 
 ### If construction
 ```common-lisp
-if Expr then Expr else Expr;
+if Expr then Expr else Expr; //Declaring if statement
 ```
 Example:
 ```common-lisp
@@ -64,15 +78,15 @@ call applyFunc(lambda (x:Int) -> Int{mul(x, x)}, 3);
 ```common-lisp
 struct StructType (FieldName1:Type, ...); //Defining new structure StructType
 StructType(Arg1, ...); //Creating new structure
-setq StructName:StructType (Arg1, ...); //Setting structure StructType with name StructName
-StructName.FieldName; //Getting field from structure
+setq StructName:<StructType> StructType(Arg1, ...); //Setting structure StructType with name StructName
+(StructName).FieldName; //Getting field from structure
 ```
 Example:
 ```common-lisp
 struct IntDoubleStruct (intField:Int, doubleField:Double);
-setq s:<IntDoubleStruct> (1, 0.1);
-setq x:Int s.intField;
-setq y:Double s.doubleField;
+setq s:<IntDoubleStruct> IntDoubleStruct(1, 0.1);
+setq x:Int (s).intField;
+setq y:Double (s).doubleField;
 ```
 
 ### Array construction
@@ -108,7 +122,7 @@ Multi line comment
 ```
 
 ## Build-in functions
-### Arithmetic
+### Arithmetic functions
 ```common-lisp
 plus(Expr1, Expr2, ...); //Plus function
 minus(Expr1, Expr2, ...); //Minus function
@@ -117,10 +131,19 @@ div(Expr1, Expr2, ...); //Division function
 ```
 >Functions are `(Int, Int, ...) -> Int` or `(Double, Double, ...) -> Double` only
 
-### Boolean
+### Boolean functions
 ```common-lisp
-equals(Expr, Epxr); //(Type, Type) -> Type
+equals(Expr1, Expr2); //Return are Expr's equals
+isgreater(Expr1, Expr2); //Return is Expr1 greater than Expr2
+isless(Expr1, Expr2); //Return is Expr1 less than Expr2
+and(Expr1, Expr2); //Bool operation and
+or(Expr2, Expr2); //Bool operation or
 ```
+>Function `equals` has signature `(SimpleType, SimpleType) -> Bool`\
+>Functions `isgreater` and `isless` have signatures `(Int, Int) -> Bool` or `(Double, Doulbe) -> Bool`\
+>Functions `and` and `or` have signature `(Bool, Bool) -> Bool`
+
+### Casting functions
 
 ## Examples
 ### Valid programms
