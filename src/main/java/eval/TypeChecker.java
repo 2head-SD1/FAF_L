@@ -58,16 +58,14 @@ public class TypeChecker {
         {
             StructInit curExpr = (StructInit) expr;
             if(!useSymbolTable)
-                context.add(0, new Context.ContextNode(curExpr.ident_, new StructType(curExpr.ident_)));
+                context.add(0, new Context.ContextNode(curExpr.ident_, new StructType(curExpr.ident_), curExpr));
+            return new StructType(curExpr.ident_);
         }
         if(expr instanceof StructConstructor)
         {
             StructConstructor curExpr = (StructConstructor) expr;
             StructInit init;
-            if(useSymbolTable)
-                init = (StructInit)SymbolTable.getSymbol(curExpr.ident_).value;
-            else
-                throw new TypeCheckError("Not implemented");
+            init = getStructInit(context, useSymbolTable, curExpr.ident_);
             for(int i = 0; i < init.listatypedarg_.stream().count(); i++)
             {
                 typecheck(context, curExpr.listexpr_.get(i), ((TypedArg)init.listatypedarg_.get(i)).type_, useSymbolTable);
@@ -77,17 +75,14 @@ public class TypeChecker {
         if(expr instanceof StructField)
         {
             StructField curExpr = (StructField) expr;
-            StructInit init;
-            if(useSymbolTable)
-                init = (StructInit)SymbolTable.getSymbol(curExpr.ident_).value;
-            else
-                throw new TypeCheckError("Not implemented");
+            StructInit init = getStructInit(context, useSymbolTable, ((StructType)typeOf(context, curExpr.expr_, useSymbolTable)).ident_);
             for(var arg : init.listatypedarg_)
             {
                 TypedArg typedArg = (TypedArg) arg;
                 if(typedArg.ident_.equals(curExpr.ident_))
                     return typedArg.type_;
             }
+            throw new UndefinedVariableError(String.format("TypeCheckError: No field %s for structure %s", curExpr.ident_, init.ident_));
         }
         //Dict typechecking
         //FIXME: add using of symbol table
@@ -196,7 +191,6 @@ public class TypeChecker {
                     context.add(0, new Context.ContextNode(typedArg.ident_, typedArg.type_));
                 }
             }
-
             typecheck(context, curDef.expr_, ((FuncReturnType)curDef.afuncreturntype_).type_, useSymbolTable);
             if(!useSymbolTable)
             {
@@ -223,6 +217,7 @@ public class TypeChecker {
                     Type argType = getFuncTypeArgs(listType);
                     if(argType.equals(funcType.type_1))
                         return funcType.type_2;
+                    throw new UnexpectedTypeError(getUnexpectedTypeError(funcType.type_1, argType, curDef));
                 }
             }
         }
@@ -284,8 +279,29 @@ public class TypeChecker {
             Div curExpr = (Div) expr;
             return typeCheckArithmetic(context, curExpr.listexpr_, expr, useSymbolTable);
         }
+        if(expr instanceof ToDouble)
+        {
+            ToDouble curExpr = (ToDouble) expr;
+            Type exprType = typeOf(context, curExpr.expr_, useSymbolTable);
+            if(exprType instanceof DoubleType)
+                return exprType;
+            typecheck(context, curExpr.expr_, new IntType(), useSymbolTable);
+            return new DoubleType();
+        }
         throw new TypeCheckError(String.format("TypeCheckError: Undefined type for expression %s", PrettyPrinter.print(expr)));
     }
+
+    private static StructInit getStructInit(List<Context.ContextNode> context, boolean useSymbolTable, String structName) throws TypeCheckError
+    {
+        StructInit init;
+        if(useSymbolTable)
+            init = (StructInit)SymbolTable.getSymbol(structName).value;
+        else
+            init = (StructInit)lookupNode(structName, context).additionalInfo;
+        return init;
+    }
+
+
 
     private static DictType getDictType(List<Context.ContextNode> context, boolean useSymbolTable, Expr curExpr) throws TypeCheckError
     {
@@ -373,6 +389,25 @@ public class TypeChecker {
                 return x.type;
         }
         throw new UndefinedVariableError(getUndefinedVariableError(ident_));
+    }
+    private static Context.ContextNode lookupNode(String ident_, List<Context.ContextNode> context) throws TypeCheckError
+    {
+        for(var x : context)
+        {
+            if(ident_.equals(x.ident))
+                return x;
+        }
+        throw new UndefinedVariableError(getUndefinedVariableError(ident_));
+    }
+
+    private static Context.ContextNode lookupNode(Type type, List<Context.ContextNode> context) throws TypeCheckError
+    {
+        for(var x : context)
+        {
+            if(type.equals(x.type))
+                return x;
+        }
+        throw new UndefinedVariableError(getUnexpectedTypeError(new StructType(null), type, null));
     }
 
     private String getUnexpectedFunTypeError(Type funType, Expr expr)
