@@ -53,6 +53,11 @@ public class TypeChecker {
         {
         }
         //Struct typechecking
+        if(expr instanceof StructInit)
+        {
+            StructInit curExpr = (StructInit) expr;
+
+        }
         if(expr instanceof StructConstructor)
         {
             StructConstructor curExpr = (StructConstructor) expr;
@@ -213,7 +218,7 @@ public class TypeChecker {
                     {
                         listType.add(typeOf(context, arg, useSymbolTable));
                     }
-                    FuncType argType = (FuncType) getFuncTypeArgs(listType);
+                    Type argType = getFuncTypeArgs(listType);
                     if(argType.equals(funcType.type_1))
                         return funcType.type_2;
                 }
