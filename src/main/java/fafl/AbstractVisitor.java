@@ -47,6 +47,8 @@ public class AbstractVisitor<R,A> implements AllVisitor<R,A> {
     public R visit(fafl.Absyn.Mul p, A arg) { return visitDefault(p, arg); }
     public R visit(fafl.Absyn.Div p, A arg) { return visitDefault(p, arg); }
     public R visit(fafl.Absyn.ToDouble p, A arg) { return visitDefault(p, arg); }
+    public R visit(fafl.Absyn.ToInt p, A arg) { return visitDefault(p, arg); }
+    public R visit(fafl.Absyn.ToString p, A arg) { return visitDefault(p, arg); }
     public R visit(fafl.Absyn.Equals p, A arg) { return visitDefault(p, arg); }
     public R visit(fafl.Absyn.IsLess p, A arg) { return visitDefault(p, arg); }
     public R visit(fafl.Absyn.IsGreater p, A arg) { return visitDefault(p, arg); }

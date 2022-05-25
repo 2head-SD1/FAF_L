@@ -216,6 +216,14 @@ public class VisitSkel
     { /* Code For ToDouble Goes Here */
       p.expr_.accept(new ExprVisitor<R,A>(), arg);
       return null;
+    }    public R visit(fafl.Absyn.ToInt p, A arg)
+    { /* Code For ToInt Goes Here */
+      p.expr_.accept(new ExprVisitor<R,A>(), arg);
+      return null;
+    }    public R visit(fafl.Absyn.ToString p, A arg)
+    { /* Code For ToString Goes Here */
+      p.expr_.accept(new ExprVisitor<R,A>(), arg);
+      return null;
     }    public R visit(fafl.Absyn.Equals p, A arg)
     { /* Code For Equals Goes Here */
       p.expr_1.accept(new ExprVisitor<R,A>(), arg);
@@ -246,7 +254,7 @@ public class VisitSkel
       return null;
     }    public R visit(fafl.Absyn.PrintLine p, A arg)
     { /* Code For PrintLine Goes Here */
-      //p.string_;
+      p.expr_.accept(new ExprVisitor<R,A>(), arg);
       return null;
     }    
   }

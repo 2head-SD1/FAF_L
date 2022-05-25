@@ -260,6 +260,14 @@ public class ComposVisitor<A> implements
     {
       Expr expr_ = p.expr_.accept(this, arg);
       return new fafl.Absyn.ToDouble(expr_);
+    }    public Expr visit(fafl.Absyn.ToInt p, A arg)
+    {
+      Expr expr_ = p.expr_.accept(this, arg);
+      return new fafl.Absyn.ToInt(expr_);
+    }    public Expr visit(fafl.Absyn.ToString p, A arg)
+    {
+      Expr expr_ = p.expr_.accept(this, arg);
+      return new fafl.Absyn.ToString(expr_);
     }    public Expr visit(fafl.Absyn.Equals p, A arg)
     {
       Expr expr_1 = p.expr_1.accept(this, arg);
@@ -290,8 +298,8 @@ public class ComposVisitor<A> implements
       return new fafl.Absyn.ReadLine();
     }    public Expr visit(fafl.Absyn.PrintLine p, A arg)
     {
-      String string_ = p.string_;
-      return new fafl.Absyn.PrintLine(string_);
+      Expr expr_ = p.expr_.accept(this, arg);
+      return new fafl.Absyn.PrintLine(expr_);
     }
 /* Bool */
     public Bool visit(fafl.Absyn.BoolTrue p, A arg)

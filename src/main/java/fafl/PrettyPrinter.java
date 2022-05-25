@@ -700,6 +700,26 @@ public class PrettyPrinter
        render(")");
        if (_i_ > 0) render(_R_PAREN);
     }
+    else     if (foo instanceof fafl.Absyn.ToInt)
+    {
+       fafl.Absyn.ToInt _toint = (fafl.Absyn.ToInt) foo;
+       if (_i_ > 0) render(_L_PAREN);
+       render("int");
+       render("(");
+       pp(_toint.expr_, 0);
+       render(")");
+       if (_i_ > 0) render(_R_PAREN);
+    }
+    else     if (foo instanceof fafl.Absyn.ToString)
+    {
+       fafl.Absyn.ToString _tostring = (fafl.Absyn.ToString) foo;
+       if (_i_ > 0) render(_L_PAREN);
+       render("string");
+       render("(");
+       pp(_tostring.expr_, 0);
+       render(")");
+       if (_i_ > 0) render(_R_PAREN);
+    }
     else     if (foo instanceof fafl.Absyn.Equals)
     {
        fafl.Absyn.Equals _equals = (fafl.Absyn.Equals) foo;
@@ -772,7 +792,9 @@ public class PrettyPrinter
        fafl.Absyn.PrintLine _printline = (fafl.Absyn.PrintLine) foo;
        if (_i_ > 0) render(_L_PAREN);
        render("printline");
-       pp(_printline.string_, 0);
+       render("(");
+       pp(_printline.expr_, 0);
+       render(")");
        if (_i_ > 0) render(_R_PAREN);
     }
   }
@@ -1387,6 +1409,22 @@ public class PrettyPrinter
        sh(_todouble.expr_);
        render(")");
     }
+    if (foo instanceof fafl.Absyn.ToInt)
+    {
+       fafl.Absyn.ToInt _toint = (fafl.Absyn.ToInt) foo;
+       render("(");
+       render("ToInt");
+       sh(_toint.expr_);
+       render(")");
+    }
+    if (foo instanceof fafl.Absyn.ToString)
+    {
+       fafl.Absyn.ToString _tostring = (fafl.Absyn.ToString) foo;
+       render("(");
+       render("ToString");
+       sh(_tostring.expr_);
+       render(")");
+    }
     if (foo instanceof fafl.Absyn.Equals)
     {
        fafl.Absyn.Equals _equals = (fafl.Absyn.Equals) foo;
@@ -1442,7 +1480,7 @@ public class PrettyPrinter
        fafl.Absyn.PrintLine _printline = (fafl.Absyn.PrintLine) foo;
        render("(");
        render("PrintLine");
-       sh(_printline.string_);
+       sh(_printline.expr_);
        render(")");
     }
   }

@@ -266,6 +266,16 @@ public abstract class FoldVisitor<R,A> implements AllVisitor<R,A> {
       r = combine(p.expr_.accept(this, arg), r, arg);
       return r;
     }
+    public R visit(fafl.Absyn.ToInt p, A arg) {
+      R r = leaf(arg);
+      r = combine(p.expr_.accept(this, arg), r, arg);
+      return r;
+    }
+    public R visit(fafl.Absyn.ToString p, A arg) {
+      R r = leaf(arg);
+      r = combine(p.expr_.accept(this, arg), r, arg);
+      return r;
+    }
     public R visit(fafl.Absyn.Equals p, A arg) {
       R r = leaf(arg);
       r = combine(p.expr_1.accept(this, arg), r, arg);
@@ -302,6 +312,7 @@ public abstract class FoldVisitor<R,A> implements AllVisitor<R,A> {
     }
     public R visit(fafl.Absyn.PrintLine p, A arg) {
       R r = leaf(arg);
+      r = combine(p.expr_.accept(this, arg), r, arg);
       return r;
     }
 
