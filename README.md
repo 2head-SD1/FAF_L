@@ -2,79 +2,126 @@
 ## Description
 FAF-L - is a functional interpreting static-typed language.
 ## Features
-|Features       | Cost
-|---            | ---
-|Interpreter | mandatory
-|Type checker   | mandatory
-|Base types(int, double, bool, string)     | mandatory
-|User-defined terms and types(structs) | mandatory
-|Standard library(simple arithmetic, logic) | mandatory
-|First-class functions | mandatory
-|Nested functions | mandatory
-|Simple inference(auto types) | mandatory
-|Tuples | 3
-|Exceptions | 3
-|Built-in homogenious arrays | 4
-|Built-in homogenious dicts | 4
-## Team members
-**Emil Khabibullin** - features implementation and managing the developing process
-**Roman Mukhtarov** - interpreter developing and features implementation
-**Ruslan Nurutdinov** - testing and features implementation
-**Gleb Smetanin** - features and demo program implementation
-**Alexey Rakov** - interpreter developing and features implementation
-## Syntax Reference
-> Syntax almost implemened. **Dictionaries**, **auto** types and **tuples** are in progress
+| Features                                   | Cost      |
+|--------------------------------------------|-----------|
+| Interpreter                                | mandatory |
+| Type checker                               | mandatory |
+| Base types(int, double, bool, string)      | mandatory |
+| User-defined terms and types(structs)      | mandatory |
+| Standard library(simple arithmetic, logic) | mandatory |
+| First-class functions                      | mandatory |
+| Nested functions                           | mandatory |
+| Simple inference(auto types)               | mandatory |
+| Tuples                                     | 3         |
+| Exceptions                                 | 3         |
+| Built-in homogenious arrays                | 4         |
+| Built-in homogenious dicts                 | 4         |
 
-Set global variable or struct:
+## Team members
+**Emil Khabibullin** - features implementation and managing the developing process\
+**Roman Mukhtarov** - interpreter developing and features implementation\
+**Ruslan Nurutdinov** - testing and features implementation\
+**Gleb Smetanin** - features and demo program implementation\
+**Alexey Rakov** - interpreter developing and features implementation\
+## Syntax Reference
+
+### Set variable
 ```common-lisp
-setq Name:Type Expr;
-setq Name:StructType (Arg1, ...);
+setq Name:Type Expr; //Creating variable
 ```
-Define new function or lambda function:
+Example:
 ```common-lisp
-define Name (Arg1:Type, ...) -> ReturnType {FuncBody};
-lambda (Arg1:Type, ...) -> ReturnType {FuncBody};
+setq x:Int 5;
+setq y:Double plus(1.0, 3.0);
 ```
-If construction:
+Basic types are ***Int***, ***Double***, ***Bool*** and ***String***. For user types see [Structures](#structures)
+
+### If construction
 ```common-lisp
 if Expr then Expr else Expr;
 ```
-Define new struct and struct constructor:
+Example:
 ```common-lisp
-struct StructName (FieldName1:Type, ...);
-StructName(Arg1, ...);
+setq x:Int 3;
+setq y:Int 5;
+if isgreater(x, y) then setq x:Int y else setq y:Int x;
 ```
-Get field of structure:
+
+### Functions and lambda-functions
 ```common-lisp
-StructName.FieldName;
+define Func (Arg1:Type, ...) -> ReturnType {Expr}; //Creating function with name Func
+lambda (Arg1:Type, ...) -> ReturnType {Expr}; //Creating lambda-function
+call Func (Arg1, Arg2 ...); //Calling function with name Func
 ```
-Array construction:
+Example:
+```common-lisp
+define sumOfSquares (x:Int, y:Int) -> Int{plus(mul(x, x), mul(y, y))};
+define applyFunc(x:(Int)->Int, y:Int) -> Int{call x(y)};
+call applyFunc(lambda (x:Int) -> Int{mul(x, x)}, 3);
+```
+
+### Structures
+```common-lisp
+struct StructType (FieldName1:Type, ...); //Defining new structure StructType
+StructType(Arg1, ...); //Creating new structure
+setq StructName:StructType (Arg1, ...); //Setting structure StructType with name StructName
+StructName.FieldName; //Getting field from structure
+```
+Example:
+```common-lisp
+struct IntDoubleStruct (intField:Int, doubleField:Double);
+setq s:<IntDoubleStruct> (1, 0.1);
+setq x:Int s.intField;
+setq y:Double s.doubleField;
+```
+
+### Array construction
 ```common-lisp
 Type[N]{Elem1, ..., ElemN};
 ```
-Raise and catch exceptions(for now only simple exception with some message):
+
+### Raise and catch exceptions
 ```common-lisp
 raise Exception(Message);
 try Expr catch(Expr);
 ```
-IO syntax:
+
+### IO syntax
 ```common-lisp
 readline
 printline String
 ```
-Comments:
+
+### Comments
 ```java
 //One line comment
 /*
 Multi line comment
 */
 ```
-Syntax of types:
+
+### Syntax of types
 ```common-lisp
 [Type] //array
 <StructName> //struct
 (ArgTypes) -> ReturnType //func type
 ```
+
+## Build-in functions
+### Arithmetic
+```common-lisp
+plus(Expr1, Expr2, ...); //Plus function
+minus(Expr1, Expr2, ...); //Minus function
+mul(Expr1, Expr2, ...); //Multiply function
+div(Expr1, Expr2, ...); //Division function
+```
+>Functions are `(Int, Int, ...) -> Int` or `(Double, Double, ...) -> Double` only
+
+### Boolean
+```common-lisp
+equals(Expr, Epxr); //(Type, Type) -> Type
+```
+
 ## Examples
 ### Valid programms
 ```common-lisp
