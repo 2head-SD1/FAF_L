@@ -45,7 +45,8 @@ public class TypeChecker {
         {
             SetqSimple curExpr = (SetqSimple) expr;
             Type exprType = typecheck(context, curExpr.expr_, curExpr.type_, useSymbolTable);
-            context.add(new Context.ContextNode(curExpr.ident_, exprType));
+            if(!useSymbolTable)
+                context.add(new Context.ContextNode(curExpr.ident_, exprType));
         }
         //Dict typechecking
         if(expr instanceof DictConstructor)
@@ -98,7 +99,7 @@ public class TypeChecker {
         {
             ArrayGet curExpr = (ArrayGet)expr;
 
-            Type arrayContentType = getArrayContentType(context, curExpr, useSymbolTable);
+            Type arrayContentType = getArrayContentType(context, curExpr.expr_1, useSymbolTable);
             typecheck(context, curExpr.expr_2, new IntType(), useSymbolTable);
             return arrayContentType;
         }
@@ -126,6 +127,8 @@ public class TypeChecker {
         if(expr instanceof Define)
         {
             Define curDef = (Define)expr;
+            FuncType funcType = new FuncType(getFuncArgsType(curDef.listatypedarg_), ((FuncReturnType) curDef.afuncreturntype_).type_);
+            context.add(0, new Context.ContextNode(curDef.ident_, funcType));
             if(!useSymbolTable)
             {
                 for(var aTypedArg : curDef.listatypedarg_)
@@ -143,8 +146,6 @@ public class TypeChecker {
                     context.remove(0);
                 }
             }
-            FuncType funcType = new FuncType(getFuncArgsType(curDef.listatypedarg_), ((FuncReturnType) curDef.afuncreturntype_).type_);
-            context.add(0, new Context.ContextNode(curDef.ident_, funcType));
             return funcType;
         }
         if(expr instanceof FuncCall)
