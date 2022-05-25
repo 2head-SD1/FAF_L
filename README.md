@@ -18,11 +18,11 @@ FAF-L - is a functional interpreting static-typed language.
 | Built-in homogenious dicts                 | 4         |
 
 ## Team members
-**Emil Khabibullin** - features implementation and managing the developing process\
-**Roman Mukhtarov** - interpreter developing and features implementation\
-**Ruslan Nurutdinov** - testing and features implementation\
-**Gleb Smetanin** - features and demo program implementation\
-**Alexey Rakov** - type checker and features implementation
+- **Emil Khabibullin** - features implementation and managing the developing process
+- **Roman Mukhtarov** - interpreter developing and features implementation
+- **Ruslan Nurutdinov** - testing and features implementation
+- **Gleb Smetanin** - features and demo program implementation
+- **Alexey Rakov** - type checker and features implementation
 
 ## Installation
 
