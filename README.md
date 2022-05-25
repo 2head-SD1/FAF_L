@@ -247,5 +247,39 @@ Signatures:
 >- Function `int` has signature `(BaseType) -> Int`
 >- Function `string` has signature `(BaseType) -> String`
 
+## Bad examples that could be useful
+
+Arrays are homogenius! You cannot store elements with different types.
+```common-lisp
+//BAD CODE
+setq arrayWithInt:[Int] Int[3]{0, 1, 2};
+array-set(arrayWithInt, 0, 0.1); //ERROR!
+```
+
+You cannot set variables from structure to another. If you need you can create new structure.
+```common-lisp
+//BAD CODE
+struct IntDoubleStruct (intField:Int, doubleField:Double);
+setq s:<IntDoubleStruct> IntDoubleStruct(1, 0.1);
+setq (s).intField:Int 3; //ERROR!
+```
+
+FAF_L was implemented with Java. 
+All java runtime arithmetic errors will be bad in FAF_L too.
+```common-lisp
+//BAD CODE
+setq x:Int 5;
+setq y:Int 0;
+setq z:Int div(x, y); //ERROR!
+```
+
+FAF_L is strongly typed language. You cannot operate with different type without casting.
+```common-lisp
+//BAD CODE
+setq x:Int 5;
+setq y:Double 1;
+setq z:Int div(x, y); //ERROR!
+```
+
 ## Demo programm
 >In progress
