@@ -60,15 +60,11 @@ public class Evaluator
             BoolConst expr1 = (BoolConst) evalStep(ifexpr.expr_1);
             if (expr1.bool_ instanceof BoolTrue)
             {
-                SymbolTable.increaseScopeLevel();
                 Expr toReturn = evalStep(ifexpr.expr_2);
-                SymbolTable.decreaseScopeLevel();
                 return toReturn;
             } else
             {
-                SymbolTable.increaseScopeLevel();
                 Expr toReturn = evalStep(ifexpr.expr_3);
-                SymbolTable.decreaseScopeLevel();
                 return toReturn;
             }
         }
