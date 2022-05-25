@@ -141,8 +141,8 @@ public class BoolPredicateEvaluator
 
     private static Expr doIsGreater(IsGreater isGreater) throws Exception
     {
-        Expr expr1 = isGreater.expr_1;
-        Expr expr2 = isGreater.expr_2;
+        Expr expr1 = Evaluator.evalStep(isGreater.expr_1);
+        Expr expr2 = Evaluator.evalStep(isGreater.expr_2);
         if (expr1 instanceof IntConst && expr2 instanceof IntConst)
         {
             IntConst int1 = (IntConst) expr1;
