@@ -11,6 +11,11 @@ public class TypeChecker {
     public static Type typecheck(List<Context.ContextNode> context, Expr expr, Type expectedType, boolean useSymbolTable) throws TypeCheckError
     {
         var actualType = typeOf(context, expr, useSymbolTable);
+        //TODO: make type inference
+        if(actualType instanceof AutoType)
+        {
+            return expectedType;
+        }
         if(expectedType.equals(actualType))
             return actualType;
         else
@@ -52,12 +57,17 @@ public class TypeChecker {
         //Tuple typechecking
         if (expr instanceof TupleConstructor)
         {
+            TupleConstructor curExpr = (TupleConstructor) expr;
+            return new TupleType();
         }
         if (expr instanceof TupleGet)
         {
+            throw new TypeCheckError("typeof for TupleGet not implemented");
         }
         if (expr instanceof TupleLength)
         {
+            TupleLength curExpr = (TupleLength)expr;
+            typecheck(context, curExpr.expr_, new TupleType(), useSymbolTable);
         }
         //Struct typechecking
         if(expr instanceof StructInit)
@@ -95,7 +105,7 @@ public class TypeChecker {
         if(expr instanceof DictConstructor)
         {
             DictConstructor curExpr = (DictConstructor) expr;
-            context.add(new Context.ContextNode(curExpr.ident_, new DictType(curExpr.type_1, curExpr.type_2)));
+            context.add(0, new Context.ContextNode(curExpr.ident_, new DictType(curExpr.type_1, curExpr.type_2)));
             Type keyType = curExpr.type_1;
             Type valueType = curExpr.type_2;
             for(Pair pair : curExpr.listpair_)
@@ -291,8 +301,41 @@ public class TypeChecker {
             Type exprType = typeOf(context, curExpr.expr_, useSymbolTable);
             if(exprType instanceof DoubleType)
                 return exprType;
-            typecheck(context, curExpr.expr_, new IntType(), useSymbolTable);
+            if(exprType instanceof StringType)
+                typecheck(context, curExpr.expr_, new StringType(), useSymbolTable);
+            if(exprType instanceof IntType)
+                typecheck(context, curExpr.expr_, new IntType(), useSymbolTable);
             return new DoubleType();
+        }
+        if(expr instanceof ToInt)
+        {
+            ToInt curExpr = (ToInt) expr;
+            Type exprType = typeOf(context, curExpr.expr_, useSymbolTable);
+            if(exprType instanceof IntType)
+                return exprType;
+            if(exprType instanceof StringType)
+                typecheck(context, curExpr.expr_, new StringType(), useSymbolTable);
+            if(exprType instanceof DoubleType)
+                typecheck(context, curExpr.expr_, new DoubleType(), useSymbolTable);
+            return new IntType();
+        }
+        if(expr instanceof ToString)
+        {
+            ToString curExpr = (ToString) expr;
+            Type exprType = typeOf(context, curExpr.expr_, useSymbolTable);
+            if(exprType instanceof StringType)
+                return exprType;
+            if(exprType instanceof DoubleType)
+                typecheck(context, curExpr.expr_, new DoubleType(), useSymbolTable);
+            if(exprType instanceof IntType)
+                typecheck(context, curExpr.expr_, new IntType(), useSymbolTable);
+            return new StringType();
+        }
+        if(expr instanceof TryCatch)
+        {
+        }
+        if(expr instanceof RaiseEx)
+        {
         }
         throw new TypeCheckError(String.format("TypeCheckError: Undefined type for expression %s", PrettyPrinter.print(expr)));
     }
@@ -304,7 +347,9 @@ public class TypeChecker {
             init = (StructInit)SymbolTable.getSymbol(structName).value;
         else
             init = (StructInit)lookupNode(structName, context).additionalInfo;
-        return init;
+        if(init != null)
+            return init;
+        throw new UndefinedVariableError(String.format("UndefinedStructureError: Structure with name %s is undefined", structName));
     }
 
 
