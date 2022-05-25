@@ -101,6 +101,26 @@ public class CastingEvaluator
         {
             return expr;
         }
+        if (expr instanceof BoolConst)
+        {
+            BoolConst boolConst = (BoolConst) expr;
+            if (boolConst.bool_ instanceof BoolTrue)
+            {
+                return new StringConst(
+                        "true"
+                );
+            }
+            else if (boolConst.bool_ instanceof BoolFalse)
+            {
+                return new StringConst(
+                        "false"
+                );
+            }
+            else
+            {
+                throw new Exception("Cannot understand such Bool state");
+            }
+        }
         throw new Exception("Cannot cast to string such expression");
     }
 }

@@ -109,6 +109,11 @@ public class Evaluator
             return CastingEvaluator.doCastingExpr(expr);
         }
 
+        if (IOEvaluator.isExprIO(expr))
+        {
+            return IOEvaluator.doIOExpr(expr);
+        }
+
         throw new Exception("No such expression");
     }
 
