@@ -369,6 +369,24 @@ public class PrettyPrinter
        render("}");
        if (_i_ > 0) render(_R_PAREN);
     }
+    else     if (foo instanceof fafl.Absyn.DefineWithExc)
+    {
+       fafl.Absyn.DefineWithExc _definewithexc = (fafl.Absyn.DefineWithExc) foo;
+       if (_i_ > 0) render(_L_PAREN);
+       render("define");
+       pp(_definewithexc.ident_, 0);
+       render("(");
+       pp(_definewithexc.listatypedarg_, 0);
+       render(")");
+       render("->");
+       pp(_definewithexc.afuncreturntype_, 0);
+       render("|");
+       render("Exception");
+       render("{");
+       pp(_definewithexc.expr_, 0);
+       render("}");
+       if (_i_ > 0) render(_R_PAREN);
+    }
     else     if (foo instanceof fafl.Absyn.StructInit)
     {
        fafl.Absyn.StructInit _structinit = (fafl.Absyn.StructInit) foo;
@@ -672,6 +690,16 @@ public class PrettyPrinter
        render(")");
        if (_i_ > 0) render(_R_PAREN);
     }
+    else     if (foo instanceof fafl.Absyn.ToDouble)
+    {
+       fafl.Absyn.ToDouble _todouble = (fafl.Absyn.ToDouble) foo;
+       if (_i_ > 0) render(_L_PAREN);
+       render("double");
+       render("(");
+       pp(_todouble.expr_, 0);
+       render(")");
+       if (_i_ > 0) render(_R_PAREN);
+    }
     else     if (foo instanceof fafl.Absyn.Equals)
     {
        fafl.Absyn.Equals _equals = (fafl.Absyn.Equals) foo;
@@ -873,7 +901,14 @@ public class PrettyPrinter
 
   private static void pp(fafl.Absyn.Type foo, int _i_)
   {
-    if (foo instanceof fafl.Absyn.TupleType)
+    if (foo instanceof fafl.Absyn.ExceptionType)
+    {
+       fafl.Absyn.ExceptionType _exceptiontype = (fafl.Absyn.ExceptionType) foo;
+       if (_i_ > 1) render(_L_PAREN);
+       render("Exception");
+       if (_i_ > 1) render(_R_PAREN);
+    }
+    else     if (foo instanceof fafl.Absyn.TupleType)
     {
        fafl.Absyn.TupleType _tupletype = (fafl.Absyn.TupleType) foo;
        if (_i_ > 1) render(_L_PAREN);
@@ -1066,6 +1101,19 @@ public class PrettyPrinter
        render("]");
        sh(_define.afuncreturntype_);
        sh(_define.expr_);
+       render(")");
+    }
+    if (foo instanceof fafl.Absyn.DefineWithExc)
+    {
+       fafl.Absyn.DefineWithExc _definewithexc = (fafl.Absyn.DefineWithExc) foo;
+       render("(");
+       render("DefineWithExc");
+       sh(_definewithexc.ident_);
+       render("[");
+       sh(_definewithexc.listatypedarg_);
+       render("]");
+       sh(_definewithexc.afuncreturntype_);
+       sh(_definewithexc.expr_);
        render(")");
     }
     if (foo instanceof fafl.Absyn.StructInit)
@@ -1324,6 +1372,14 @@ public class PrettyPrinter
        render("]");
        render(")");
     }
+    if (foo instanceof fafl.Absyn.ToDouble)
+    {
+       fafl.Absyn.ToDouble _todouble = (fafl.Absyn.ToDouble) foo;
+       render("(");
+       render("ToDouble");
+       sh(_todouble.expr_);
+       render(")");
+    }
     if (foo instanceof fafl.Absyn.Equals)
     {
        fafl.Absyn.Equals _equals = (fafl.Absyn.Equals) foo;
@@ -1502,6 +1558,11 @@ public class PrettyPrinter
 
   private static void sh(fafl.Absyn.Type foo)
   {
+    if (foo instanceof fafl.Absyn.ExceptionType)
+    {
+       fafl.Absyn.ExceptionType _exceptiontype = (fafl.Absyn.ExceptionType) foo;
+       render("ExceptionType");
+    }
     if (foo instanceof fafl.Absyn.TupleType)
     {
        fafl.Absyn.TupleType _tupletype = (fafl.Absyn.TupleType) foo;

@@ -66,6 +66,14 @@ public class VisitSkel
       p.afuncreturntype_.accept(new AFuncReturnTypeVisitor<R,A>(), arg);
       p.expr_.accept(new ExprVisitor<R,A>(), arg);
       return null;
+    }    public R visit(fafl.Absyn.DefineWithExc p, A arg)
+    { /* Code For DefineWithExc Goes Here */
+      //p.ident_;
+      for (ATypedArg x: p.listatypedarg_)
+      { /* ... */ }
+      p.afuncreturntype_.accept(new AFuncReturnTypeVisitor<R,A>(), arg);
+      p.expr_.accept(new ExprVisitor<R,A>(), arg);
+      return null;
     }    public R visit(fafl.Absyn.StructInit p, A arg)
     { /* Code For StructInit Goes Here */
       //p.ident_;
@@ -204,6 +212,10 @@ public class VisitSkel
       for (Expr x: p.listexpr_)
       { /* ... */ }
       return null;
+    }    public R visit(fafl.Absyn.ToDouble p, A arg)
+    { /* Code For ToDouble Goes Here */
+      p.expr_.accept(new ExprVisitor<R,A>(), arg);
+      return null;
     }    public R visit(fafl.Absyn.Equals p, A arg)
     { /* Code For Equals Goes Here */
       p.expr_1.accept(new ExprVisitor<R,A>(), arg);
@@ -297,7 +309,10 @@ public class VisitSkel
   }
   public class TypeVisitor<R,A> implements Type.Visitor<R,A>
   {
-    public R visit(fafl.Absyn.TupleType p, A arg)
+    public R visit(fafl.Absyn.ExceptionType p, A arg)
+    { /* Code For ExceptionType Goes Here */
+      return null;
+    }    public R visit(fafl.Absyn.TupleType p, A arg)
     { /* Code For TupleType Goes Here */
       return null;
     }    public R visit(fafl.Absyn.BoolType p, A arg)
