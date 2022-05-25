@@ -46,9 +46,44 @@ public class TypeChecker {
             SetqSimple curExpr = (SetqSimple) expr;
             Type exprType = typecheck(context, curExpr.expr_, curExpr.type_, useSymbolTable);
             if(!useSymbolTable)
-                context.add(new Context.ContextNode(curExpr.ident_, exprType));
+                context.add(0, new Context.ContextNode(curExpr.ident_, exprType));
+        }
+        //Tuple typechecking
+        if(expr instanceof TupleConstructor)
+        {
+        }
+        //Struct typechecking
+        if(expr instanceof StructConstructor)
+        {
+            StructConstructor curExpr = (StructConstructor) expr;
+            StructInit init;
+            if(useSymbolTable)
+                init = (StructInit)SymbolTable.getSymbol(curExpr.ident_).value;
+            else
+                throw new TypeCheckError("Not implemented");
+            for(int i = 0; i < init.listatypedarg_.stream().count(); i++)
+            {
+                typecheck(context, curExpr.listexpr_.get(i), ((TypedArg)init.listatypedarg_.get(i)).type_, useSymbolTable);
+            }
+            return new StructType(curExpr.ident_);
+        }
+        if(expr instanceof StructField)
+        {
+            StructField curExpr = (StructField) expr;
+            StructInit init;
+            if(useSymbolTable)
+                init = (StructInit)SymbolTable.getSymbol(curExpr.ident_).value;
+            else
+                throw new TypeCheckError("Not implemented");
+            for(var arg : init.listatypedarg_)
+            {
+                TypedArg typedArg = (TypedArg) arg;
+                if(typedArg.ident_.equals(curExpr.ident_))
+                    return typedArg.type_;
+            }
         }
         //Dict typechecking
+        //FIXME: add using of symbol table
         if(expr instanceof DictConstructor)
         {
             DictConstructor curExpr = (DictConstructor) expr;
@@ -66,23 +101,40 @@ public class TypeChecker {
         if(expr instanceof DictGet)
         {
             DictGet curExpr = (DictGet) expr;
-            DictType dictType = (DictType)typeOf(context, curExpr.expr_1, useSymbolTable);
-
+            return getDictType(context, useSymbolTable, curExpr.expr_1).type_2;
         }
         if(expr instanceof DictKeys)
         {
+            DictKeys curExpr = (DictKeys) expr;
+            return new ArrayType(getDictType(context, useSymbolTable, curExpr.expr_).type_1);
         }
         if(expr instanceof DictLength)
         {
+            DictLength dictLength = (DictLength)expr;
+            getDictType(context, useSymbolTable, dictLength.expr_);
+            return new IntType();
         }
         if(expr instanceof DictRemove)
         {
+            DictRemove curExpr = (DictRemove) expr;
+            DictType dictType = getDictType(context, useSymbolTable, curExpr.expr_1);
+            typecheck(context, curExpr.expr_2, dictType.type_1, useSymbolTable);
+            return dictType;
         }
         if(expr instanceof DictValues)
         {
+            DictValues dictLength = (DictValues)expr;
+            getDictType(context, useSymbolTable, dictLength.expr_);
+            return new ArrayType(getDictType(context, useSymbolTable, dictLength.expr_).type_2);
         }
         if(expr instanceof DictSet)
         {
+            DictSet curExpr = (DictSet) expr;
+            DictType dictType = getDictType(context, useSymbolTable, curExpr.expr_);
+            DictPair dictPair = (DictPair) curExpr.pair_;
+            typecheck(context, dictPair.expr_1, dictType.type_1, useSymbolTable);
+            typecheck(context, dictPair.expr_2, dictType.type_2, useSymbolTable);
+            return dictType;
         }
         //Array typechecking
         if(expr instanceof ArrayConstructor)
@@ -99,7 +151,7 @@ public class TypeChecker {
         {
             ArrayGet curExpr = (ArrayGet)expr;
 
-            Type arrayContentType = getArrayContentType(context, curExpr.expr_1, useSymbolTable);
+            Type arrayContentType = getArrayType(context, curExpr.expr_1, useSymbolTable).type_;
             typecheck(context, curExpr.expr_2, new IntType(), useSymbolTable);
             return arrayContentType;
         }
@@ -109,25 +161,25 @@ public class TypeChecker {
         {
             ArraySet curExpr = (ArraySet) expr;
             typecheck(context, curExpr.expr_2, new IntType(), useSymbolTable);
-            Type arrayContentType = getArrayContentType(context, curExpr.expr_1, useSymbolTable);
+            Type arrayContentType = getArrayType(context, curExpr.expr_1, useSymbolTable).type_;
             typecheck(context, curExpr.expr_3, arrayContentType, useSymbolTable);
             return new ArrayType(arrayContentType);
         }
         if(expr instanceof First)
         {
             First curExpr = (First)expr;
-            return getArrayContentType(context, curExpr.expr_, useSymbolTable);
+            return getArrayType(context, curExpr.expr_, useSymbolTable).type_;
         }
         if(expr instanceof Last)
         {
             Last curExpr = (Last) expr;
-            return getArrayContentType(context, curExpr.expr_, useSymbolTable);
+            return getArrayType(context, curExpr.expr_, useSymbolTable).type_;
         }
         //Func typechecking
         if(expr instanceof Define)
         {
             Define curDef = (Define)expr;
-            FuncType funcType = new FuncType(getFuncArgsType(curDef.listatypedarg_), ((FuncReturnType) curDef.afuncreturntype_).type_);
+            FuncType funcType = new FuncType(getFuncArgsFromTypedArgs(curDef.listatypedarg_), ((FuncReturnType) curDef.afuncreturntype_).type_);
             context.add(0, new Context.ContextNode(curDef.ident_, funcType));
             if(!useSymbolTable)
             {
@@ -141,7 +193,7 @@ public class TypeChecker {
             typecheck(context, curDef.expr_, ((FuncReturnType)curDef.afuncreturntype_).type_, useSymbolTable);
             if(!useSymbolTable)
             {
-                for(var aTypedArg : curDef.listatypedarg_)
+                for(var ignored : curDef.listatypedarg_)
                 {
                     context.remove(0);
                 }
@@ -166,6 +218,12 @@ public class TypeChecker {
                         return funcType.type_2;
                 }
             }
+        }
+        //TODO: Make normal realization
+        if(expr instanceof Lambda)
+        {
+            Lambda curExpr = (Lambda) expr;
+            return typeOf(context, new Define("l", curExpr.listatypedarg_, curExpr.afuncreturntype_, curExpr.expr_), useSymbolTable);
         }
         //Base Bool predicates
         if(expr instanceof Equals)
@@ -219,30 +277,41 @@ public class TypeChecker {
             Div curExpr = (Div) expr;
             return typeCheckArithmetic(context, curExpr.listexpr_, expr, useSymbolTable);
         }
-        return null;
+        throw new TypeCheckError(String.format("TypeCheckError: Undefined type for expression %s", PrettyPrinter.print(expr)));
     }
 
-    private static Type getArrayContentType(List<Context.ContextNode> context, Expr curExpr, boolean useSymbolTable) throws TypeCheckError
+    private static DictType getDictType(List<Context.ContextNode> context, boolean useSymbolTable, Expr curExpr) throws TypeCheckError
     {
-        Type arrayType = typeOf(context, curExpr, useSymbolTable);
-        Type arrayContentType;
+        Type curType = typeOf(context, curExpr, useSymbolTable);
         try
         {
-            ArrayType castedArrayType = (ArrayType) arrayType;
-            arrayContentType = castedArrayType.type_;
+            DictType dictType = (DictType) curType;
+            return dictType;
         }
         catch(ClassCastException e)
         {
-            throw new UnexpectedTypeError(getUnexpectedTypeError(new ArrayType(null), arrayType, curExpr));
+            throw new UnexpectedTypeError(getUnexpectedTypeError(new DictType(null, null), curType, curExpr));
         }
-        return arrayContentType;
     }
 
-    private static Type getFuncArgsType(List<ATypedArg> args)
+    private static ArrayType getArrayType(List<Context.ContextNode> context, Expr curExpr, boolean useSymbolTable) throws TypeCheckError
+    {
+        Type curType = typeOf(context, curExpr, useSymbolTable);
+        try
+        {
+            return (ArrayType) curType;
+        }
+        catch(ClassCastException e)
+        {
+            throw new UnexpectedTypeError(getUnexpectedTypeError(new ArrayType(null), curType, curExpr));
+        }
+    }
+
+    private static Type getFuncArgsFromTypedArgs(List<ATypedArg> args)
     {
         if(args.stream().count() == 1)
             return ((TypedArg)args.get(0)).type_;
-        return new FuncType(((TypedArg)args.get(0)).type_, getFuncArgsType(args.subList(1, ((int)args.stream().count()))));
+        return new FuncType(((TypedArg)args.get(0)).type_, getFuncArgsFromTypedArgs(args.subList(1, ((int)args.stream().count()))));
     }
 
     private static Type getFuncTypeArgs(List<Type> args)
@@ -250,23 +319,6 @@ public class TypeChecker {
         if(args.stream().count() == 1)
             return args.get(0);
         return new FuncType(args.get(0), getFuncTypeArgs(args.subList(1, ((int)args.stream().count()))));
-    }
-
-    private static List<Type> getTypesFromFuncArgs(Type args)
-    {
-        if(args instanceof FuncType)
-        {
-            FuncType funcType = (FuncType) args;
-            List<Type> result = getTypesFromFuncArgs(funcType.type_1);
-            result.add(funcType.type_2);
-            return result;
-        }
-        else
-        {
-            List<Type> result = new ArrayList<>();
-            result.add(args);
-            return result;
-        }
     }
 
     private static Type typeCheckNumericBoolPredicate(List<Context.ContextNode> context, Expr mainExpr, Expr expr1, Expr expr2, boolean useSymbolTable) throws TypeCheckError
