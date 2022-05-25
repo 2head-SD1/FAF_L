@@ -1,0 +1,143 @@
+setq pi:Double 3.14159265359;
+
+define minElement (array : [Int], size:Int) -> Int {
+    if equals(size, 1)
+    then first(array)
+    else    if  isless(
+                    array-get(array, minus(size, 1)),
+                    call minElement(array, minus(size, 2))
+                )
+            then array-get(array, minus(size, 1))
+            else call minElement(array, minus(size, 2))
+};
+
+define factorial (num:Int) -> Int {
+    if equals(num, 1)
+    then 1
+    else mul(num, call factorial(minus(num, 1)))
+};
+
+define even(n:Int) -> Bool {
+    if equals(n, 0)
+    then true
+    else    if equals(n, 1)
+            then false
+            else call even(minus(n, 2))
+};
+
+define odd(n:Int) -> Bool {
+    if equals(n, 0)
+    then false
+    else    if equals(n, 1)
+            then true
+            else call even(minus(n, 2))
+};
+
+define positivePow(x:Double, n:Int) -> Double {
+    if equals(n, 1)
+    then x
+    else mul(x, call positivePow(x, minus(n, 1)))
+};
+
+define accuracy(n:Int) -> Double {
+    div(1.0, call positivePow(10.0, n))
+};
+
+define doubleAbs(x:Double) -> Double{
+    if isless(x, 0.0)
+    then minus(0.0, x)
+    else x
+};
+
+define sinCalculator(x:Double, n:Int) -> Double {
+    if equals(n, 0)
+    then x
+    else plus(
+        div(
+            mul(
+                call positivePow(double(minus(0, 1)), n),
+                call positivePow(x, plus(mul(2, n), 1))
+            ),
+            double (call factorial(plus(mul(2, n), 1)))
+        ),
+        call sinCalculator(x,   minus(n, 1))
+    )
+};
+
+define cosCalculator(x:Double, n:Int) -> Double {
+    if equals(n, 0)
+    then 1.0
+    else plus(
+        div(
+            mul(
+                call positivePow(double(minus(0, 1)), n),
+                call positivePow(x, mul(2, n))
+            ),
+            double (call factorial(mul(2, n)))
+        ),
+        call cosCalculator(x,   minus(n, 1))
+    )
+};
+
+define expCalculator(x:Double, n:Int) -> Double {
+    if equals(n, 0)
+    then 1.0
+    else plus(
+        div(
+            call positivePow(double(x), n),
+            double (call factorial(n))
+        ),
+        call expCalculator(x, minus(n, 1))
+    )
+};
+
+define calculatorHandler(x:Double, acc:Int, level:Int, calculator:(Double->Int)->Double) -> Double{
+    if isless(
+        call calculator(x, level),
+        0.00000001
+    )
+    then call calculator(x, level)
+    else if isless(
+            call doubleAbs(
+                minus(
+                    call calculator(x, level),
+                    call calculator(x, plus(level, 1))
+                )
+            ),
+            call accuracy(acc)
+        )
+        then call calculator(x, plus(level, 1))
+        else call calculatorHandler(x, acc, plus(level, 1), calculator)
+};
+
+define sin(x:Double, acc:Int) -> Double{
+    call calculatorHandler(x, acc, 0, sinCalculator)
+};
+
+define cos(x:Double, acc:Int) -> Double{
+    call calculatorHandler(x, acc, 0, cosCalculator)
+};
+
+define exp(x:Double, acc:Int) -> Double{
+    call calculatorHandler(x, acc, 0, expCalculator)
+};
+
+define toRadians(degrees:Double) -> Double{
+    div(mul(degrees, pi), 180.0)
+};
+
+call sin(call toRadians(30.0), 5);
+call cos(call toRadians(30.0), 5);
+call exp(1.0, 5);
+
+define min(x:Double, y:Double) -> Double{
+    if isless(x, y)
+    then x
+    else y
+};
+
+define max(x:Double, y:Double) -> Double{
+    if isless(x, y)
+    then y
+    else x
+};
