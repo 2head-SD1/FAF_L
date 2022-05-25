@@ -309,7 +309,10 @@ public class VisitSkel
   }
   public class TypeVisitor<R,A> implements Type.Visitor<R,A>
   {
-    public R visit(fafl.Absyn.ExceptionType p, A arg)
+    public R visit(fafl.Absyn.AutoType p, A arg)
+    { /* Code For AutoType Goes Here */
+      return null;
+    }    public R visit(fafl.Absyn.ExceptionType p, A arg)
     { /* Code For ExceptionType Goes Here */
       return null;
     }    public R visit(fafl.Absyn.TupleType p, A arg)

@@ -93,6 +93,7 @@ NameArg.            Arg ::= Ident;
 ExprArg.            Arg ::= Expr;
 
 --Type rules
+AutoType.           Type1 ::= "Auto";
 ExceptionType.      Type1 ::= "Exception";
 TupleType.          Type1 ::= "Tuple";
 BoolType.           Type1 ::= "Bool";

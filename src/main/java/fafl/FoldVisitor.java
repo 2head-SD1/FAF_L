@@ -359,6 +359,10 @@ public abstract class FoldVisitor<R,A> implements AllVisitor<R,A> {
     }
 
 /* Type */
+    public R visit(fafl.Absyn.AutoType p, A arg) {
+      R r = leaf(arg);
+      return r;
+    }
     public R visit(fafl.Absyn.ExceptionType p, A arg) {
       R r = leaf(arg);
       return r;

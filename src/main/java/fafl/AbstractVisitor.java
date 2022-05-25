@@ -91,6 +91,7 @@ public class AbstractVisitor<R,A> implements AllVisitor<R,A> {
       throw new IllegalArgumentException(this.getClass().getName() + ": " + p);
     }
 /* Type */
+    public R visit(fafl.Absyn.AutoType p, A arg) { return visitDefault(p, arg); }
     public R visit(fafl.Absyn.ExceptionType p, A arg) { return visitDefault(p, arg); }
     public R visit(fafl.Absyn.TupleType p, A arg) { return visitDefault(p, arg); }
     public R visit(fafl.Absyn.BoolType p, A arg) { return visitDefault(p, arg); }

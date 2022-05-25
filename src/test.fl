@@ -1,3 +1,5 @@
+setq pi:Double 3.14159265359;
+
 define minElement (array : [Int], size:Int) -> Int {
     if equals(size, 1)
     then first(array)
@@ -14,8 +16,6 @@ define factorial (num:Int) -> Int {
     then 1
     else mul(num, call factorial(minus(num, 1)))
 };
-
-setq pi:Double 3.14159;
 
 define even(n:Int) -> Bool {
     if equals(n, 0)
@@ -64,12 +64,39 @@ define sinCalculator(x:Double, n:Int) -> Double {
     )
 };
 
-define calculatorHandler(x:Double, acc:Int, level:Int, calculator:(Double, Int)->Double) -> Double{
+define cosCalculator(x:Double, n:Int) -> Double {
+    if equals(n, 0)
+    then 1.0
+    else plus(
+        div(
+            mul(
+                call positivePow(double(minus(0, 1)), n),
+                call positivePow(x, mul(2, n))
+            ),
+            double (call factorial(mul(2, n)))
+        ),
+        call cosCalculator(x,   minus(n, 1))
+    )
+};
+
+define expCalculator(x:Double, n:Int) -> Double {
+    if equals(n, 0)
+    then 1.0
+    else plus(
+        div(
+            call positivePow(double(x), n),
+            double (call factorial(n))
+        ),
+        call expCalculator(x, minus(n, 1))
+    )
+};
+
+define calculatorHandler(x:Double, acc:Int, level:Int, calculator:(Double->Int)->Double) -> Double{
     if isless(
         call calculator(x, level),
-        0.0000001
+        0.00000001
     )
-    then calculator(x, level)
+    then call calculator(x, level)
     else if isless(
             call doubleAbs(
                 minus(
@@ -80,15 +107,87 @@ define calculatorHandler(x:Double, acc:Int, level:Int, calculator:(Double, Int)-
             call accuracy(acc)
         )
         then call calculator(x, plus(level, 1))
-        else call calculatorHandler(x, acc, plus(level, 1))
+        else call calculatorHandler(x, acc, plus(level, 1), calculator)
 };
 
 define sin(x:Double, acc:Int) -> Double{
-    call sinHandler(x, acc, 0, sinCalculator)
+    call calculatorHandler(x, acc, 0, sinCalculator)
+};
+
+define cos(x:Double, acc:Int) -> Double{
+    call calculatorHandler(x, acc, 0, cosCalculator)
+};
+
+define exp(x:Double, acc:Int) -> Double{
+    call calculatorHandler(x, acc, 0, expCalculator)
 };
 
 define toRadians(degrees:Double) -> Double{
     div(mul(degrees, pi), 180.0)
 };
 
-call sin(call toRadians(180.0), 2);
+call sin(call toRadians(30.0), 5);
+call cos(call toRadians(30.0), 5);
+call exp(1, 5);
+
+define min(x:Auto, y:Auto) -> Auto{
+    if isless(x, y)
+    then x
+    else y
+};
+
+define max(x:Auto, y:Auto) -> Auto{
+    if isless(x, y)
+    then y
+    else x
+};
+
+
+struct Worker(name:String, salary1:Int, salary2:Int, salary3:Int);
+
+define salariesList(worker:<Worker>) -> [Int]{
+    Int[3]{(worker).salary1, (worker).salary2, (worker).salary3}
+};
+
+setq workers:[<Worker>] <Worker>[3]{
+    Worker("A", 100, 200, 300),
+    Worker("B", 100, 800, 100),
+    Worker("C", 200, 200, 300)
+};
+
+define sumOfSalaries (array : [Int], size:Int) -> Int {
+    if equals(size, 1)
+    then first(array)
+    else plus(
+        array-get(array, minus(size, 1)),
+        sumOfSalaries(array, minus(size, 1))
+    )
+};
+
+dict salaries <<Worker>, Int>(
+    (array-get(workers, 0) .
+        call sumOfSalaries(call salariesList(array-get(workers, 0)))),
+    (array-get(workers, 1) .
+        call sumOfSalaries(call salariesList(array-get(workers, 1)))),
+    (array-get(workers, 2) .
+        call sumOfSalaries(call salariesList(array-get(workers, 2))))
+);
+
+
+define nameAndSalary(worker: <Worker>) -> Tuple{
+    tuple ((worker).name, dict-get(salaries, worker))
+};
+
+define maxSalary (size:Int) -> Tuple {
+    if equals(size, 1)
+    then call nameAndSalary(array-get(workers, 0))
+    else    if  isgreater(
+                    dict-get(salaries, array-get(workers, minus(size,1))),
+                    call maxSalary(minus(size, 2))
+                )
+            then call nameAndSalary(array-get(workers, minus(size, 1)))
+            else call maxSalary(minus(size, 2))
+};
+
+call maxSalary(array-length(workers));
+

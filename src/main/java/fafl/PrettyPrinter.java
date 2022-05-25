@@ -901,7 +901,14 @@ public class PrettyPrinter
 
   private static void pp(fafl.Absyn.Type foo, int _i_)
   {
-    if (foo instanceof fafl.Absyn.ExceptionType)
+    if (foo instanceof fafl.Absyn.AutoType)
+    {
+       fafl.Absyn.AutoType _autotype = (fafl.Absyn.AutoType) foo;
+       if (_i_ > 1) render(_L_PAREN);
+       render("Auto");
+       if (_i_ > 1) render(_R_PAREN);
+    }
+    else     if (foo instanceof fafl.Absyn.ExceptionType)
     {
        fafl.Absyn.ExceptionType _exceptiontype = (fafl.Absyn.ExceptionType) foo;
        if (_i_ > 1) render(_L_PAREN);
@@ -1558,6 +1565,11 @@ public class PrettyPrinter
 
   private static void sh(fafl.Absyn.Type foo)
   {
+    if (foo instanceof fafl.Absyn.AutoType)
+    {
+       fafl.Absyn.AutoType _autotype = (fafl.Absyn.AutoType) foo;
+       render("AutoType");
+    }
     if (foo instanceof fafl.Absyn.ExceptionType)
     {
        fafl.Absyn.ExceptionType _exceptiontype = (fafl.Absyn.ExceptionType) foo;

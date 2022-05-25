@@ -342,7 +342,10 @@ public class ComposVisitor<A> implements
       return new fafl.Absyn.ExprArg(expr_);
     }
 /* Type */
-    public Type visit(fafl.Absyn.ExceptionType p, A arg)
+    public Type visit(fafl.Absyn.AutoType p, A arg)
+    {
+      return new fafl.Absyn.AutoType();
+    }    public Type visit(fafl.Absyn.ExceptionType p, A arg)
     {
       return new fafl.Absyn.ExceptionType();
     }    public Type visit(fafl.Absyn.TupleType p, A arg)

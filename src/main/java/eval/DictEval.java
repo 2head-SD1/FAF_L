@@ -4,6 +4,8 @@ import com.SymbolTable.SymbolNode;
 import com.SymbolTable.SymbolTable;
 import fafl.Absyn.*;
 
+import java.lang.invoke.StringConcatException;
+
 public class DictEval
 {
     public static Expr doDictExpr(Expr expr) throws Exception
@@ -79,10 +81,11 @@ public class DictEval
         ListExpr keys = getKeys(pairs);
         ListExpr values = getValues(pairs);
 
-        if (keys.contains(keyExpr)){
-            int index = keys.indexOf(keyExpr);
-
-            return values.get(index);
+        for (Expr key: keys){
+            if (keyExpr.equals(Evaluator.evalStep(key))){
+                int index = keys.indexOf(key);
+                return Evaluator.evalStep(values.get(index));
+            }
         }
 
         throw new Exception("no such key");

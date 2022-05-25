@@ -36,7 +36,8 @@ public class TupleEval
         int index = ((IntConst) indexExpr).integer_;
         if (index >= 0) {
             if (index < listExpr.size()) {
-                return listExpr.get(index);
+                Expr evalEpxr = Evaluator.evalStep(listExpr.get(index));
+                return evalEpxr;
             } else
             {
                 throw new Exception("overflow");

@@ -68,14 +68,11 @@ public class ArrayEval
 
     private static Expr doGet(ArrayGet expr) throws Exception {
         ListExpr listExpr = getArray(expr.expr_1);
-        System.out.println(1);
         Expr indexExpr = Evaluator.evalStep(expr.expr_2);
-        System.out.println(2);
 
         int index = ((IntConst) indexExpr).integer_;
-        System.out.println(3);
         if (index >= 0) {
-            return listExpr.get(index);
+            return Evaluator.evalStep(listExpr.get(index));
         } else {
             throw new Exception("negative array index");
         }
