@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TypeChecker {
+    private static Integer lambda_count = 0;
     public static Type typecheck(List<Context.ContextNode> context, Expr expr, Type expectedType, boolean useSymbolTable) throws TypeCheckError
     {
         var actualType = typeOf(context, expr, useSymbolTable);
@@ -102,7 +103,6 @@ public class TypeChecker {
             throw new UndefinedVariableError(String.format("TypeCheckError: No field %s for structure %s", curExpr.ident_, init.ident_));
         }
         //Dict typechecking
-        //FIXME: add using of symbol table
         if(expr instanceof DictConstructor)
         {
             DictConstructor curExpr = (DictConstructor) expr;
@@ -238,11 +238,31 @@ public class TypeChecker {
                 }
             }
         }
-        //TODO: Make normal realization
         if(expr instanceof Lambda)
         {
             Lambda curExpr = (Lambda) expr;
-            return typeOf(context, new Define("l", curExpr.listatypedarg_, curExpr.afuncreturntype_, curExpr.expr_), useSymbolTable);
+            FuncType funcType = new FuncType(getFuncArgsFromTypedArgs(curExpr.listatypedarg_), ((FuncReturnType) curExpr.afuncreturntype_).type_);
+            if(!useSymbolTable)
+            {
+                context.add(0, new Context.ContextNode("L"+lambda_count.toString(), funcType));
+                lambda_count++;
+                for(var aTypedArg : curExpr.listatypedarg_)
+                {
+                    TypedArg typedArg = (TypedArg) aTypedArg;
+                    context.add(0, new Context.ContextNode(typedArg.ident_, typedArg.type_));
+                }
+            }
+            typecheck(context, curExpr.expr_, ((FuncReturnType)curExpr.afuncreturntype_).type_, useSymbolTable);
+            if(!useSymbolTable)
+            {
+                for(var ignored : curExpr.listatypedarg_)
+                {
+                    context.remove(0);
+                }
+                context.remove(0);
+                lambda_count--;
+            }
+            return funcType;
         }
         //Base Bool predicates
         if(expr instanceof Equals)
