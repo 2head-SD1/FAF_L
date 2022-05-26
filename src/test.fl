@@ -145,49 +145,37 @@ define max(x:Auto, y:Auto) -> Auto{
 
 struct Worker(name:String, salary1:Int, salary2:Int, salary3:Int);
 
-define salariesList(worker:<Worker>) -> [Int]{
-    Int[3]{(worker).salary1, (worker).salary2, (worker).salary3}
-};
-
-setq workers:[<Worker>] <Worker>[3]{
+setq workers:[<Worker>] <Worker>[5]{
     Worker("A", 100, 200, 300),
-    Worker("B", 100, 800, 100),
-    Worker("C", 200, 200, 300)
+    Worker("B", 100, 100000, 100),
+    Worker("C", 1000, 1000, 0),
+    Worker("D", 5000, 1000, 0),
+    Worker("E", 5000, 6000, 0)
 };
 
-define sumOfSalaries (array : [Int], size:Int) -> Int {
-    if equals(size, 1)
-    then first(array)
-    else plus(
-        array-get(array, minus(size, 1)),
-        sumOfSalaries(array, minus(size, 1))
+define sumOfSalaries(w:<Worker>) -> Int{
+    plus(
+        (w).salary1,
+        plus(
+            (w).salary2,
+            (w).salary3
+        )
     )
 };
 
-dict salaries <<Worker>, Int>(
-    (array-get(workers, 0) .
-        call sumOfSalaries(call salariesList(array-get(workers, 0)), array-length(workers))),
-    (array-get(workers, 1) .
-        call sumOfSalaries(call salariesList(array-get(workers, 1)), array-length(workers))),
-    (array-get(workers, 2) .
-        call sumOfSalaries(call salariesList(array-get(workers, 2)), array-length(workers)))
-);
 
-
-define nameAndSalary(worker: <Worker>) -> Tuple{
-    tuple ((worker).name, dict-get(salaries, worker))
-};
-
-define maxSalary (size:Int) -> Tuple {
+define workerWithHighestSalary(size:Int) -> <Worker>{
     if equals(size, 1)
-    then call nameAndSalary(array-get(workers, 0))
-    else    if  isgreater(
-                    dict-get(salaries, array-get(workers, minus(size,1))),
-                    call maxSalary(minus(size, 2))
-                )
-            then call nameAndSalary(array-get(workers, minus(size, 1)))
-            else call maxSalary(minus(size, 2))
+    then array-get(workers, 0)
+    else    if isgreater(
+                call sumOfSalaries(array-get(workers, minus(size, 1))),
+                call sumOfSalaries(call workerWithHighestSalary(minus(size, 1)))
+            )
+            then array-get(workers, minus(size, 1))
+            else call workerWithHighestSalary(minus(size, 1))
 };
 
-call maxSalary(array-length(workers));
+setq superWorker:<Worker> call workerWithHighestSalary(array-length(workers));
+printline((superWorker).name);
+printline(string(call sumOfSalaries(superWorker)));
 
