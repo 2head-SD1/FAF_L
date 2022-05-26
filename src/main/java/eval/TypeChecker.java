@@ -196,21 +196,21 @@ public class TypeChecker {
         //Func typechecking
         if(expr instanceof Define)
         {
-            Define curDef = (Define)expr;
-            FuncType funcType = new FuncType(getFuncArgsFromTypedArgs(curDef.listatypedarg_), ((FuncReturnType) curDef.afuncreturntype_).type_);
+            Define curExpr = (Define)expr;
+            FuncType funcType = new FuncType(getFuncArgsFromTypedArgs(curExpr.listatypedarg_), ((FuncReturnType) curExpr.afuncreturntype_).type_);
             if(!useSymbolTable)
             {
-                context.add(0, new Context.ContextNode(curDef.ident_, funcType));
-                for(var aTypedArg : curDef.listatypedarg_)
+                context.add(0, new Context.ContextNode(curExpr.ident_, funcType));
+                for(var aTypedArg : curExpr.listatypedarg_)
                 {
                     TypedArg typedArg = (TypedArg) aTypedArg;
                     context.add(0, new Context.ContextNode(typedArg.ident_, typedArg.type_));
                 }
             }
-            typecheck(context, curDef.expr_, ((FuncReturnType)curDef.afuncreturntype_).type_, useSymbolTable);
+            typecheck(context, curExpr.expr_, ((FuncReturnType)curExpr.afuncreturntype_).type_, useSymbolTable);
             if(!useSymbolTable)
             {
-                for(var ignored : curDef.listatypedarg_)
+                for(var ignored : curExpr.listatypedarg_)
                 {
                     context.remove(0);
                 }
@@ -333,9 +333,48 @@ public class TypeChecker {
         }
         if(expr instanceof TryCatch)
         {
+            TryCatch curExpr = (TryCatch) expr;
+            Type tryType = typeOf(context, curExpr.expr_1, useSymbolTable);
+            if(tryType instanceof ExceptionType)
+                return typeOf(context, curExpr.expr_2, useSymbolTable);
+            return tryType;
         }
         if(expr instanceof RaiseEx)
+            return new ExceptionType();
+        if(expr instanceof DefineWithExc)
         {
+            DefineWithExc curExpr = (DefineWithExc) expr;
+            FuncType funcType = new FuncType(getFuncArgsFromTypedArgs(curExpr.listatypedarg_), ((FuncReturnType) curExpr.afuncreturntype_).type_);
+            if(!useSymbolTable)
+            {
+                context.add(0, new Context.ContextNode(curExpr.ident_, funcType));
+                for(var aTypedArg : curExpr.listatypedarg_)
+                {
+                    TypedArg typedArg = (TypedArg) aTypedArg;
+                    context.add(0, new Context.ContextNode(typedArg.ident_, typedArg.type_));
+                }
+            }
+            Type returnType = typeOf(context, curExpr.expr_, useSymbolTable);
+            if(returnType instanceof ExceptionType)
+                return returnType;
+            typecheck(context, curExpr.expr_, ((FuncReturnType)curExpr.afuncreturntype_).type_, useSymbolTable);
+            if(!useSymbolTable)
+            {
+                for(var ignored : curExpr.listatypedarg_)
+                {
+                    context.remove(0);
+                }
+            }
+            return returnType;
+        }
+        if(expr instanceof ReadLine)
+        {
+            return new StringType();
+        }
+        if(expr instanceof PrintLine)
+        {
+            PrintLine curExpr = (PrintLine) expr;
+            return typecheck(context, curExpr.expr_, new StringType(), useSymbolTable);
         }
         throw new TypeCheckError(String.format("TypeCheckError: Undefined type for expression %s", PrettyPrinter.print(expr)));
     }
@@ -398,7 +437,7 @@ public class TypeChecker {
     private static Type typeCheckNumericBoolPredicate(List<Context.ContextNode> context, Expr mainExpr, Expr expr1, Expr expr2, boolean useSymbolTable) throws TypeCheckError
     {
         Type expr1Type = typeOf(context, expr1, useSymbolTable);
-        if(!(expr1Type instanceof DoubleType || expr1Type instanceof IntType))
+        if(!(expr1Type instanceof DoubleType || expr1Type instanceof IntType || expr1Type instanceof AutoType))
             throw new UnexpectedTypeError(getExpectedNumericalTypeError(expr1Type, mainExpr));
         typecheck(context, expr2, expr1Type, useSymbolTable);
         return expr1Type;
