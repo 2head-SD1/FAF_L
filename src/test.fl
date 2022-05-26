@@ -32,16 +32,16 @@ define odd(n:Int) -> Bool {
             then true
             else call even(minus(n, 2))
 };
-
-define accuracy(n:Int) -> Double {
-    div(1.0, call positivePow(10.0, n))
-};
-
 define positivePow(x:Double, n:Int) -> Double {
     if equals(n, 1)
     then x
     else mul(x, call positivePow(x, minus(n, 1)))
 };
+
+define accuracy(n:Int) -> Double {
+    div(1.0, call positivePow(10.0, n))
+};
+
 
 define doubleAbs(x:Double) -> Double{
     if isless(x, 0.0)
