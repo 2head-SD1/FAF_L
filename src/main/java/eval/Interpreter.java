@@ -46,11 +46,14 @@ public class Interpreter
             System.out.println();
             Program program = (Program)parse_tree;
             var context = new Context().context;
+            System.out.println("Type check results:");
             for(var expr : program.listexpr_)
             {
                 System.out.println(PrettyPrinter.print(TypeChecker.typeOf(context, expr, false)));
                 //System.out.println(PrettyPrinter.show(TypeChecker.typeOf(context, expr, false)));
             }
+            System.out.println("-------------------------------");
+            System.out.println("Eval results:");
             for(var expr : program.listexpr_)
             {
                 System.out.println(PrettyPrinter.print(Evaluator.evalStep(expr)));
