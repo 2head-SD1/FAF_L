@@ -559,6 +559,20 @@ public class PrettyPrinter
        render(")");
        if (_i_ > 0) render(_R_PAREN);
     }
+    else     if (foo instanceof fafl.Absyn.ArrayAdd)
+    {
+       fafl.Absyn.ArrayAdd _arrayadd = (fafl.Absyn.ArrayAdd) foo;
+       if (_i_ > 0) render(_L_PAREN);
+       render("add");
+       render("(");
+       pp(_arrayadd.expr_1, 0);
+       render(",");
+       pp(_arrayadd.expr_2, 0);
+       render(",");
+       pp(_arrayadd.expr_3, 0);
+       render(")");
+       if (_i_ > 0) render(_R_PAREN);
+    }
     else     if (foo instanceof fafl.Absyn.ArrayGet)
     {
        fafl.Absyn.ArrayGet _arrayget = (fafl.Absyn.ArrayGet) foo;
@@ -1288,6 +1302,16 @@ public class PrettyPrinter
        render("(");
        render("Last");
        sh(_last.expr_);
+       render(")");
+    }
+    if (foo instanceof fafl.Absyn.ArrayAdd)
+    {
+       fafl.Absyn.ArrayAdd _arrayadd = (fafl.Absyn.ArrayAdd) foo;
+       render("(");
+       render("ArrayAdd");
+       sh(_arrayadd.expr_1);
+       sh(_arrayadd.expr_2);
+       sh(_arrayadd.expr_3);
        render(")");
     }
     if (foo instanceof fafl.Absyn.ArrayGet)

@@ -53,6 +53,7 @@ DictLength.         Expr ::= "dict-length" "(" Expr ")";
 ArrayConstructor.   Expr ::= Type "["Expr"]" "{"[Expr]"}";
 First.              Expr ::= "first" "("Expr")";
 Last.               Expr ::= "last" "("Expr")";
+ArrayAdd.                Expr ::= "add" "(" Expr "," Expr "," Expr ")";
 ArrayGet.                Expr ::= "array-get" "(" Expr "," Expr ")";
 ArraySet.                Expr ::= "array-set" "(" Expr "," Expr "," Expr ")";
 ArrayLength.             Expr ::= "array-length" "("Expr")";

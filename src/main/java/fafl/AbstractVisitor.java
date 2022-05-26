@@ -34,6 +34,7 @@ public class AbstractVisitor<R,A> implements AllVisitor<R,A> {
     public R visit(fafl.Absyn.ArrayConstructor p, A arg) { return visitDefault(p, arg); }
     public R visit(fafl.Absyn.First p, A arg) { return visitDefault(p, arg); }
     public R visit(fafl.Absyn.Last p, A arg) { return visitDefault(p, arg); }
+    public R visit(fafl.Absyn.ArrayAdd p, A arg) { return visitDefault(p, arg); }
     public R visit(fafl.Absyn.ArrayGet p, A arg) { return visitDefault(p, arg); }
     public R visit(fafl.Absyn.ArraySet p, A arg) { return visitDefault(p, arg); }
     public R visit(fafl.Absyn.ArrayLength p, A arg) { return visitDefault(p, arg); }

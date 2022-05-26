@@ -142,40 +142,6 @@ define max(x:Auto, y:Auto) -> Auto{
     else x
 };
 
-
-struct Worker(name:String, salary1:Int, salary2:Int, salary3:Int);
-
-setq workers:[<Worker>] <Worker>[5]{
-    Worker("A", 100, 200, 300),
-    Worker("B", 100, 100000, 100),
-    Worker("C", 1000, 1000, 0),
-    Worker("D", 5000, 1000, 0),
-    Worker("E", 5000, 6000, 0)
-};
-
-define sumOfSalaries(w:<Worker>) -> Int{
-    plus(
-        (w).salary1,
-        plus(
-            (w).salary2,
-            (w).salary3
-        )
-    )
-};
-
-
-define workerWithHighestSalary(size:Int) -> <Worker>{
-    if equals(size, 1)
-    then array-get(workers, 0)
-    else    if isgreater(
-                call sumOfSalaries(array-get(workers, minus(size, 1))),
-                call sumOfSalaries(call workerWithHighestSalary(minus(size, 1)))
-            )
-            then array-get(workers, minus(size, 1))
-            else call workerWithHighestSalary(minus(size, 1))
-};
-
-setq superWorker:<Worker> call workerWithHighestSalary(array-length(workers));
-printline((superWorker).name);
-printline(string(call sumOfSalaries(superWorker)));
-
+setq array:[Int] Int[2]{1, 2};
+add(array, 0, 0);
+printline(string(array-length(array)))

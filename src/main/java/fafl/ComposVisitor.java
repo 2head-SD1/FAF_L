@@ -183,6 +183,12 @@ public class ComposVisitor<A> implements
     {
       Expr expr_ = p.expr_.accept(this, arg);
       return new fafl.Absyn.Last(expr_);
+    }    public Expr visit(fafl.Absyn.ArrayAdd p, A arg)
+    {
+      Expr expr_1 = p.expr_1.accept(this, arg);
+      Expr expr_2 = p.expr_2.accept(this, arg);
+      Expr expr_3 = p.expr_3.accept(this, arg);
+      return new fafl.Absyn.ArrayAdd(expr_1, expr_2, expr_3);
     }    public Expr visit(fafl.Absyn.ArrayGet p, A arg)
     {
       Expr expr_1 = p.expr_1.accept(this, arg);

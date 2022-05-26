@@ -18,6 +18,11 @@ public class ArrayEval
             Last last = (Last) expr;
             return doLast(last);
         }
+        if (expr instanceof ArrayAdd)
+        {
+            ArrayAdd add = (ArrayAdd) expr;
+            return doAdd(add);
+        }
         if (expr instanceof ArraySet)
         {
             ArraySet arraySet = (ArraySet) expr;
@@ -42,7 +47,8 @@ public class ArrayEval
                 expr instanceof Last ||
                 expr instanceof ArrayGet ||
                 expr instanceof ArraySet ||
-                expr instanceof ArrayLength
+                expr instanceof ArrayLength ||
+                expr instanceof ArrayAdd
                 ;
     }
 
@@ -91,6 +97,42 @@ public class ArrayEval
             ArrayConstructor newArrayConstructor = new ArrayConstructor(
                     arrayConstructor.type_,
                     arrayConstructor.expr_,
+                    listExpr
+            );
+
+            if (arrayConstructor.expr_ instanceof Id){
+                Id id = (Id) arrayConstructor.expr_;
+                SymbolTable.removeSymbol(id.ident_);
+
+                SymbolNode arrayNode = new SymbolNode(
+                        new ArrayType(newArrayConstructor.type_),
+                        newArrayConstructor
+                );
+
+                SymbolTable.addSymbol(id.ident_, arrayNode);
+            }
+
+            return newArrayConstructor;
+        } else {
+            throw new Exception("negative array index");
+        }
+    }
+
+    private static Expr doAdd(ArrayAdd expr) throws Exception {
+        ArrayConstructor arrayConstructor = getArrayConstructor(expr.expr_1);
+        ListExpr listExpr = getArray(expr.expr_1);
+        Expr indexExpr = Evaluator.evalStep(expr.expr_2);
+        Expr toAdd = Evaluator.evalStep(expr.expr_3);
+
+        int index = ((IntConst) indexExpr).integer_;
+        if (index >= 0) {
+            listExpr.add(index, toAdd);
+            IntConst numOfElements = (IntConst) Evaluator.evalStep(arrayConstructor.expr_);
+            IntConst newNumOfElements = new IntConst(numOfElements.integer_ + 1);
+
+            ArrayConstructor newArrayConstructor = new ArrayConstructor(
+                    arrayConstructor.type_,
+                    newNumOfElements,
                     listExpr
             );
 
