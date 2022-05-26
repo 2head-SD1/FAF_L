@@ -10,7 +10,8 @@ public class FunctionEvaluator
     {
         return expr instanceof Define ||
                 expr instanceof FuncCall ||
-                expr instanceof Lambda;
+                expr instanceof Lambda ||
+                expr instanceof DefineWithExc;
     }
 
     public static Expr doFunctionExpr(Expr expr) throws Exception
@@ -25,10 +26,15 @@ public class FunctionEvaluator
             FuncCall call = (FuncCall) expr;
             return doCall(call);
         }
-        if (expr instanceof  Lambda)
+        if (expr instanceof Lambda)
         {
             Lambda lambda = (Lambda) expr;
             return doLambda(lambda);
+        }
+        if (expr instanceof DefineWithExc)
+        {
+            DefineWithExc defineWithExc = (DefineWithExc) expr;
+            return doDefineWithExc(defineWithExc);
         }
 
         throw new Exception("Cannot handle such action with functions");
@@ -39,6 +45,13 @@ public class FunctionEvaluator
         SymbolNode node = new SymbolNode(new FuncType(TypeChecker.getFuncArgsFromTypedArgs(define.listatypedarg_), ((FuncReturnType) define.afuncreturntype_).type_), define);
         SymbolTable.addSymbol(define.ident_, node);
         return define;
+    }
+
+    private static Expr doDefineWithExc(DefineWithExc defineWithExc)
+    {
+        SymbolNode node = new SymbolNode(new FuncType(TypeChecker.getFuncArgsFromTypedArgs(defineWithExc.listatypedarg_), ((FuncReturnType) defineWithExc.afuncreturntype_).type_), defineWithExc);
+        SymbolTable.addSymbol(defineWithExc.ident_, node);
+        return defineWithExc;
     }
 
     private static Expr doLambda(Lambda lambda) throws Exception
@@ -62,6 +75,12 @@ public class FunctionEvaluator
             Lambda lambda = (Lambda) exprFromTable;
             addSymbols(lambda, call);
             toReturn = Evaluator.evalStep(lambda.expr_);
+        }
+        else if (exprFromTable instanceof DefineWithExc)
+        {
+            DefineWithExc defineWithExc = (DefineWithExc) exprFromTable;
+            addSymbols(defineWithExc, call);
+            toReturn = Evaluator.evalStep(defineWithExc.expr_);
         }
         else
         {
@@ -87,6 +106,17 @@ public class FunctionEvaluator
         for (int i = 0; i < lambda.listatypedarg_.size(); i++)
         {
             TypedArg arg = (TypedArg) lambda.listatypedarg_.get(i);
+            Expr toArgExpr = Evaluator.evalStep(call.listexpr_.get(i));
+            SymbolNode node = new SymbolNode(arg.type_, toArgExpr);
+            SymbolTable.addSymbol(arg.ident_, node);
+        }
+    }
+
+    private static void addSymbols(DefineWithExc defineWithExc, FuncCall call) throws Exception
+    {
+        for (int i = 0; i < defineWithExc.listatypedarg_.size(); i++)
+        {
+            TypedArg arg = (TypedArg) defineWithExc.listatypedarg_.get(i);
             Expr toArgExpr = Evaluator.evalStep(call.listexpr_.get(i));
             SymbolNode node = new SymbolNode(arg.type_, toArgExpr);
             SymbolTable.addSymbol(arg.ident_, node);

@@ -114,6 +114,11 @@ public class Evaluator
             return IOEvaluator.doIOExpr(expr);
         }
 
+        if (ExceptionEvaluator.isExprException(expr))
+        {
+            return ExceptionEvaluator.doExceptionExpr(expr);
+        }
+
         throw new Exception("No such expression");
     }
 
