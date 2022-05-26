@@ -7,7 +7,7 @@ plugins {
 group 'src'
 version '1.0-SNAPSHOT'
 
-mainClassName = 'fafl.Test'
+mainClassName = 'eval.Interpreter'
 
 repositories {
     mavenCentral()
