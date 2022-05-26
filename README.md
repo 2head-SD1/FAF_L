@@ -69,6 +69,7 @@ if isgreater(x, y) then setq x:Int y else setq y:Int x;
 How to work with functions in FAF_L
 ```common-lisp
 define Func (Arg1:Type, ...) -> ReturnType {Expr}; //Creating function with name Func
+define Func (Arg1:Type, ...) -> ReturnType | Exception {Expr}; //Creating function with name Func that can raise Exception
 lambda (Arg1:Type, ...) -> ReturnType {Expr}; //Creating lambda-function
 call Func (Arg1, Arg2 ...); //Calling function with name Func
 ```
@@ -77,6 +78,11 @@ Example:
 define sumOfSquares (x:Int, y:Int) -> Int{plus(mul(x, x), mul(y, y))};
 define applyFunc(x:(Int)->Int, y:Int) -> Int{call x(y)};
 call applyFunc(lambda (x:Int) -> Int{mul(x, x)}, 3);
+define exFunc(x:Int) -> Int | Exception {
+    if isgreater(x, 5) 
+    than plus(x, 5)
+    else raise Exception("Too small number!");
+};
 ```
 
 ### Structures
