@@ -92,7 +92,7 @@ public class BoolPredicateEvaluator
         {
             StringConst s1 = (StringConst) expr1;
             StringConst s2 = (StringConst) expr2;
-            if (s1.string_.equals(s1.string_))
+            if (s1.string_.equals(s2.string_))
             {
                 return new BoolConst(new BoolTrue());
             }
