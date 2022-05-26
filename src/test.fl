@@ -143,5 +143,5 @@ define max(x:Auto, y:Auto) -> Auto{
 };
 
 setq array:[Int] Int[2]{1, 2};
-add(array, 0, 0);
+remove(array, 0);
 printline(string(array-length(array)))

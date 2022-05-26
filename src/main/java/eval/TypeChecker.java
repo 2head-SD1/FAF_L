@@ -182,6 +182,14 @@ public class TypeChecker {
             typecheck(context, curExpr.expr_2, new IntType(), useSymbolTable);
             return arrayContentType;
         }
+        if(expr instanceof ArrayRemove)
+        {
+            ArrayRemove curExpr = (ArrayRemove) expr;
+
+            Type arrayContentType = getArrayType(context, curExpr.expr_1, useSymbolTable).type_;
+            typecheck(context, curExpr.expr_2, new IntType(), useSymbolTable);
+            return arrayContentType;
+        }
         if(expr instanceof ArrayLength)
             return new IntType();
         if(expr instanceof ArraySet)

@@ -160,6 +160,11 @@ public class VisitSkel
       p.expr_2.accept(new ExprVisitor<R,A>(), arg);
       p.expr_3.accept(new ExprVisitor<R,A>(), arg);
       return null;
+    }    public R visit(fafl.Absyn.ArrayRemove p, A arg)
+    { /* Code For ArrayRemove Goes Here */
+      p.expr_1.accept(new ExprVisitor<R,A>(), arg);
+      p.expr_2.accept(new ExprVisitor<R,A>(), arg);
+      return null;
     }    public R visit(fafl.Absyn.ArrayGet p, A arg)
     { /* Code For ArrayGet Goes Here */
       p.expr_1.accept(new ExprVisitor<R,A>(), arg);

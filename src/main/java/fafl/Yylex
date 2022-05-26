@@ -81,13 +81,14 @@ IDENT = ({LETTER}|{DIGIT}|['_])
 <YYINITIAL>printline { return new Symbol(sym._SYMB_54); }
 <YYINITIAL>raise { return new Symbol(sym._SYMB_55); }
 <YYINITIAL>readline { return new Symbol(sym._SYMB_56); }
-<YYINITIAL>setq { return new Symbol(sym._SYMB_57); }
-<YYINITIAL>string { return new Symbol(sym._SYMB_58); }
-<YYINITIAL>struct { return new Symbol(sym._SYMB_59); }
-<YYINITIAL>then { return new Symbol(sym._SYMB_60); }
-<YYINITIAL>true { return new Symbol(sym._SYMB_61); }
-<YYINITIAL>try { return new Symbol(sym._SYMB_62); }
-<YYINITIAL>tuple { return new Symbol(sym._SYMB_63); }
+<YYINITIAL>remove { return new Symbol(sym._SYMB_57); }
+<YYINITIAL>setq { return new Symbol(sym._SYMB_58); }
+<YYINITIAL>string { return new Symbol(sym._SYMB_59); }
+<YYINITIAL>struct { return new Symbol(sym._SYMB_60); }
+<YYINITIAL>then { return new Symbol(sym._SYMB_61); }
+<YYINITIAL>true { return new Symbol(sym._SYMB_62); }
+<YYINITIAL>try { return new Symbol(sym._SYMB_63); }
+<YYINITIAL>tuple { return new Symbol(sym._SYMB_64); }
 <YYINITIAL>"//"[^\n]*\n { /* BNFC single-line comment */ }
 <YYINITIAL>"/*" { yybegin(COMMENT); }
 <COMMENT>"*/" { yybegin(YYINITIAL); }
