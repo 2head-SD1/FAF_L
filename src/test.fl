@@ -128,7 +128,7 @@ define toRadians(degrees:Double) -> Double{
 
 call sin(call toRadians(30.0), 5);
 call cos(call toRadians(30.0), 5);
-call exp(1, 5);
+call exp(1.0, 5);
 
 define min(x:Auto, y:Auto) -> Auto{
     if isless(x, y)
@@ -166,11 +166,11 @@ define sumOfSalaries (array : [Int], size:Int) -> Int {
 
 dict salaries <<Worker>, Int>(
     (array-get(workers, 0) .
-        call sumOfSalaries(call salariesList(array-get(workers, 0)))),
+        call sumOfSalaries(call salariesList(array-get(workers, 0)), array-length(workers))),
     (array-get(workers, 1) .
-        call sumOfSalaries(call salariesList(array-get(workers, 1)))),
+        call sumOfSalaries(call salariesList(array-get(workers, 1)), array-length(workers))),
     (array-get(workers, 2) .
-        call sumOfSalaries(call salariesList(array-get(workers, 2))))
+        call sumOfSalaries(call salariesList(array-get(workers, 2)), array-length(workers)))
 );
 
 
