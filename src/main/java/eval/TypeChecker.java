@@ -26,8 +26,9 @@ public class TypeChecker {
         if (expr instanceof If)
         {
             typecheck(context, ((If) expr).expr_1, new BoolType(), useSymbolTable);
-            var typeOfResult = typeOf(context, ((If) expr).expr_2, useSymbolTable);
-            return typecheck(context, ((If) expr).expr_3, typeOfResult, useSymbolTable);
+            return new AutoType();
+            //var typeOfResult = typeOf(context, ((If) expr).expr_2, useSymbolTable);
+            //return typecheck(context, ((If) expr).expr_3, typeOfResult, useSymbolTable);
         }
         //Constants
         if (expr instanceof IntConst)
