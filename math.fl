@@ -130,13 +130,13 @@ call sin(call toRadians(30.0), 5);
 call cos(call toRadians(30.0), 5);
 call exp(1.0, 5);
 
-define min(x:Double, y:Double) -> Double{
+define min(x:Auto, y:Auto) -> Auto{
     if isless(x, y)
     then x
     else y
 };
 
-define max(x:Double, y:Double) -> Double{
+define max(x:Auto, y:Auto) -> Auto{
     if isless(x, y)
     then y
     else x
